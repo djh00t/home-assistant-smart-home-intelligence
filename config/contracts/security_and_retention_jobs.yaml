@@ -1,5 +1,5 @@
-version: 0.3.0
-description: Planning-only security and retention audit job contract for phase 3.
+version: 0.4.0
+description: Planning-only security and retention audit job contract for phase 4.
 
 scope:
   behavior: security_and_retention_jobs
