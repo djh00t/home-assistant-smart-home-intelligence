@@ -18,6 +18,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/dwell_reset.yaml",
     ROOT / "config/contracts/white_lighting.yaml",
     ROOT / "config/contracts/color_sync.yaml",
+    ROOT / "config/contracts/bed_state_override.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -26,6 +27,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/dwell-reset-automation.md",
     ROOT / "docs/contracts/adaptive-white-lighting.md",
     ROOT / "docs/contracts/color-sync-for-color-lights.md",
+    ROOT / "docs/contracts/bed-state-override.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -86,6 +88,14 @@ REQUIRED_COLOR_LINES = [
     "color_scenes_only_target_color_capable_groups: true",
     "white_only_rooms_skip_color_sync: true",
     "preserve_white_lighting_for_color_scene_requests: true",
+]
+REQUIRED_BED_LINES = [
+    "awake",
+    "sleeping",
+    "bed_motion_only",
+    "suppress_wake_scene_while_bed_motion_only: true",
+    "suppress_wake_scene_while_sleeping: true",
+    "clear_override_on_exit_event: true",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -186,6 +196,16 @@ def validate_color_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_bed_contract() -> None:
+    text = (ROOT / "config/contracts/bed_state_override.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_BED_LINES if line not in text]
+    if missing:
+        print("Missing bed state override contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -245,6 +265,7 @@ def main() -> int:
     validate_dwell_contract()
     validate_white_contract()
     validate_color_contract()
+    validate_bed_contract()
     validate_schema()
     validate_retention()
 

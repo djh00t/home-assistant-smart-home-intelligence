@@ -1,0 +1,12 @@
+version: 0.1
+description: Bed-state override contract for phase 0 sleep-safe behavior.
+
+states:
+  - awake
+  - sleeping
+  - bed_motion_only
+
+guardrails:
+  suppress_wake_scene_while_bed_motion_only: true
+  suppress_wake_scene_while_sleeping: true
+  clear_override_on_exit_event: true

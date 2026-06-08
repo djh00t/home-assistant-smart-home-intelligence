@@ -13,6 +13,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Dwell reset automation for motion/no-motion transitions
 - Adaptive white-lighting policy and circadian scene mapping
 - Color-sync routing for color-capable lights
+- Bed-state override for sleep-safe wake suppression
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -36,6 +37,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/dwell_reset.yaml`
 - `config/contracts/white_lighting.yaml`
 - `config/contracts/color_sync.yaml`
+- `config/contracts/bed_state_override.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
@@ -43,6 +45,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/dwell-reset-automation.md`
 - `docs/contracts/adaptive-white-lighting.md`
 - `docs/contracts/color-sync-for-color-lights.md`
+- `docs/contracts/bed-state-override.md`
 
 ## Room Inventory Notes
 
@@ -82,6 +85,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/adaptive-white-lighting.md` documents the first adaptive white-lighting backlog slice.
 - `config/contracts/color_sync.yaml` defines the first color-sync routing guardrails.
 - `docs/contracts/color-sync-for-color-lights.md` documents the first color-sync backlog slice.
+- `config/contracts/bed_state_override.yaml` defines the master bedroom sleep-safe override contract.
+- `docs/contracts/bed-state-override.md` documents the first bed-state override backlog slice.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes
