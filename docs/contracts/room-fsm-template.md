@@ -1,6 +1,6 @@
 # Room Presence FSM Template
 
-This document defines the first room-state-machine slice for phase 0.
+This document defines the first room-state-machine slice for phase 1.
 
 ## Scope
 
