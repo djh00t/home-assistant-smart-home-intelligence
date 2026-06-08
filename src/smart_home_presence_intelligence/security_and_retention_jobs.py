@@ -1,4 +1,4 @@
-"""Deterministic planning-only retention audit helper for phase 0."""
+"""Deterministic planning-only retention audit helper for phase 4."""
 
 from __future__ import annotations
 
