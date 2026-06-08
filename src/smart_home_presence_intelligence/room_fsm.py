@@ -1,4 +1,4 @@
-"""Room presence state machine helpers for phase 0."""
+"""Room presence state machine helpers for phase 1."""
 
 from __future__ import annotations
 
