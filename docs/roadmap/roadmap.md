@@ -49,13 +49,19 @@ Delivered:
 - Foreign identity log queue helpers, contract, and acceptance coverage
 - Security and retention job helpers, contract, and acceptance coverage
 
-## Phase 4 - Reliability and expansion (ongoing)
+## Phase 4 - Reliability and expansion (complete)
 
-1. Additional room rollout from pilot
-2. Add confidence dashboards and override controls
-3. Alert/incident logs with retention validation
-4. Regression scenarios for mixed-brand cameras
-5. Expand to 90+ day retention verification and audit jobs
+Delivered:
+
+- Additional room rollout helpers, contract, and acceptance coverage
+- Confidence dashboards and override control helpers, contracts, and acceptance coverage
+- Alert and incident log helpers, contracts, and retention validation coverage
+- Regression scenarios for mixed-brand camera behavior
+- 90+ day retention verification and audit helpers, contracts, and acceptance coverage
+- Non-home zone queue helpers, contract, and acceptance coverage
+- Multi-room heatmap helpers, contract, and acceptance coverage
+- Scene preference UI helpers, contract, and acceptance coverage
+- Anomaly and false-action dashboard helpers, contract, and acceptance coverage
 
 ## Milestones
 
