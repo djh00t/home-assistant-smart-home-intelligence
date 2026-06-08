@@ -11,6 +11,6 @@ Feature: ANPR driveway vehicle normalization and event planning
     And the vehicle should be canonicalized plate "ABC1234" with confidence 0.9
 
   Scenario: Non-driveway ANPR payload is rejected
-    Given a raw ANPR payload with room_id "hall" and plate "XYZ-9"
+    Given a raw ANPR payload with room_id "lounge_room" and plate "XYZ-9"
     When the ANPR snapshot is normalized
     Then normalization should be rejected

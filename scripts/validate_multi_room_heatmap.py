@@ -62,13 +62,13 @@ def validate_module_behavior() -> None:
 
     observations = [
         {
-            "room_id": "hall",
+            "room_id": "lounge_room",
             "source": "mmwave",
             "confidence": 0.9,
             "ts": "2026-06-08T09:00:00+10:00",
         },
         {
-            "room_id": "hall",
+            "room_id": "lounge_room",
             "source": "motion",
             "confidence": 0.8,
             "ts": "2026-06-08T09:01:00+10:00",
@@ -100,16 +100,18 @@ def validate_module_behavior() -> None:
         raise SystemExit("heatmap report should be ready for review")
 
     cells = report["heatmap_cells"]
-    if [cell["room"] for cell in cells] != ["hall", "kitchen"]:
+    if [cell["room"] for cell in cells] != ["kitchen", "lounge_room"]:
         raise SystemExit("heatmap should only include occupancy-supporting rooms")
-    if cells[0]["observation_count"] != 2:
-        raise SystemExit("hall should aggregate two observations")
-    if cells[1]["observation_count"] != 1:
+    if cells[0]["observation_count"] != 1:
         raise SystemExit("kitchen should aggregate one observation")
-    if cells[0]["heat_level"] != 2:
-        raise SystemExit("hall heat level should match observation count")
-    if cells[1]["sources"] != ["frigate"]:
+    if cells[1]["observation_count"] != 2:
+        raise SystemExit("lounge_room should aggregate two observations")
+    if cells[0]["heat_level"] != 1:
+        raise SystemExit("kitchen heat level should match observation count")
+    if cells[0]["sources"] != ["frigate"]:
         raise SystemExit("kitchen sources should preserve provenance")
+    if cells[1]["sources"] != ["mmwave", "motion"]:
+        raise SystemExit("lounge_room sources should preserve provenance")
     if report["summary"]["room_count"] != 2:
         raise SystemExit("summary should report the number of rooms included")
     if report["summary"]["observation_count"] != 3:

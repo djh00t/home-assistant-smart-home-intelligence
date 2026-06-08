@@ -29,7 +29,7 @@ class RoomSnapshot:
 def evaluate_room_state(snapshot: RoomSnapshot) -> str:
     """Return the canonical room state for a snapshot."""
 
-    if snapshot.room_id == "master_bedroom" and snapshot.sleeping:
+    if snapshot.room_id == "bedroom_master" and snapshot.sleeping:
         if snapshot.bed_motion_only:
             return "bed_motion_only"
         return "sleeping"
@@ -47,8 +47,8 @@ def advance_room_state(current_state: str, snapshot: RoomSnapshot) -> str:
     """Return the next room state for a given snapshot."""
 
     next_state = evaluate_room_state(snapshot)
-    if current_state == "sleeping" and snapshot.room_id == "master_bedroom" and snapshot.bed_motion_only:
+    if current_state == "sleeping" and snapshot.room_id == "bedroom_master" and snapshot.bed_motion_only:
         return "bed_motion_only"
-    if current_state == "bed_motion_only" and snapshot.room_id == "master_bedroom" and snapshot.sleeping:
+    if current_state == "bed_motion_only" and snapshot.room_id == "bedroom_master" and snapshot.sleeping:
         return "sleeping"
     return next_state

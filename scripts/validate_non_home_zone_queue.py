@@ -100,8 +100,8 @@ def validate_module_behavior() -> None:
 
     home_record = build_non_home_zone_queue_record(
         {
-            "room_id": "hall",
-            "camera": "hall_cam",
+            "room_id": "lounge_room",
+            "camera": "lounge_room_cam",
             "person_id": "sel",
             "ts": "2026-06-08T10:00:00+10:00",
         }

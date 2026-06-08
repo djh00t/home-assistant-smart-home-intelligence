@@ -1,13 +1,13 @@
 Feature: Person room assignment
 
   Scenario: Face and tracker agree on the same occupied person
-    Given room "office" has occupied humans "sel" and "sam"
+    Given room "bedroom_spare" has occupied humans "sel" and "sam"
     And face identity matches "sel" with high confidence
     And tracker identity matches "sel" with supporting confidence
     When the room assignment plan is built
     Then the assigned person should be "sel"
     And the assignment source should be "face+tracker"
-    And the room context should remain "office"
+    And the room context should remain "bedroom_spare"
 
   Scenario: Single occupied human falls back without identity signals
     Given room "kitchen" has occupied humans "sam"

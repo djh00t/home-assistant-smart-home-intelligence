@@ -2,7 +2,7 @@ Feature: Scene preference UI for room scene presets
 
   Scenario: Lighting rooms appear as deterministic dashboard cards
     Given the room capability catalog is available
-    And the dashboard is focused on the office room
+    And the dashboard is focused on the bedroom_spare room
     When the scene preference UI is built
     Then the dashboard should be created
     And the dashboard should include only lighting rooms

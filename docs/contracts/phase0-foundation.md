@@ -36,7 +36,8 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 ## Assumptions
 
 - `room_id` values are stable snake_case identifiers and are the canonical identifiers used by all phase 0 artifacts.
-- The spec example `bedroom_master` is normalized to `master_bedroom` in the inventory and schema.
+- The spec example `master_bedroom` is normalized to `bedroom_master` in the inventory and schema.
+- The user-facing backyard labels normalize to `backyard_shed` and `backyard_deck` in the inventory and schema.
 - The spec typo `mwave` is normalized to `mmwave` as the canonical source token.
 - `room` in the event schema is a contract identifier that also covers the exterior `driveway` zone for vehicle-aware events.
 - `ha/presence/event` is the canonical publish topic for validated presence events and is not retained.
@@ -97,14 +98,17 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 
 The initial inventory covers the spaces referenced by the current spec and feature scenarios:
 
-- `hall`
+- `bedroom_master`
+- `bedroom_max`
+- `bedroom_spare`
+- `lounge_room`
+- `garage`
 - `kitchen`
-- `living_room`
-- `office`
-- `master_bedroom`
 - `driveway` as an exterior zone
+- `backyard_shed` as an exterior zone
+- `backyard_deck` as an exterior zone
 
-The `driveway` entry is retained in the room inventory file so that vehicle-linked presence events can share the same canonical `room` field without introducing a second location identifier model in phase 0.
+The driveway and backyard entries are retained in the room inventory file so that vehicle-linked and outdoor presence events can share the same canonical `room` field without introducing a second location identifier model in phase 0.
 
 ## Room Capability Notes
 

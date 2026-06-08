@@ -1,7 +1,7 @@
 Feature: Multi-room heatmap report for occupancy review
 
   Scenario: Occupancy observations across multiple rooms create a heatmap report
-    Given occupancy observations for hall, kitchen, and office
+    Given occupancy observations for lounge_room, kitchen, and bedroom_spare
     And driveway observations are present but ignored
     When the multi-room heatmap report is built
     Then the report should be created

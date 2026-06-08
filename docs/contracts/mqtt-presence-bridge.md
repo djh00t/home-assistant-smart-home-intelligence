@@ -16,7 +16,10 @@ This document defines the first backlog slice for the MQTT presence bridge.
 ## Normalization Rules
 
 - `mwave` is normalized to `mmwave`.
-- `bedroom_master` is normalized to `master_bedroom`.
+- `master_bedroom` is normalized to `bedroom_master`.
+- `hall` and `living_room` are normalized to `lounge_room`.
+- `office` is normalized to `bedroom_spare`.
+- Room labels are slugified to snake_case before alias lookup, so labels like `backyard - shed` normalize to `backyard_shed`.
 - Canonical payloads must satisfy the phase 0 presence event schema before publish.
 
 ## Failure Handling

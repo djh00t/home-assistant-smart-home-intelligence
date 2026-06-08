@@ -106,7 +106,7 @@ def validate_module_behavior() -> None:
     try:
         build_vehicle_person_linked_event(
             {
-                "room_id": "hall",
+                "room_id": "lounge_room",
                 "person_id": "sel",
                 "plate": "ABC123",
                 "plate_confidence": 0.9,

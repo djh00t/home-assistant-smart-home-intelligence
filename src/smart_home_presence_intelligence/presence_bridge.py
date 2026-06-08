@@ -9,7 +9,12 @@ from typing import Any, Mapping
 CANONICAL_TOPIC = "ha/presence/event"
 DEAD_LETTER_TOPIC = "ha/presence/event/dlq"
 SOURCE_ALIASES = {"mwave": "mmwave"}
-ROOM_ALIASES = {"bedroom_master": "master_bedroom"}
+ROOM_ALIASES = {
+    "hall": "lounge_room",
+    "living_room": "lounge_room",
+    "office": "bedroom_spare",
+    "master_bedroom": "bedroom_master",
+}
 REQUIRED_FIELDS = (
     "event_id",
     "source",
@@ -20,7 +25,17 @@ REQUIRED_FIELDS = (
     "ts",
 )
 VALID_SOURCES = ("frigate", "mmwave", "motion", "face", "anpr", "tracker")
-VALID_ROOMS = ("hall", "kitchen", "living_room", "office", "master_bedroom", "driveway")
+VALID_ROOMS = (
+    "bedroom_master",
+    "bedroom_max",
+    "bedroom_spare",
+    "lounge_room",
+    "garage",
+    "driveway",
+    "backyard_shed",
+    "backyard_deck",
+    "kitchen",
+)
 
 
 def normalize_source(source: str) -> str:
@@ -32,7 +47,10 @@ def normalize_source(source: str) -> str:
 def normalize_room(room: str) -> str:
     """Return the canonical room token for a raw upstream room value."""
 
-    return ROOM_ALIASES.get(room, room)
+    normalized = room.strip().lower().replace(" - ", "_").replace("-", "_").replace(" ", "_")
+    while "__" in normalized:
+        normalized = normalized.replace("__", "_")
+    return ROOM_ALIASES.get(normalized, normalized)
 
 
 def validate_presence_event(event: Mapping[str, Any]) -> list[str]:

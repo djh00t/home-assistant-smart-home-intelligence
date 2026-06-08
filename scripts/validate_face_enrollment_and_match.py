@@ -60,8 +60,8 @@ def validate_module_behavior() -> None:
     record = build_face_enrollment_record(
         {
             "person_id": "sel",
-            "room": "office",
-            "camera": "cam_hall_front",
+            "room": "bedroom_spare",
+            "camera": "cam_lounge_room_front",
             "face_signature": "sig_abc123",
             "source": "face",
             "recorded_at": "2026-06-08T09:00:00Z",
@@ -69,9 +69,9 @@ def validate_module_behavior() -> None:
     )
     if record["person_id"] != "sel":
         raise SystemExit("enrollment should preserve person_id")
-    if record["room"] != "office":
+    if record["room"] != "bedroom_spare":
         raise SystemExit("enrollment should preserve room")
-    if record["camera"] != "cam_hall_front":
+    if record["camera"] != "cam_lounge_room_front":
         raise SystemExit("enrollment should preserve camera")
     retention = record.get("retention")
     if not isinstance(retention, dict) or retention.get("days") != 90:
@@ -83,8 +83,8 @@ def validate_module_behavior() -> None:
     event = build_face_match_event(
         {
             "person_id": "sel",
-            "room": "office",
-            "camera": "cam_hall_front",
+            "room": "bedroom_spare",
+            "camera": "cam_lounge_room_front",
             "face_match_confidence": 0.84,
             "event_id": "match-123",
             "track_id": "track-1",
@@ -95,7 +95,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("face match event should use face source")
     if event["entity_class"] != "human":
         raise SystemExit("face match event should use human entity class")
-    if event["room"] != "office":
+    if event["room"] != "bedroom_spare":
         raise SystemExit("face match event should preserve room")
     if event["person_id"] != "sel":
         raise SystemExit("face match event should preserve person_id")
@@ -108,8 +108,8 @@ def validate_module_behavior() -> None:
         build_face_match_event(
             {
                 "person_id": "sel",
-                "room": "office",
-                "camera": "cam_hall_front",
+                "room": "bedroom_spare",
+                "camera": "cam_lounge_room_front",
                 "face_match_confidence": FACE_MATCH_THRESHOLD - 0.01,
             }
         )

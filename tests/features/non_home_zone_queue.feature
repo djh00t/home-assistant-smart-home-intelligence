@@ -11,6 +11,6 @@ Feature: Non-home zone queue for review planning
     And the queue should report review status "queued"
 
   Scenario: Interior room snapshot is not queued
-    Given a home snapshot with room "hall", camera "hall_cam", and person "Sel"
+    Given a home snapshot with room "lounge_room", camera "lounge_room_cam", and person "Sel"
     When the non-home zone queue record is built
     Then no queue record should be created

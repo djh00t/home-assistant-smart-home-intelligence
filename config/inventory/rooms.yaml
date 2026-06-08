@@ -1,10 +1,44 @@
-version: 0.1
+version: 0.1.0
 site: smart_home_presence_intelligence
 description: Phase 0 room and zone inventory for presence, lighting, and vehicle-aware automations.
 
 rooms:
-  - room_id: hall
-    display_name: Hall
+  - room_id: bedroom_master
+    display_name: Master Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - face
+
+  - room_id: bedroom_max
+    display_name: Max Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - face
+
+  - room_id: bedroom_spare
+    display_name: Spare Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - tracker
+      - mmwave
+      - motion
+      - face
+
+  - room_id: lounge_room
+    display_name: Lounge Room
     room_type: room
     level: ground_floor
     supports_occupancy: true
@@ -25,39 +59,15 @@ rooms:
       - mmwave
       - frigate
 
-  - room_id: living_room
-    display_name: Living Room
+  - room_id: garage
+    display_name: Garage
     room_type: room
     level: ground_floor
     supports_occupancy: true
-    supports_lighting: true
+    supports_lighting: false
     source_priority:
-      - mmwave
       - motion
       - frigate
-
-  - room_id: office
-    display_name: Office
-    room_type: room
-    level: ground_floor
-    supports_occupancy: true
-    supports_lighting: true
-    source_priority:
-      - tracker
-      - mmwave
-      - motion
-      - face
-
-  - room_id: master_bedroom
-    display_name: Master Bedroom
-    room_type: room
-    level: upper_floor
-    supports_occupancy: true
-    supports_lighting: true
-    source_priority:
-      - mmwave
-      - motion
-      - face
 
 external_zones:
   - room_id: driveway
@@ -71,3 +81,22 @@ external_zones:
       - frigate
       - face
 
+  - room_id: backyard_shed
+    display_name: Backyard Shed
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - motion
+      - frigate
+
+  - room_id: backyard_deck
+    display_name: Backyard Deck
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - motion
+      - frigate

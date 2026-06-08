@@ -10,7 +10,7 @@ Feature: Pet detection classifier
     And no person id should be set
 
   Scenario: Pet detections stay in pet occupancy scope
-    Given a raw "dog" detection in room "living_room" with confidence 0.92
+    Given a raw "dog" detection in room "lounge_room" with confidence 0.92
     When the pet detection is classified
     Then the canonical event should be eligible for pet occupancy only
     And person-targeted automations should not be enabled

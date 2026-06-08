@@ -15,6 +15,6 @@ Feature: Vehicle-person linking for driveway planning
     Then linking should be rejected
 
   Scenario: Non-driveway linking payload is rejected
-    Given a raw linking payload with room "hall" and plate "ABC123"
+    Given a raw linking payload with room "lounge_room" and plate "ABC123"
     When the linked event is normalized
     Then linking should be rejected

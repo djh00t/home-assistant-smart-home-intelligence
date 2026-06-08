@@ -85,7 +85,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("missing direction should normalize to stationary")
 
     non_driveway_event = {
-        "room_id": "hall",
+        "room_id": "lounge_room",
         "plate": "XYZ123",
         "plate_confidence": 0.75,
         "camera": "internal_cam",

@@ -63,21 +63,21 @@ def validate_module_behavior() -> None:
 
     incidents = [
         {
-            "room_id": "hall",
+            "room_id": "lounge_room",
             "kind": "anomaly",
             "severity": "medium",
             "category": "motion_gap",
             "ts": "2026-06-08T12:45:00+10:00",
         },
         {
-            "room_id": "hall",
+            "room_id": "lounge_room",
             "kind": "false_action",
             "severity": "high",
             "category": "false_light",
             "ts": "2026-06-08T12:46:00+10:00",
         },
         {
-            "room_id": "office",
+            "room_id": "bedroom_spare",
             "kind": "false_action",
             "severity": "critical",
             "category": "false_override",
@@ -93,7 +93,7 @@ def validate_module_behavior() -> None:
     ]
 
     dashboard = build_anomaly_and_false_action_dashboard(
-        incidents, focus_room_id="office"
+        incidents, focus_room_id="bedroom_spare"
     )
     if dashboard is None:
         raise SystemExit("incidents should create a dashboard")
@@ -107,15 +107,15 @@ def validate_module_behavior() -> None:
         raise SystemExit("dashboard should be ready")
 
     cards = dashboard["room_cards"]
-    if [card["room"] for card in cards] != ["hall", "office", "driveway"]:
+    if [card["room"] for card in cards] != ["bedroom_spare", "lounge_room", "driveway"]:
         raise SystemExit("dashboard cards should follow canonical room order")
-    hall = cards[0]
-    office = cards[1]
+    bedroom_spare = cards[0]
+    lounge_room = cards[1]
     driveway = cards[2]
-    if hall["incident_count"] != 2 or hall["false_action_count"] != 1:
-        raise SystemExit("hall incidents should be aggregated")
-    if office["peak_severity"] != "critical":
-        raise SystemExit("office should preserve highest severity")
+    if lounge_room["incident_count"] != 2 or lounge_room["false_action_count"] != 1:
+        raise SystemExit("lounge_room incidents should be aggregated")
+    if bedroom_spare["peak_severity"] != "critical":
+        raise SystemExit("bedroom_spare should preserve highest severity")
     if driveway["review_priority"] != "low":
         raise SystemExit("driveway review priority should match severity")
     if dashboard["summary"]["incident_count"] != 4:
@@ -126,7 +126,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("summary should count false actions")
     if dashboard["summary"]["critical_room_count"] != 1:
         raise SystemExit("summary should count critical rooms")
-    if dashboard["focus_room_id"] != "office":
+    if dashboard["focus_room_id"] != "bedroom_spare":
         raise SystemExit("focus_room_id should normalize to lowercase")
 
     retention = dashboard.get("retention")
@@ -138,7 +138,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("dashboard retention constant should be 90 days")
 
     repeated = build_anomaly_and_false_action_dashboard(
-        incidents, focus_room_id="office"
+        incidents, focus_room_id="bedroom_spare"
     )
     if repeated != dashboard:
         raise SystemExit("identical incidents should yield identical dashboard models")

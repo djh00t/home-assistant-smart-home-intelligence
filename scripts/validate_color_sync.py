@@ -39,35 +39,35 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.color_sync import ColorLightingProfile, build_color_sync_plan, select_color_groups, should_sync_color_scene  # noqa: E501, WPS433
 
-    office = ColorLightingProfile(
-        room_id="office",
+    bedroom_spare = ColorLightingProfile(
+        room_id="bedroom_spare",
         supports_color=True,
-        color_groups=("office_desk",),
-        white_groups=("office_ceiling",),
+        color_groups=("bedroom_spare_desk",),
+        white_groups=("bedroom_spare_ceiling",),
     )
-    hall = ColorLightingProfile(
-        room_id="hall",
+    lounge_room = ColorLightingProfile(
+        room_id="lounge_room",
         supports_color=False,
         color_groups=(),
-        white_groups=("hall_ceiling",),
+        white_groups=("lounge_room_ceiling",),
     )
 
-    if not should_sync_color_scene("color", office):
-        raise SystemExit("office should sync color scenes")
-    if should_sync_color_scene("white", office):
+    if not should_sync_color_scene("color", bedroom_spare):
+        raise SystemExit("bedroom_spare should sync color scenes")
+    if should_sync_color_scene("white", bedroom_spare):
         raise SystemExit("white scene should not trigger color sync")
-    if should_sync_color_scene("color", hall):
-        raise SystemExit("hall should not sync color scenes")
-    if select_color_groups(hall) != ():
+    if should_sync_color_scene("color", lounge_room):
+        raise SystemExit("lounge_room should not sync color scenes")
+    if select_color_groups(lounge_room) != ():
         raise SystemExit("white-only room should not expose color groups")
 
-    office_plan = build_color_sync_plan(office, requested_scene_type="color")
-    if not office_plan["sync_color"] or office_plan["target_groups"] != ("office_desk",):
-        raise SystemExit("office color sync plan failed")
+    bedroom_spare_plan = build_color_sync_plan(bedroom_spare, requested_scene_type="color")
+    if not bedroom_spare_plan["sync_color"] or bedroom_spare_plan["target_groups"] != ("bedroom_spare_desk",):
+        raise SystemExit("bedroom_spare color sync plan failed")
 
-    hall_plan = build_color_sync_plan(hall, requested_scene_type="color")
-    if hall_plan["sync_color"] or hall_plan["target_groups"] != ():
-        raise SystemExit("hall should not build a color sync plan")
+    lounge_room_plan = build_color_sync_plan(lounge_room, requested_scene_type="color")
+    if lounge_room_plan["sync_color"] or lounge_room_plan["target_groups"] != ():
+        raise SystemExit("lounge_room should not build a color sync plan")
 
 
 def main() -> int:

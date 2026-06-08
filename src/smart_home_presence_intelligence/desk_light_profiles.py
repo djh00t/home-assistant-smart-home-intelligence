@@ -29,7 +29,7 @@ def resolve_desk_light_profile(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     desk_light_profile = None
     should_apply = False
 
-    if room_id == "office" and isinstance(assigned_person, str) and assigned_person:
+    if room_id == "bedroom_spare" and isinstance(assigned_person, str) and assigned_person:
         desk_light_profile = _desk_profile_for_person(assigned_person, desk_profiles)
         should_apply = desk_light_profile is not None
 

@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Template for the phase 0 room presence state machine.
 
 states:
@@ -24,10 +24,10 @@ transitions:
     condition: humans_present > 0 and pets_present > 0
   - from: humans_only
     to: sleeping
-    condition: room_id == master_bedroom and sleeping == true
+    condition: room_id == bedroom_master and sleeping == true
   - from: sleeping
     to: bed_motion_only
-    condition: room_id == master_bedroom and bed_motion_only == true
+    condition: room_id == bedroom_master and bed_motion_only == true
   - from: bed_motion_only
     to: sleeping
-    condition: room_id == master_bedroom and sleeping == true
+    condition: room_id == bedroom_master and sleeping == true

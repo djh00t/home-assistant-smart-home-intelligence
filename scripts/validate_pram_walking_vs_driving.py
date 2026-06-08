@@ -94,7 +94,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("vehicle context window should be exactly 90 seconds")
 
     try:
-        classify_pram_transport({"room_id": "hall", "with_pram": "yes"})
+        classify_pram_transport({"room_id": "lounge_room", "with_pram": "yes"})
     except ValueError:
         pass
     else:
@@ -103,7 +103,7 @@ def validate_module_behavior() -> None:
     try:
         classify_pram_transport(
             {
-                "room_id": "hall",
+                "room_id": "lounge_room",
                 "with_pram": True,
                 "vehicle_context_age_seconds": "10",
             }

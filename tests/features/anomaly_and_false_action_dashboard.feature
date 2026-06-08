@@ -1,8 +1,8 @@
 Feature: Anomaly and false-action dashboard for review planning
 
   Scenario: Mixed anomaly and false-action incidents create deterministic room cards
-    Given anomaly and false-action incidents for hall, office, and driveway
-    And the dashboard is focused on the office room
+    Given anomaly and false-action incidents for lounge_room, bedroom_spare, and driveway
+    And the dashboard is focused on the bedroom_spare room
     When the anomaly and false-action dashboard is built
     Then the dashboard should be created
     And the dashboard should include the canonical rooms in order

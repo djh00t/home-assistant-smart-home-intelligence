@@ -2,7 +2,7 @@
 title: Smart Home Presence, Lighting, and Personalization Spec
 owner: Home Assistant Program
 created: 2026-06-07
-version: 0.1
+version: 0.1.0
 ---
 
 # Smart Home Presence, Lighting, and Personalization
@@ -136,7 +136,7 @@ Each person can map to:
 
 Trigger example:
 
-- if `occupied_humans` includes `sel` and room is `office`, turn on desk light profile for Sel on occupancy entry.
+- if `occupied_humans` includes `sel` and room is `bedroom_spare`, turn on desk light profile for Sel on occupancy entry.
 
 ## 8) Vehicle and outside-context logic
 
@@ -197,4 +197,3 @@ Policy:
 - mmWave devices with per-room stable entity names required.
 - Camera feed compatibility for Frigate zones.
 - Jetson services deployed and reachable over MQTT.
-

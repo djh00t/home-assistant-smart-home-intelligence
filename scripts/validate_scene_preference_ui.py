@@ -68,7 +68,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("scene preference UI should be ready")
 
     cards = ui["room_cards"]
-    expected_rooms = ["hall", "kitchen", "living_room", "master_bedroom", "office"]
+    expected_rooms = ["bedroom_master", "bedroom_max", "bedroom_spare", "kitchen", "lounge_room"]
     if [card["room"] for card in cards] != expected_rooms:
         raise SystemExit("scene preference UI should include lighting rooms in order")
     if any(card["room"] == "driveway" for card in cards):
@@ -76,11 +76,15 @@ def validate_module_behavior() -> None:
     if cards[0]["available_controls"] != ["day_scene", "night_scene", "manual_override_minutes"]:
         raise SystemExit("white-only room controls should stay minimal")
     if "color_scene_toggle" not in cards[2]["available_controls"]:
-        raise SystemExit("color-capable living room should expose color controls")
+        raise SystemExit("color-capable bedroom_spare should expose color controls")
     if "color_scene_toggle" not in cards[4]["available_controls"]:
-        raise SystemExit("color-capable office should expose color controls")
-    if cards[3]["manual_override_minutes"] != 120:
+        raise SystemExit("color-capable lounge_room should expose color controls")
+    if cards[0]["manual_override_minutes"] != 120:
         raise SystemExit("master bedroom override minutes should be preserved")
+    if cards[1]["manual_override_minutes"] != 60:
+        raise SystemExit("bedroom_max override minutes should be preserved")
+    if cards[3]["manual_override_minutes"] != 30:
+        raise SystemExit("kitchen override minutes should be preserved")
     if ui["summary"]["room_count"] != 5:
         raise SystemExit("scene preference UI should report room count")
     if ui["summary"]["color_room_count"] != 2:
@@ -96,10 +100,10 @@ def validate_module_behavior() -> None:
     if SCENE_PREFERENCE_UI_RETENTION_DAYS != 90:
         raise SystemExit("scene preference UI retention constant should be 90 days")
 
-    focused = build_scene_preference_ui(focus_room_id="office")
-    if focused["focus_room_id"] != "office":
+    focused = build_scene_preference_ui(focus_room_id="bedroom_spare")
+    if focused["focus_room_id"] != "bedroom_spare":
         raise SystemExit("focus room should normalize to lowercase canonical room id")
-    if focused != build_scene_preference_ui(focus_room_id="office"):
+    if focused != build_scene_preference_ui(focus_room_id="bedroom_spare"):
         raise SystemExit("identical focus inputs should yield identical dashboard models")
 
     try:

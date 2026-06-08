@@ -41,12 +41,12 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.mmwave_fusion import MmWaveFusionSnapshot, fused_room_state, should_keep_room_present  # noqa: E501, WPS433
 
-    both = MmWaveFusionSnapshot("hall", True, True)
-    mmwave_only = MmWaveFusionSnapshot("hall", True, False)
-    frigate_only = MmWaveFusionSnapshot("hall", False, True)
-    none = MmWaveFusionSnapshot("hall", False, False)
-    sleeping = MmWaveFusionSnapshot("master_bedroom", True, True, sleeping=True)
-    bed_motion = MmWaveFusionSnapshot("master_bedroom", True, True, sleeping=True, bed_motion_only=True)
+    both = MmWaveFusionSnapshot("lounge_room", True, True)
+    mmwave_only = MmWaveFusionSnapshot("lounge_room", True, False)
+    frigate_only = MmWaveFusionSnapshot("lounge_room", False, True)
+    none = MmWaveFusionSnapshot("lounge_room", False, False)
+    sleeping = MmWaveFusionSnapshot("bedroom_master", True, True, sleeping=True)
+    bed_motion = MmWaveFusionSnapshot("bedroom_master", True, True, sleeping=True, bed_motion_only=True)
 
     if fused_room_state(both)["confidence"] != 0.95:
         raise SystemExit("mmwave+frigate confidence failed")

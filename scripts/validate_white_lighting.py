@@ -50,11 +50,11 @@ def validate_module_behavior() -> None:
     )
 
     profile = WhiteLightingProfile(
-        room_id="hall",
-        day_scene="hall_day",
-        evening_scene="hall_evening",
-        night_scene="hall_night",
-        white_groups=("hall_ceiling",),
+        room_id="lounge_room",
+        day_scene="lounge_room_day",
+        evening_scene="lounge_room_evening",
+        night_scene="lounge_room_night",
+        white_groups=("lounge_room_ceiling",),
     )
 
     if circadian_period(6) != "morning":
@@ -66,11 +66,11 @@ def validate_module_behavior() -> None:
     if circadian_period(22) != "night":
         raise SystemExit("night period failed")
 
-    if select_white_scene(profile, hour=13, room_mode="humans_only") != "hall_day":
+    if select_white_scene(profile, hour=13, room_mode="humans_only") != "lounge_room_day":
         raise SystemExit("day scene selection failed")
-    if select_white_scene(profile, hour=18, room_mode="humans_only") != "hall_evening":
+    if select_white_scene(profile, hour=18, room_mode="humans_only") != "lounge_room_evening":
         raise SystemExit("evening scene selection failed")
-    if select_white_scene(profile, hour=22, room_mode="humans_only") != "hall_night":
+    if select_white_scene(profile, hour=22, room_mode="humans_only") != "lounge_room_night":
         raise SystemExit("night scene selection failed")
     if select_white_scene(profile, hour=13, room_mode="bed_motion_only") is not None:
         raise SystemExit("bed_motion_only should suppress auto-on")

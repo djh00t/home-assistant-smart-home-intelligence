@@ -32,7 +32,7 @@ def validate_contract_text() -> None:
         "assignment_source",
         "confidence",
         "desk_profiles",
-        "office_only_resolution: true",
+        "bedroom_spare_only_resolution: true",
         "assignment_required_for_resolution: true",
         "should_apply_marks_planning_only: true",
         "person_targeted_automations: false",
@@ -49,19 +49,19 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.desk_light_profiles import resolve_desk_light_profile  # noqa: WPS433
 
-    office_plan = resolve_desk_light_profile(
+    bedroom_spare_plan = resolve_desk_light_profile(
         {
-            "room_id": "office",
+            "room_id": "bedroom_spare",
             "assigned_person": "Sel",
             "assignment_source": "face+tracker",
             "confidence": 0.93,
             "desk_profiles": {"Sel": "sel_desk"},
         }
     )
-    if office_plan["desk_light_profile"] != "sel_desk":
-        raise SystemExit("office desk-light profile should resolve for the assigned person")
-    if not office_plan["should_apply"]:
-        raise SystemExit("office desk-light profile should be applied when mapped")
+    if bedroom_spare_plan["desk_light_profile"] != "sel_desk":
+        raise SystemExit("bedroom_spare desk-light profile should resolve for the assigned person")
+    if not bedroom_spare_plan["should_apply"]:
+        raise SystemExit("bedroom_spare desk-light profile should be applied when mapped")
 
     no_op_plan = resolve_desk_light_profile(
         {
@@ -73,13 +73,13 @@ def validate_module_behavior() -> None:
         }
     )
     if no_op_plan["desk_light_profile"] is not None:
-        raise SystemExit("non-office rooms should not resolve a desk-light profile")
+        raise SystemExit("non-bedroom_spare rooms should not resolve a desk-light profile")
     if no_op_plan["should_apply"]:
-        raise SystemExit("non-office rooms should not apply desk-light profiles")
+        raise SystemExit("non-bedroom_spare rooms should not apply desk-light profiles")
 
     missing_profile_plan = resolve_desk_light_profile(
         {
-            "room_id": "office",
+            "room_id": "bedroom_spare",
             "assigned_person": "Sam",
             "assignment_source": "face",
             "confidence": 0.81,

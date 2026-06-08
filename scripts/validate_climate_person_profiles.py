@@ -52,7 +52,7 @@ def validate_module_behavior() -> None:
 
     resolved_plan = resolve_climate_person_profile(
         {
-            "room_id": "living_room",
+            "room_id": "lounge_room",
             "assigned_person": "Sel",
             "assignment_source": "face+tracker",
             "confidence": 0.93,
@@ -80,7 +80,7 @@ def validate_module_behavior() -> None:
 
     missing_profile_plan = resolve_climate_person_profile(
         {
-            "room_id": "office",
+            "room_id": "bedroom_spare",
             "assigned_person": "Sam",
             "assignment_source": "face",
             "confidence": 0.81,
