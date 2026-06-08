@@ -8,7 +8,7 @@
 4. Create room and light capability catalog
 5. Implement 90-day retention baseline jobs
 
-## Phase 1 - Core Occupancy + Lighting (2-3 weeks)
+## Phase 1 - Core Occupancy + Lighting (complete)
 
 1. Room occupancy state machine in HA
 2. Motion dwell reset automation
@@ -16,6 +16,14 @@
 4. White-only color-temp orchestration
 5. Color matching for compatible color-capable lights
 6. Initial BDD scenarios for occupancy and lighting behavior
+
+Delivered:
+
+- Room occupancy state machine helpers, contract, and acceptance coverage
+- Motion dwell reset helpers, contract, and acceptance coverage
+- Bed presence override helpers, contract, and acceptance coverage
+- White-light circadian orchestration helpers, contract, and acceptance coverage
+- Color-sync routing helpers, contract, and acceptance coverage
 
 ## Phase 2 - People + Pets (2-4 weeks)
 
@@ -56,4 +64,3 @@
 - No critical false-action categories in pilot
 - Storage retention and cleanup proven for 90 days
 - Manual override path validated per room
-
