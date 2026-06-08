@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Face enrollment metadata and canonical face-match events for phase 0 planning.
+version: 0.3.0
+description: Face enrollment metadata and canonical face-match events for phase 3 canonicalization.
 
 scope:
   behavior: canonicalization_only
