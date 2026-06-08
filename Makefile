@@ -9,6 +9,7 @@ check:
 	@python3 scripts/validate_features.py check
 	@python3 scripts/validate_bridge.py check
 	@python3 scripts/validate_room_fsm.py check
+	@python3 scripts/validate_dwell_reset.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
@@ -17,6 +18,7 @@ quality-gates: check
 	@python3 scripts/validate_features.py quality-gates
 	@python3 scripts/validate_bridge.py quality-gates
 	@python3 scripts/validate_room_fsm.py quality-gates
+	@python3 scripts/validate_dwell_reset.py quality-gates
 
 install:
 	@python3 -m venv .venv

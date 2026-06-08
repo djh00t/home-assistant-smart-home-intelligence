@@ -1,0 +1,18 @@
+version: 0.1
+description: Template for restartable dwell timer behavior in phase 0.
+
+trigger_sources:
+  - motion
+  - mmwave
+  - frigate
+
+trigger_events:
+  - enter
+  - stay
+  - state_change
+
+reset_action: restart_timer
+timer_stages:
+  - restart
+  - dim
+  - off

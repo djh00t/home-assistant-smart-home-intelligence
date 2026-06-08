@@ -15,11 +15,13 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/mqtt_topics.yaml",
     ROOT / "config/contracts/presence_bridge.yaml",
     ROOT / "config/contracts/room_fsm.yaml",
+    ROOT / "config/contracts/dwell_reset.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
     ROOT / "docs/contracts/mqtt-presence-bridge.md",
     ROOT / "docs/contracts/room-fsm-template.md",
+    ROOT / "docs/contracts/dwell-reset-automation.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -58,6 +60,14 @@ REQUIRED_FSM_LINES = [
     "mixed",
     "sleeping",
     "bed_motion_only",
+]
+REQUIRED_DWELL_LINES = [
+    "motion",
+    "mmwave",
+    "frigate",
+    "restart_timer",
+    "dim",
+    "off",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -128,6 +138,16 @@ def validate_room_fsm_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_dwell_contract() -> None:
+    text = (ROOT / "config/contracts/dwell_reset.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_DWELL_LINES if line not in text]
+    if missing:
+        print("Missing dwell reset contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -184,6 +204,7 @@ def main() -> int:
     validate_topics()
     validate_bridge_contract()
     validate_room_fsm_contract()
+    validate_dwell_contract()
     validate_schema()
     validate_retention()
 
