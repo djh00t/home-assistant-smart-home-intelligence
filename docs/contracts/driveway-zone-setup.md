@@ -1,6 +1,6 @@
 # Driveway Zone Setup
 
-This document defines the driveway as a canonical exterior zone for phase 0 planning.
+This document defines the driveway as a canonical exterior zone for phase 3 planning.
 
 ## Scope
 
@@ -26,7 +26,7 @@ Priority is explicit and deterministic:
 
 - `anpr` is the preferred source for vehicle-centric events.
 - `frigate` provides continuity when ANPR is not present.
-- `face` is retained as a non-primary fallback signal for phase 0.
+- `face` is retained as a non-primary fallback signal for phase 3.
 
 ## Direction Rules
 

@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Immutable review queue for foreign or unknown driveway identity evidence.
+version: 0.3.0
+description: Immutable review queue for phase 3 foreign or unknown driveway identity evidence.
 
 scope:
   behavior: immutable_foreign_identity_queue
@@ -53,4 +53,3 @@ output:
   review_status: queued
   retention_days: 90
   immutable: true
-

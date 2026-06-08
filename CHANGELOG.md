@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.3.0] - 2026-06-09
+
+### Added
+
+- Delivered the Phase 3 vehicle and contextual recognition bundle: driveway zoning, ANPR canonicalization, face enrollment and match, vehicle-person linking, pram transport classification, foreign identity queueing, and retention job helpers.
+
+### Changed
+
+- Rebased the backlog, roadmap, README, implementation plan, and phase-specific contract docs to mark Phase 3 complete and queue Phase 4 work.
+
 ## [0.2.0] - 2026-06-08
 
 ### Added

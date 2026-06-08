@@ -1,8 +1,8 @@
-# Security and retention jobs (planning-only)
+# Security and retention jobs (phase 3 planning-only)
 
 ## Scope
 
-- Provide a deterministic retention audit report for phase 0 artifacts.
+- Provide a deterministic retention audit report for phase 3 artifacts.
 - Keep this slice planning-only:
   - no deletion commands,
   - no storage writes,
@@ -47,7 +47,7 @@ The audit report must indicate:
 ## Planning behavior
 
 - The report is advisory and safe-only.
-- Cleanup is always dry-run for phase 0 hardening.
+- Cleanup is always dry-run for phase 3 hardening.
 - Operators can consume the report to decide whether runtime cleanup execution should be enabled later.
 
 ## Backlog link

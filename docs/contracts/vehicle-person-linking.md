@@ -1,4 +1,4 @@
-# Vehicle-person linking (driveway planning)
+# Vehicle-person linking (phase 3 driveway planning)
 
 ## Scope
 

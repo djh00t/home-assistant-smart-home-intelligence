@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic pram walking-vs-driving classification for driveway-aware presence planning.
+version: 0.3.0
+description: Deterministic pram walking-vs-driving classification for phase 3 driveway-aware presence planning.
 
 scope:
   behavior: deterministic_classification

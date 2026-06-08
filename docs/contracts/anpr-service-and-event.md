@@ -1,4 +1,4 @@
-# ANPR service and event planning slice
+# ANPR service and event phase 3 slice
 
 ## Scope
 

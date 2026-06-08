@@ -63,12 +63,17 @@ Delivered artifacts:
 
 ## Work stream 4: Vehicle and recognition workflows
 
-1. Add ANPR service on driveway cameras
-2. Add face recognition service with local model and enrollment flow
-3. Add person-car-event linking rules
-4. Add pram walking vs driving classifier
-5. Add foreign plate/face queue and action hooks
-6. Add high-impact actions only with multi-signal thresholds
+Status: complete for the Phase 3 vehicle and contextual recognition slice.
+
+Delivered artifacts:
+
+- Driveway zone setup helpers and contract
+- ANPR service and event helpers and contract
+- Face enrollment and match helpers and contract
+- Vehicle-person linking helpers and contract
+- Pram walking-vs-driving helpers and contract
+- Foreign identity log queue helpers and contract
+- Security and retention job helpers and contract
 
 ## Work stream 5: Rollout and hardening
 

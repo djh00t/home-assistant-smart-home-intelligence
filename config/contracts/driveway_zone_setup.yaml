@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Canonical driveway zone setup for phase 0 vehicle-aware presence normalization.
+version: 0.3.0
+description: Canonical driveway zone setup for phase 3 vehicle-aware presence normalization.
 
 zone:
   zone_id: driveway

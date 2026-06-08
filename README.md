@@ -1,6 +1,6 @@
 # Smart Home Intelligence Repo (Private Project)
 
-This directory contains the phase 1 core occupancy and lighting bundle and the phase 2 people and pets bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
+This directory contains the phase 1 core occupancy and lighting bundle, the phase 2 people and pets bundle, and the phase 3 vehicle and contextual recognition bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [Roadmap](docs/roadmap/roadmap.md)
@@ -19,6 +19,13 @@ This directory contains the phase 1 core occupancy and lighting bundle and the p
 - [Desk light profile feature scenarios](tests/features/desk_light_profiles.feature)
 - [Climate person profile feature scenarios](tests/features/climate_person_profiles.feature)
 - [Empty house with pet mode switch feature scenarios](tests/features/empty_house_with_pet_mode_switch.feature)
+- [Driveway zone setup feature scenarios](tests/features/driveway_zone_setup.feature)
+- [ANPR service and event feature scenarios](tests/features/anpr_service_and_event.feature)
+- [Face enrollment and match feature scenarios](tests/features/face_enrollment_and_match.feature)
+- [Vehicle-person linking feature scenarios](tests/features/vehicle_person_linking.feature)
+- [Pram walking-vs-driving feature scenarios](tests/features/pram_walking_vs_driving.feature)
+- [Foreign identity log queue feature scenarios](tests/features/foreign_identity_log_queue.feature)
+- [Security and retention jobs feature scenarios](tests/features/security_and_retention_jobs.feature)
 - [Phase 0 foundation feature scenarios](tests/features/phase0_foundation.feature)
 
 ## How this repo is organized
@@ -34,8 +41,9 @@ This directory contains the phase 1 core occupancy and lighting bundle and the p
 - Created as an isolated private project folder under your workspace.
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
 - Phase 2 people and pet personalization artifacts are now checked in locally.
+- Phase 3 vehicle and contextual recognition artifacts are now checked in locally.
 - Phase 0 foundation artifacts remain available for the broader project baseline.
-- Phase 3 and beyond are documented and queued for subsequent work.
+- Phase 4 and beyond are documented and queued for subsequent work.
 
 ## Publish as private GitHub repository
 
