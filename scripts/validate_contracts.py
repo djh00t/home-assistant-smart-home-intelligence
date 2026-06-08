@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/bed_state_override.yaml",
     ROOT / "config/contracts/house_mode.yaml",
     ROOT / "config/contracts/person_tracker.yaml",
+    ROOT / "config/contracts/person_room_assignment.yaml",
     ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/pet_detection_classifier.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
@@ -34,6 +35,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/bed-state-override.md",
     ROOT / "docs/contracts/empty-house-with-pet-mode-switch.md",
     ROOT / "docs/contracts/person-tracker-integration.md",
+    ROOT / "docs/contracts/person-room-assignment.md",
     ROOT / "docs/contracts/mmwave-fusion-rule.md",
     ROOT / "docs/contracts/pet-detection-classifier.md",
 ]
@@ -121,6 +123,18 @@ REQUIRED_TRACKER_LINES = [
     "not_home",
     "arriving",
     "leaving",
+]
+REQUIRED_PERSON_ROOM_LINES = [
+    "occupied_humans",
+    "face+tracker",
+    "occupancy_fallback",
+    "face_tracker_agreement_requires_occupant_match: true",
+    "face_match_prefers_face_source: true",
+    "tracker_match_prefers_tracker_source: true",
+    "single_occupant_fallback_allowed: true",
+    "preserve_room_context: true",
+    "preserve_occupied_humans: true",
+    "person_targeted_automations: false",
 ]
 REQUIRED_PET_LINES = [
     "cat",
@@ -268,6 +282,16 @@ def validate_tracker_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_person_room_contract() -> None:
+    text = (ROOT / "config/contracts/person_room_assignment.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_PERSON_ROOM_LINES if line not in text]
+    if missing:
+        print("Missing person room assignment contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_pet_contract() -> None:
     text = (ROOT / "config/contracts/pet_detection_classifier.yaml").read_text(encoding="utf-8")
     missing = [line for line in REQUIRED_PET_LINES if line not in text]
@@ -350,6 +374,7 @@ def main() -> int:
     validate_bed_contract()
     validate_house_contract()
     validate_tracker_contract()
+    validate_person_room_contract()
     validate_pet_contract()
     validate_mmwave_contract()
     validate_schema()

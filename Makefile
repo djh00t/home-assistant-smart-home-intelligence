@@ -15,6 +15,7 @@ check:
 	@python3 scripts/validate_bed_state_override.py check
 	@python3 scripts/validate_house_mode.py check
 	@python3 scripts/validate_person_tracker.py check
+	@python3 scripts/validate_person_room_assignment.py check
 	@python3 scripts/validate_mmwave_fusion.py check
 	@python3 scripts/validate_pet_classifier.py check
 
@@ -31,6 +32,7 @@ quality-gates: check
 	@python3 scripts/validate_bed_state_override.py quality-gates
 	@python3 scripts/validate_house_mode.py quality-gates
 	@python3 scripts/validate_person_tracker.py quality-gates
+	@python3 scripts/validate_person_room_assignment.py quality-gates
 	@python3 scripts/validate_mmwave_fusion.py quality-gates
 	@python3 scripts/validate_pet_classifier.py quality-gates
 

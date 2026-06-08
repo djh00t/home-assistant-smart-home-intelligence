@@ -19,6 +19,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "mmwave_fusion_rule.feature",
     FEATURE_DIR / "pet_detection_classifier.feature",
     FEATURE_DIR / "person_tracker_integration.feature",
+    FEATURE_DIR / "person_room_assignment.feature",
     FEATURE_DIR / "phase0_foundation.feature",
     FEATURE_DIR / "presence_fsm_room_template.feature",
     FEATURE_DIR / "smart_home_presence.feature",
