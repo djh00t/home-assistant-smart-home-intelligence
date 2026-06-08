@@ -15,6 +15,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Color-sync routing for color-capable lights
 - Bed-state override for sleep-safe wake suppression
 - Empty-house pet mode switch for pet-only occupancy
+- Person tracker integration for mobile app, BLE, and geofencing signals
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -40,6 +41,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/color_sync.yaml`
 - `config/contracts/bed_state_override.yaml`
 - `config/contracts/house_mode.yaml`
+- `config/contracts/person_tracker.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
@@ -49,6 +51,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/color-sync-for-color-lights.md`
 - `docs/contracts/bed-state-override.md`
 - `docs/contracts/empty-house-with-pet-mode-switch.md`
+- `docs/contracts/person-tracker-integration.md`
 
 ## Room Inventory Notes
 
@@ -92,6 +95,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/bed-state-override.md` documents the first bed-state override backlog slice.
 - `config/contracts/house_mode.yaml` defines the pet-only house mode switch contract.
 - `docs/contracts/empty-house-with-pet-mode-switch.md` documents the final Priority A backlog slice.
+- `config/contracts/person_tracker.yaml` defines the first tracker integration contract.
+- `docs/contracts/person-tracker-integration.md` documents the first person tracker backlog slice.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes

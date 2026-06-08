@@ -1,0 +1,20 @@
+version: 0.1
+description: Person tracker integration contract for phase 0.
+
+sources:
+  - mobile_app
+  - ble
+  - geofencing
+
+states:
+  - home
+  - not_home
+  - arriving
+  - leaving
+
+required_fields:
+  - tracker_id
+  - person_id
+  - source
+  - state
+  - confidence
