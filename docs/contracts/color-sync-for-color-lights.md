@@ -1,6 +1,6 @@
 # Color Sync for Color Lights
 
-This document defines the first color-sync slice for phase 0.
+This document defines the first color-sync slice for phase 1.
 
 ## Scope
 
