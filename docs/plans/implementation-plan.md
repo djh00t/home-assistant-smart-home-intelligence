@@ -77,12 +77,19 @@ Delivered artifacts:
 
 ## Work stream 5: Rollout and hardening
 
-1. Pilot one room until false-actions are below threshold
-2. Add second room with identical pattern and calibration
-3. Expand lane by room with per-room KPI sign-off
-4. Build HA dashboard for overrides and recent events
-5. Add periodic retention audit job and retention proof report
-6. Document runbooks and incident responses
+Status: complete for the Phase 4 reliability and expansion slice.
+
+Delivered artifacts:
+
+- Pilot-room stabilization and false-action reduction helpers
+- Additional room rollout helpers and per-room KPI sign-off artifacts
+- HA dashboard helpers for overrides and recent events
+- Periodic retention audit job and retention proof helpers
+- Runbook and incident-response documentation
+- Non-home zone queue helpers and contract
+- Multi-room heatmap helpers and contract
+- Scene preference UI helpers and contract
+- Anomaly and false-action dashboard helpers and contract
 
 ## Suggested ticket order
 
