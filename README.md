@@ -1,6 +1,6 @@
 # Smart Home Intelligence Repo (Private Project)
 
-This directory contains the phase 1 core occupancy and lighting bundle, the phase 2 people and pets bundle, and the phase 3 vehicle and contextual recognition bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
+This directory contains the phase 1 core occupancy and lighting bundle, the phase 2 people and pets bundle, the phase 3 vehicle and contextual recognition bundle, and the phase 4 reliability and expansion bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [Roadmap](docs/roadmap/roadmap.md)
@@ -26,6 +26,10 @@ This directory contains the phase 1 core occupancy and lighting bundle, the phas
 - [Pram walking-vs-driving feature scenarios](tests/features/pram_walking_vs_driving.feature)
 - [Foreign identity log queue feature scenarios](tests/features/foreign_identity_log_queue.feature)
 - [Security and retention jobs feature scenarios](tests/features/security_and_retention_jobs.feature)
+- [Non-home zone queue feature scenarios](tests/features/non_home_zone_queue.feature)
+- [Multi-room heatmap feature scenarios](tests/features/multi_room_heatmap.feature)
+- [Scene preference UI feature scenarios](tests/features/scene_preference_ui.feature)
+- [Anomaly and false-action dashboard feature scenarios](tests/features/anomaly_and_false_action_dashboard.feature)
 - [Phase 0 foundation feature scenarios](tests/features/phase0_foundation.feature)
 
 ## How this repo is organized
@@ -42,8 +46,8 @@ This directory contains the phase 1 core occupancy and lighting bundle, the phas
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
 - Phase 2 people and pet personalization artifacts are now checked in locally.
 - Phase 3 vehicle and contextual recognition artifacts are now checked in locally.
+- Phase 4 reliability and expansion artifacts are now checked in locally.
 - Phase 0 foundation artifacts remain available for the broader project baseline.
-- Phase 4 and beyond are documented and queued for subsequent work.
 
 ## Publish as private GitHub repository
 
