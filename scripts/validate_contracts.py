@@ -14,10 +14,12 @@ REQUIRED_FILES = [
     ROOT / "config/inventory/room_capabilities.yaml",
     ROOT / "config/contracts/mqtt_topics.yaml",
     ROOT / "config/contracts/presence_bridge.yaml",
+    ROOT / "config/contracts/room_fsm.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
     ROOT / "docs/contracts/mqtt-presence-bridge.md",
+    ROOT / "docs/contracts/room-fsm-template.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -48,6 +50,14 @@ REQUIRED_BRIDGE_LINES = [
     "dead_letter_topic: ha/presence/event/dlq",
     "mwave: mmwave",
     "bedroom_master: master_bedroom",
+]
+REQUIRED_FSM_LINES = [
+    "empty",
+    "humans_only",
+    "pets_only",
+    "mixed",
+    "sleeping",
+    "bed_motion_only",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -108,6 +118,16 @@ def validate_bridge_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_room_fsm_contract() -> None:
+    text = (ROOT / "config/contracts/room_fsm.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_FSM_LINES if line not in text]
+    if missing:
+        print("Missing room FSM lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -163,6 +183,7 @@ def main() -> int:
     validate_capabilities()
     validate_topics()
     validate_bridge_contract()
+    validate_room_fsm_contract()
     validate_schema()
     validate_retention()
 

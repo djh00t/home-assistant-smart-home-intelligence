@@ -7,12 +7,16 @@ check:
 	@python3 scripts/validate_project.py check
 	@python3 scripts/validate_contracts.py check
 	@python3 scripts/validate_features.py check
+	@python3 scripts/validate_bridge.py check
+	@python3 scripts/validate_room_fsm.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
 	@python3 scripts/validate_project.py quality-gates
 	@python3 scripts/validate_contracts.py quality-gates
 	@python3 scripts/validate_features.py quality-gates
+	@python3 scripts/validate_bridge.py quality-gates
+	@python3 scripts/validate_room_fsm.py quality-gates
 
 install:
 	@python3 -m venv .venv

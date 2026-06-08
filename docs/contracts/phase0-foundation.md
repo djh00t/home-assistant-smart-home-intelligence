@@ -9,6 +9,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Room capability inventory for light and policy routing
 - Canonical MQTT topic contract for presence events
 - MQTT presence bridge normalization and dead-letter routing
+- Room presence FSM template and state vocabulary
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -28,9 +29,11 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/inventory/room_capabilities.yaml`
 - `config/contracts/mqtt_topics.yaml`
 - `config/contracts/presence_bridge.yaml`
+- `config/contracts/room_fsm.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
+- `docs/contracts/room-fsm-template.md`
 
 ## Room Inventory Notes
 
@@ -62,6 +65,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `ha/presence/event/dlq` is the dead-letter topic for rejected or unroutable events.
 - `config/contracts/presence_bridge.yaml` defines source and room alias normalization before publish.
 - `docs/contracts/mqtt-presence-bridge.md` documents the first backlog slice for bridge behavior.
+- `config/contracts/room_fsm.yaml` defines the initial room-state vocabulary and transitions.
+- `docs/contracts/room-fsm-template.md` documents the first room FSM backlog slice.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes
