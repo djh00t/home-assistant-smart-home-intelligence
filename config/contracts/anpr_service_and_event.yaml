@@ -1,5 +1,5 @@
-version: 0.1.0
-description: ANPR driveway vehicle event normalization for phase 0 planning.
+version: 0.3.0
+description: ANPR driveway vehicle event normalization for phase 3 planning.
 
 scope:
   behavior: canonicalization_only
