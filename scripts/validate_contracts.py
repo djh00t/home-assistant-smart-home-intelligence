@@ -17,6 +17,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/room_fsm.yaml",
     ROOT / "config/contracts/dwell_reset.yaml",
     ROOT / "config/contracts/white_lighting.yaml",
+    ROOT / "config/contracts/color_sync.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -24,6 +25,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/room-fsm-template.md",
     ROOT / "docs/contracts/dwell-reset-automation.md",
     ROOT / "docs/contracts/adaptive-white-lighting.md",
+    ROOT / "docs/contracts/color-sync-for-color-lights.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -79,6 +81,11 @@ REQUIRED_WHITE_LINES = [
     "day",
     "evening",
     "night",
+]
+REQUIRED_COLOR_LINES = [
+    "color_scenes_only_target_color_capable_groups: true",
+    "white_only_rooms_skip_color_sync: true",
+    "preserve_white_lighting_for_color_scene_requests: true",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -169,6 +176,16 @@ def validate_white_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_color_contract() -> None:
+    text = (ROOT / "config/contracts/color_sync.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_COLOR_LINES if line not in text]
+    if missing:
+        print("Missing color sync contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -227,6 +244,7 @@ def main() -> int:
     validate_room_fsm_contract()
     validate_dwell_contract()
     validate_white_contract()
+    validate_color_contract()
     validate_schema()
     validate_retention()
 

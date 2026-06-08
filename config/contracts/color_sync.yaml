@@ -1,0 +1,7 @@
+version: 0.1
+description: Color scene routing for phase 0 color-capable rooms.
+
+rules:
+  color_scenes_only_target_color_capable_groups: true
+  white_only_rooms_skip_color_sync: true
+  preserve_white_lighting_for_color_scene_requests: true

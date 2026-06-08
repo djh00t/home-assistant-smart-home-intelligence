@@ -11,6 +11,7 @@ check:
 	@python3 scripts/validate_room_fsm.py check
 	@python3 scripts/validate_dwell_reset.py check
 	@python3 scripts/validate_white_lighting.py check
+	@python3 scripts/validate_color_sync.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
@@ -21,6 +22,7 @@ quality-gates: check
 	@python3 scripts/validate_room_fsm.py quality-gates
 	@python3 scripts/validate_dwell_reset.py quality-gates
 	@python3 scripts/validate_white_lighting.py quality-gates
+	@python3 scripts/validate_color_sync.py quality-gates
 
 install:
 	@python3 -m venv .venv
