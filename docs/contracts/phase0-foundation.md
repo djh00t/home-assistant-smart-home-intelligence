@@ -16,13 +16,28 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Bed-state override for sleep-safe wake suppression
 - Empty-house pet mode switch for pet-only occupancy
 - Person tracker integration for mobile app, BLE, and geofencing signals
+- Person-room assignment for deterministic room identity plans
+- Climate-person profiles for deterministic climate preference routing
+- MmWave and Frigate room fusion for room-level occupancy
+- Pet detection classifier for canonical pet occupancy events
+- ANPR service and driveway vehicle event normalization
+- Foreign identity alert queue for review retention
+- Security and retention dry-run jobs for cleanup candidates
+- Face enrollment metadata and face-match canonical events
+- Vehicle-person linking for deterministic driveway planning events
+- Non-home zone queueing for exterior-zone review artifacts
+- Multi-room heatmap report for occupancy review
+- Scene preference UI for room scene presets and override controls
+- Anomaly and false-action dashboard for review planning
+- Pram walking-vs-driving classification for transport-mode inference
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
 ## Assumptions
 
 - `room_id` values are stable snake_case identifiers and are the canonical identifiers used by all phase 0 artifacts.
-- The spec example `bedroom_master` is normalized to `master_bedroom` in the inventory and schema.
+- The spec example `master_bedroom` is normalized to `bedroom_master` in the inventory and schema.
+- The user-facing backyard labels normalize to `backyard_shed` and `backyard_deck` in the inventory and schema.
 - The spec typo `mwave` is normalized to `mmwave` as the canonical source token.
 - `room` in the event schema is a contract identifier that also covers the exterior `driveway` zone for vehicle-aware events.
 - `ha/presence/event` is the canonical publish topic for validated presence events and is not retained.
@@ -42,7 +57,20 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/bed_state_override.yaml`
 - `config/contracts/house_mode.yaml`
 - `config/contracts/person_tracker.yaml`
+- `config/contracts/person_room_assignment.yaml`
+- `config/contracts/climate_person_profiles.yaml`
+- `config/contracts/mmwave_fusion.yaml`
+- `config/contracts/face_enrollment_and_match.yaml`
 - `config/contracts/presence_event.schema.json`
+- `config/contracts/driveway_zone_setup.yaml`
+- `config/contracts/anpr_service_and_event.yaml`
+- `config/contracts/security_and_retention_jobs.yaml`
+- `config/contracts/foreign_identity_log_queue.yaml`
+- `config/contracts/multi_room_heatmap.yaml`
+- `config/contracts/scene_preference_ui.yaml`
+- `config/contracts/anomaly_and_false_action_dashboard.yaml`
+- `config/contracts/vehicle_person_linking.yaml`
+- `config/contracts/non_home_zone_queue.yaml`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
 - `docs/contracts/room-fsm-template.md`
@@ -52,19 +80,35 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/bed-state-override.md`
 - `docs/contracts/empty-house-with-pet-mode-switch.md`
 - `docs/contracts/person-tracker-integration.md`
+- `docs/contracts/person-room-assignment.md`
+- `docs/contracts/climate-person-profiles.md`
+- `config/contracts/desk_light_profiles.yaml`
+- `docs/contracts/desk-light-profiles.md`
+- `docs/contracts/mmwave-fusion-rule.md`
+- `docs/contracts/anpr-service-and-event.md`
+- `docs/contracts/security-and-retention-jobs.md`
+- `docs/contracts/foreign-identity-log-queue.md`
+- `docs/contracts/multi-room-heatmap.md`
+- `docs/contracts/scene-preference-ui.md`
+- `docs/contracts/anomaly-and-false-action-dashboard.md`
+- `docs/contracts/non-home-zone-queue.md`
+- `docs/contracts/face-enrollment-and-match.md`
 
 ## Room Inventory Notes
 
 The initial inventory covers the spaces referenced by the current spec and feature scenarios:
 
-- `hall`
+- `bedroom_master`
+- `bedroom_max`
+- `bedroom_spare`
+- `lounge_room`
+- `garage`
 - `kitchen`
-- `living_room`
-- `office`
-- `master_bedroom`
 - `driveway` as an exterior zone
+- `backyard_shed` as an exterior zone
+- `backyard_deck` as an exterior zone
 
-The `driveway` entry is retained in the room inventory file so that vehicle-linked presence events can share the same canonical `room` field without introducing a second location identifier model in phase 0.
+The driveway and backyard entries are retained in the room inventory file so that vehicle-linked and outdoor presence events can share the same canonical `room` field without introducing a second location identifier model in phase 0.
 
 ## Room Capability Notes
 
@@ -97,6 +141,34 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/empty-house-with-pet-mode-switch.md` documents the final Priority A backlog slice.
 - `config/contracts/person_tracker.yaml` defines the first tracker integration contract.
 - `docs/contracts/person-tracker-integration.md` documents the first person tracker backlog slice.
+- `config/contracts/person_room_assignment.yaml` defines deterministic room assignment from occupancy and identity signals.
+- `docs/contracts/person-room-assignment.md` documents the room assignment plan slice that feeds later personalization.
+- `config/contracts/climate_person_profiles.yaml` defines deterministic climate preference routing from assigned people.
+- `docs/contracts/climate-person-profiles.md` documents the first climate-person profile backlog slice.
+- `config/contracts/mmwave_fusion.yaml` defines the initial mmWave/frigate fusion contract.
+- `docs/contracts/mmwave-fusion-rule.md` documents the first mmWave fusion backlog slice.
+- `config/contracts/pet_detection_classifier.yaml` defines the pet classifier normalization contract.
+- `docs/contracts/pet-detection-classifier.md` documents the first pet classifier backlog slice.
+- `docs/contracts/driveway-zone-setup.md` defines the canonical driveway zone setup and normalization contract.
+- `config/contracts/anpr_service_and_event.yaml` defines ANPR driveway vehicle canonicalization and validation.
+- `config/contracts/non_home_zone_queue.yaml` defines planning-only queue records for non-home zone sightings.
+- `config/contracts/multi_room_heatmap.yaml` defines planning-only heatmap reports for multi-room occupancy review.
+- `config/contracts/scene_preference_ui.yaml` defines planning-only dashboard models for room scene preferences and override controls.
+- `config/contracts/anomaly_and_false_action_dashboard.yaml` defines planning-only dashboard models for anomaly and false-action review.
+- `docs/contracts/anpr-service-and-event.md` documents ANPR-only vehicle planning and event creation behavior.
+- `docs/contracts/non-home-zone-queue.md` documents the non-home zone review queue behavior.
+- `docs/contracts/multi-room-heatmap.md` documents the multi-room heatmap report behavior.
+- `docs/contracts/scene-preference-ui.md` documents the scene preference dashboard model behavior.
+- `docs/contracts/anomaly-and-false-action-dashboard.md` documents the anomaly and false-action dashboard model behavior.
+- `docs/contracts/vehicle-person-linking.md` documents deterministic vehicle-person linking for driveway planning events.
+- `config/contracts/pram_walking_vs_driving.yaml`
+- `docs/contracts/pram-walking-vs-driving.md` documents pram walking-vs-driving transport classification.
+
+## Driveway Zone Notes
+
+- `driveway` is the canonical exterior zone identifier for vehicle-aware events in phase 0.
+- The driveway setup defines explicit source priority as `anpr`, `frigate`, then `face`.
+- Direction normalization is deterministic and canonicalized to `arrival`, `departure`, and `stationary`.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes
@@ -110,3 +182,4 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - Phase 0 retention is a minimum baseline, not a maximum.
 - Event records, room-state history, linkage logs, audit records, and media metadata all retain for 90 days in this phase.
 - Cleanup jobs and auditability are required for the phase 0 retention policy to be considered implemented.
+- TASK-020 requires planning-only dry-run retention candidate reports to prove cleanup boundaries.

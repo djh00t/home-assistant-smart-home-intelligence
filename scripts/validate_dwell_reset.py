@@ -39,7 +39,7 @@ def validate_module_behavior() -> None:
     if not should_restart_dwell(motion_event):
         raise SystemExit("motion event should restart dwell")
 
-    timer = DwellTimer("hall", 300, 120)
+    timer = DwellTimer("lounge_room", 300, 120)
     restarted = restart_dwell_timer(timer, motion_event)
     if restarted.remaining_seconds != 300:
         raise SystemExit("dwell timer did not restart to duration")

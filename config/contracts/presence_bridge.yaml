@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Normalization contract for presence events before they are published to the canonical MQTT topic.
 
 canonical_topic: ha/presence/event
@@ -8,7 +8,10 @@ source_aliases:
   mwave: mmwave
 
 room_aliases:
-  bedroom_master: master_bedroom
+  hall: lounge_room
+  living_room: lounge_room
+  office: bedroom_spare
+  master_bedroom: bedroom_master
 
 required_fields:
   - event_id

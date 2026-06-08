@@ -21,7 +21,17 @@
     },
     "room": {
       "type": "string",
-      "enum": ["hall", "kitchen", "living_room", "office", "master_bedroom", "driveway"]
+      "enum": [
+        "bedroom_master",
+        "bedroom_max",
+        "bedroom_spare",
+        "lounge_room",
+        "garage",
+        "driveway",
+        "backyard_shed",
+        "backyard_deck",
+        "kitchen"
+      ]
     },
     "camera": {
       "type": "string",
@@ -91,4 +101,3 @@
     }
   }
 }
-

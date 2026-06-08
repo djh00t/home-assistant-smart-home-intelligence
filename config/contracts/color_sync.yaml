@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Color scene routing for phase 0 color-capable rooms.
 
 rules:

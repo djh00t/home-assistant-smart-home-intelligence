@@ -1,0 +1,22 @@
+version: 0.1.0
+description: Deterministic room-to-person assignment contract for phase 0.
+
+required_snapshot_fields:
+  - room_id
+  - occupied_humans
+
+identity_sources:
+  - face
+  - tracker
+  - face+tracker
+  - occupancy_fallback
+
+rules:
+  face_tracker_agreement_requires_occupant_match: true
+  face_match_prefers_face_source: true
+  tracker_match_prefers_tracker_source: true
+  single_occupant_fallback_allowed: true
+  occupancy_fallback_confidence: 0.7
+  preserve_room_context: true
+  preserve_occupied_humans: true
+  person_targeted_automations: false

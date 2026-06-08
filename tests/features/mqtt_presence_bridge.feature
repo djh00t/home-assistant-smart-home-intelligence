@@ -4,7 +4,14 @@ Feature: MQTT presence bridge
     Given a raw presence event from "mwave" for room "bedroom_master"
     When the bridge normalizes the event
     Then the canonical source should be "mmwave"
-    And the canonical room should be "master_bedroom"
+    And the canonical room should be "bedroom_master"
+    And the canonical topic should be "ha/presence/event"
+
+  Scenario: Bridge slugifies backyard labels to canonical room ids
+    Given a raw presence event from "motion" for room "backyard - shed"
+    When the bridge normalizes the event
+    Then the canonical source should be "motion"
+    And the canonical room should be "backyard_shed"
     And the canonical topic should be "ha/presence/event"
 
   Scenario: Bridge sends invalid payloads to dead letter topic

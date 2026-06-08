@@ -1,0 +1,20 @@
+version: 0.1.0
+description: Deterministic climate preference profile resolution for phase 0 person-room assignments.
+
+required_snapshot_fields:
+  - room_id
+  - assigned_person
+  - assignment_source
+  - confidence
+  - climate_profiles
+
+rules:
+  assignment_required_for_resolution: true
+  mapping_required_for_apply: true
+  should_apply_marks_planning_only: true
+  person_targeted_automations: false
+  preserve_room_context: true
+  preserve_assigned_person: true
+  preserve_assignment_source: true
+  preserve_confidence: true
+  preserve_climate_profiles: true

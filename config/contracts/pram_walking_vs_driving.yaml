@@ -1,0 +1,44 @@
+version: 0.1.0
+description: Deterministic pram walking-vs-driving classification for driveway-aware presence planning.
+
+scope:
+  behavior: deterministic_classification
+  planning_only: true
+  backlog_boundary:
+    - no_lock_or_unlock_behavior
+    - no_garage_door_actuation
+    - no_anpr_only_logic
+    - no_vehicle_person_linking
+
+input:
+  required:
+    - with_pram
+  optional:
+    - person_id
+    - room_id
+    - room
+    - vehicle_context_age_seconds
+    - ts
+
+normalization:
+  vehicle_context_window_seconds: 90
+  person_id_optional_when_not_needed: true
+  room_reference_optional_when_unknown: true
+
+classification:
+  with_pram_false: not_pram
+  with_pram_true_match_within_window: drive
+  with_pram_true_no_match_or_stale: walk
+
+output:
+  include_fields:
+    - source
+    - room
+    - transport_mode
+    - context
+  preserve_context:
+    - person_id
+    - room
+    - with_pram
+
+backlog_link: TASK-018

@@ -1,0 +1,54 @@
+version: 0.1.0
+description: Deterministic planning-only dashboard model for anomaly and false-action review.
+
+scope:
+  behavior: deterministic_anomaly_and_false_action_dashboard
+  planning_only: true
+  backlog_boundary:
+    - no_actuation
+    - no_scene_writes
+    - no_schedule_writes
+    - no_dashboard_backend_mutation
+    - no_alert_escalation
+
+input:
+  required:
+    - incidents
+  incident_fields:
+    required:
+      - room_id
+      - kind
+      - severity
+    optional:
+      - category
+      - source
+      - confidence
+      - event_id
+      - ts
+      - notes
+
+normalization:
+  canonical_room_inventory: config/inventory/rooms.yaml
+  room_reference_required: true
+  incident_kinds:
+    - anomaly
+    - false_action
+  sort_by: room_id
+
+output:
+  include_fields:
+    - source
+    - dashboard_id
+    - dashboard_record_type
+    - record_name
+    - dashboard_status
+    - tabs
+    - room_cards
+    - summary
+    - retention
+    - ts
+  dashboard_record_type: anomaly_false_action_dashboard
+  record_name: anomaly_and_false_action_dashboard
+  dashboard_status: ready
+  retention_days: 90
+  immutable: true

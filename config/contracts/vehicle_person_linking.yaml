@@ -1,0 +1,44 @@
+version: 0.1.0
+description: Deterministic driveway vehicle-person linking for phase 0 planning.
+
+scope:
+  behavior: deterministic_linking
+  backlog_boundary:
+    - no_vehicle_person_actioning
+    - no_garage_door_actuation
+    - no_lock_or_unlock_behavior
+
+input:
+  required:
+    - room_id
+    - person_id
+    - plate
+    - plate_confidence
+    - face_match_confidence
+    - direction
+    - camera
+  optional:
+    - event_id
+    - ts
+
+normalization:
+  canonical_room_id: driveway
+  room_reference_required: true
+  plate_transform: uppercase_strip_separators
+  direction_map:
+    arrival: vehicle_arrival
+    departure: vehicle_departure
+  plate_confidence_threshold: 0.8
+  face_match_confidence_threshold: 0.75
+  linked_confidence_mode: minimum_of_sources
+
+output:
+  include_fields:
+    - event_id
+    - source
+    - type
+    - room
+    - person_id
+    - camera
+    - confidence
+    - vehicle

@@ -1,0 +1,51 @@
+version: 0.1.0
+description: Deterministic planning-only multi-room heatmap report for occupancy review.
+
+scope:
+  behavior: deterministic_multi_room_heatmap
+  planning_only: true
+  backlog_boundary:
+    - no_actuation
+    - no_room_control
+    - no_light_control
+    - no_schedule_writes
+
+input:
+  required:
+    - observations
+  observation_fields:
+    required:
+      - room_id
+      - confidence
+    optional:
+      - room
+      - zone_id
+      - source
+      - type
+      - event_id
+      - ts
+
+normalization:
+  canonical_room_inventory: config/inventory/rooms.yaml
+  room_reference_required: true
+  eligible_room_type: room
+  supports_occupancy_required: true
+  ignore_non_occupancy_rooms: true
+  sort_by: room_id
+
+output:
+  include_fields:
+    - source
+    - report_id
+    - report_record_type
+    - record_name
+    - report_status
+    - heatmap_cells
+    - summary
+    - retention
+    - ts
+  report_record_type: room_heatmap
+  record_name: multi_room_heatmap
+  report_status: ready
+  retention_days: 90
+  immutable: true

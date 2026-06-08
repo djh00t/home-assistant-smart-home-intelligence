@@ -30,7 +30,10 @@ def validate_contract_text() -> None:
         "canonical_topic: ha/presence/event",
         "dead_letter_topic: ha/presence/event/dlq",
         "mwave: mmwave",
-        "bedroom_master: master_bedroom",
+        "hall: lounge_room",
+        "living_room: lounge_room",
+        "office: bedroom_spare",
+        "master_bedroom: bedroom_master",
     ):
         if needle not in text:
             raise SystemExit(f"presence_bridge.yaml missing {needle}")
@@ -47,17 +50,23 @@ def validate_module_behavior() -> None:
     )
 
     normalized = normalize_presence_event(
-        {"source": "mwave", "room": "bedroom_master", "event_id": "1"}
+        {"source": "mwave", "room": "master_bedroom", "event_id": "1"}
     )
     if normalized["source"] != "mmwave":
         raise SystemExit("source alias normalization failed")
-    if normalized["room"] != "master_bedroom":
+    if normalized["room"] != "bedroom_master":
         raise SystemExit("room alias normalization failed")
+
+    backyard = normalize_presence_event(
+        {"source": "motion", "room": "backyard - shed", "event_id": "2"}
+    )
+    if backyard["room"] != "backyard_shed":
+        raise SystemExit("backyard room normalization failed")
 
     errors = validate_presence_event(
         {
             "source": "frigate",
-            "room": "hall",
+            "room": "lounge_room",
             "type": "enter",
             "entity_class": "human",
             "confidence": 0.8,
@@ -72,7 +81,7 @@ def validate_module_behavior() -> None:
             "event_id": "evt-1",
             "source": "frigate",
             "type": "enter",
-            "room": "hall",
+            "room": "lounge_room",
             "entity_class": "human",
             "confidence": 0.8,
             "ts": "2026-06-07T12:00:00+10:00",
@@ -84,7 +93,7 @@ def validate_module_behavior() -> None:
     dlq = route_presence_event(
         {
             "source": "frigate",
-            "room": "hall",
+            "room": "lounge_room",
             "type": "enter",
             "entity_class": "human",
             "confidence": 0.8,

@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Bed-state override contract for phase 0 sleep-safe behavior.
 
 states:

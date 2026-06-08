@@ -1,13 +1,13 @@
 Feature: Smart home presence and personalization
 
   Scenario: Motion resets room dwell timer
-    Given room "hall" is occupied by "Sel" and a dwell timer is running
-    When a motion event is received for room "hall"
+    Given room "lounge_room" is occupied by "Sel" and a dwell timer is running
+    When a motion event is received for room "lounge_room"
     Then the room dwell timer should be restarted
     And lights remain on at the active occupancy level
 
   Scenario: Bed motion does not trigger bright wake lights
-    Given room "master_bedroom" has occupant "Sel" in bed
+    Given room "bedroom_master" has occupant "Sel" in bed
     And lights are currently in bright mode
     When bed motion continues without exit event
     Then lights should not switch to bright wake mode
@@ -15,8 +15,8 @@ Feature: Smart home presence and personalization
 
   Scenario: Person-specific desk lights apply on room entry
     Given "Sel" is assigned desk profile "sel_desk"
-    When "Sel" is detected entering room "office" with confidence above threshold
-    Then office desk lights should turn on to "sel_desk"
+    When "Sel" is detected entering room "bedroom_spare" with confidence above threshold
+    Then bedroom_spare desk lights should turn on to "sel_desk"
     And room climate should move toward Sel preference profile
 
   Scenario: Person leaves with pram and no vehicle context

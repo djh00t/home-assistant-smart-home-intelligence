@@ -1,0 +1,56 @@
+version: 0.1.0
+description: Immutable review queue for foreign or unknown driveway identity evidence.
+
+scope:
+  behavior: immutable_foreign_identity_queue
+  backlog_boundary:
+    - no_action_hooks
+    - no_vehicle_person_linking
+    - no_garage_lock_actuation
+    - no_vehicle_control
+
+input:
+  required:
+    - room_id
+    - camera
+  optional:
+    - plate
+    - face_match_confidence
+    - person_id
+    - identity_status
+    - event_id
+    - ts
+
+normalization:
+  canonical_room_id: driveway
+  room_reference_required: true
+  plate_transform: uppercase_strip_separators
+  identity_status_foreign_values:
+    - foreign
+    - unknown
+  person_unknown_values:
+    - unknown
+    - foreign
+    - unresolved
+  queue_when_person_id_missing_or_unknown: true
+  queue_when_identity_status_foreign_or_unknown: true
+  queue_when_face_match_below: 0.75
+
+output:
+  include_fields:
+    - source
+    - queue_id
+    - queue_record_type
+    - record_name
+    - room
+    - camera
+    - identity
+    - retention
+    - review_status
+    - ts
+  queue_record_type: foreign_identity_alert
+  record_name: foreign_identity_log
+  review_status: queued
+  retention_days: 90
+  immutable: true
+

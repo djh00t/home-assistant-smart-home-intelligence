@@ -1,8 +1,8 @@
 Feature: Dwell reset automation
 
   Scenario: Motion restarts the active dwell timer
-    Given a hall dwell timer has 120 seconds remaining
-    When a motion event is received for room "hall"
+    Given a lounge_room dwell timer has 120 seconds remaining
+    When a motion event is received for room "lounge_room"
     Then the dwell timer should restart to its configured duration
     And the room should remain in the active occupancy state
 
