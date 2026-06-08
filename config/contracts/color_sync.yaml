@@ -1,5 +1,5 @@
 version: 0.1.0
-description: Color scene routing for phase 0 color-capable rooms.
+description: Color scene routing for phase 1 color-capable rooms.
 
 rules:
   color_scenes_only_target_color_capable_groups: true
