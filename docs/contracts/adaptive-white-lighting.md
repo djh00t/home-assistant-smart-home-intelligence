@@ -1,6 +1,6 @@
 # Adaptive White Lighting
 
-This document defines the first adaptive white-lighting slice for phase 0.
+This document defines the first adaptive white-lighting slice for phase 1.
 
 ## Scope
 
