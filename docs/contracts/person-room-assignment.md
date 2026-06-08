@@ -1,6 +1,6 @@
 # Person Room Assignment
 
-This document defines the first deterministic room-to-person assignment slice for phase 0.
+This document defines the first deterministic room-to-person assignment slice for phase 2.
 
 ## Scope
 
