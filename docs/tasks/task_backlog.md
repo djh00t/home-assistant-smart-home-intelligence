@@ -2,6 +2,8 @@
 
 ## Priority A - Pilot in 1 Room
 
+Completed:
+
 1. INVENTORY-001 `room_capability_inventory`
 2. TASK-001 `mqtt_presence_bridge`
 3. TASK-002 `presence_fsm_room_template`
@@ -9,7 +11,10 @@
 5. TASK-004 `adaptive_white_lighting`
 6. TASK-005 `color_sync_for_color_lights`
 7. TASK-006 `bed_state_override`
-8. TASK-007 `empty_house_with_pet_mode_switch`
+
+Queued for Phase 2:
+
+1. TASK-007 `empty_house_with_pet_mode_switch`
 
 ## Priority B - Person and Pet Personalization
 
@@ -36,4 +41,3 @@
 2. TASK-022 `multi_room_heatmap`
 3. TASK-023 `scene_preference_ui`
 4. TASK-024 `anomaly_and_false_action_dashboard`
-
