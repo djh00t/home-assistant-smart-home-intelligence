@@ -14,6 +14,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "bed_state_override.feature",
     FEATURE_DIR / "color_sync_for_color_lights.feature",
     FEATURE_DIR / "dwell_reset_automation.feature",
+    FEATURE_DIR / "desk_light_profiles.feature",
     FEATURE_DIR / "empty_house_with_pet_mode_switch.feature",
     FEATURE_DIR / "mqtt_presence_bridge.feature",
     FEATURE_DIR / "mmwave_fusion_rule.feature",

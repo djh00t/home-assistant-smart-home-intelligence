@@ -58,6 +58,8 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/empty-house-with-pet-mode-switch.md`
 - `docs/contracts/person-tracker-integration.md`
 - `docs/contracts/person-room-assignment.md`
+- `config/contracts/desk_light_profiles.yaml`
+- `docs/contracts/desk-light-profiles.md`
 - `docs/contracts/mmwave-fusion-rule.md`
 
 ## Room Inventory Notes

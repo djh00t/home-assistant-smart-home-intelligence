@@ -22,6 +22,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/house_mode.yaml",
     ROOT / "config/contracts/person_tracker.yaml",
     ROOT / "config/contracts/person_room_assignment.yaml",
+    ROOT / "config/contracts/desk_light_profiles.yaml",
     ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/pet_detection_classifier.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
@@ -135,6 +136,20 @@ REQUIRED_PERSON_ROOM_LINES = [
     "preserve_room_context: true",
     "preserve_occupied_humans: true",
     "person_targeted_automations: false",
+]
+REQUIRED_DESK_LIGHT_LINES = [
+    "room_id",
+    "assigned_person",
+    "assignment_source",
+    "confidence",
+    "desk_profiles",
+    "office_only_resolution: true",
+    "assignment_required_for_resolution: true",
+    "should_apply_marks_planning_only: true",
+    "preserve_room_context: true",
+    "preserve_assigned_person: true",
+    "preserve_assignment_source: true",
+    "preserve_confidence: true",
 ]
 REQUIRED_PET_LINES = [
     "cat",
@@ -292,6 +307,16 @@ def validate_person_room_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_desk_light_contract() -> None:
+    text = (ROOT / "config/contracts/desk_light_profiles.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_DESK_LIGHT_LINES if line not in text]
+    if missing:
+        print("Missing desk light profile contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_pet_contract() -> None:
     text = (ROOT / "config/contracts/pet_detection_classifier.yaml").read_text(encoding="utf-8")
     missing = [line for line in REQUIRED_PET_LINES if line not in text]
@@ -375,6 +400,7 @@ def main() -> int:
     validate_house_contract()
     validate_tracker_contract()
     validate_person_room_contract()
+    validate_desk_light_contract()
     validate_pet_contract()
     validate_mmwave_contract()
     validate_schema()
