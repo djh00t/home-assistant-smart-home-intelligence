@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic planning-only dashboard model for anomaly and false-action review.
+version: 0.4.0
+description: Deterministic planning-only dashboard model for phase 4 anomaly and false-action review.
 
 scope:
   behavior: deterministic_anomaly_and_false_action_dashboard
