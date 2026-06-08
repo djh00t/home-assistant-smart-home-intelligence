@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic desk-light profile resolution for phase 0 bedroom_spare assignments.
+version: 0.2.0
+description: Deterministic desk-light profile resolution for phase 2 bedroom_spare assignments.
 
 required_snapshot_fields:
   - room_id

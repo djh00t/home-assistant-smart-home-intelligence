@@ -1,6 +1,6 @@
 # Person Tracker Integration
 
-This document defines the first Priority B slice for phase 0.
+This document defines the first Priority B slice for phase 2.
 
 ## Scope
 

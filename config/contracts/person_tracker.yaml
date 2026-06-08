@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Person tracker integration contract for phase 0.
+version: 0.2.0
+description: Person tracker integration contract for phase 2.
 
 sources:
   - mobile_app

@@ -1,6 +1,6 @@
 # Empty House With Pet Mode Switch
 
-This document defines the final Priority A slice for phase 0.
+This document defines the Phase 2 pet-mode slice.
 
 ## Scope
 

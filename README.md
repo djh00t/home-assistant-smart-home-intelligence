@@ -1,6 +1,6 @@
 # Smart Home Intelligence Repo (Private Project)
 
-This directory contains the phase 1 core occupancy and lighting bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
+This directory contains the phase 1 core occupancy and lighting bundle and the phase 2 people and pets bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [Roadmap](docs/roadmap/roadmap.md)
@@ -12,11 +12,18 @@ This directory contains the phase 1 core occupancy and lighting bundle for your 
 - [Adaptive white-lighting feature scenarios](tests/features/adaptive_white_lighting.feature)
 - [Color sync feature scenarios](tests/features/color_sync_for_color_lights.feature)
 - [Bed-state override feature scenarios](tests/features/bed_state_override.feature)
+- [Person tracker feature scenarios](tests/features/person_tracker_integration.feature)
+- [MmWave fusion feature scenarios](tests/features/mmwave_fusion_rule.feature)
+- [Pet detection classifier feature scenarios](tests/features/pet_detection_classifier.feature)
+- [Person-room assignment feature scenarios](tests/features/person_room_assignment.feature)
+- [Desk light profile feature scenarios](tests/features/desk_light_profiles.feature)
+- [Climate person profile feature scenarios](tests/features/climate_person_profiles.feature)
+- [Empty house with pet mode switch feature scenarios](tests/features/empty_house_with_pet_mode_switch.feature)
 - [Phase 0 foundation feature scenarios](tests/features/phase0_foundation.feature)
 
 ## How this repo is organized
 
-- `config/` — phase 0 inventory, contract, and retention artifacts.
+- `config/` — inventory, contract, and retention artifacts for the current release slices.
 - `docs/` — specification, roadmap, implementation plan, tasks, and contract notes.
 - `scripts/` — validation helpers for docs, project scaffolding, contracts, and features.
 - `src/` — the minimal Python package root for future implementation work.
@@ -26,8 +33,9 @@ This directory contains the phase 1 core occupancy and lighting bundle for your 
 
 - Created as an isolated private project folder under your workspace.
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
+- Phase 2 people and pet personalization artifacts are now checked in locally.
 - Phase 0 foundation artifacts remain available for the broader project baseline.
-- Later-phase slices are documented and queued for subsequent work.
+- Phase 3 and beyond are documented and queued for subsequent work.
 
 ## Publish as private GitHub repository
 

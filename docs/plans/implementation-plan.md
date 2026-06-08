@@ -49,12 +49,17 @@ Delivered artifacts:
 
 ## Work stream 3: Person and pet fusion
 
-1. Ingest person trackers, mmWave entities, and PIR/motion signals
-2. Add fusion scoring and room assignment algorithm
-3. Add desk-light profiles and climate profiles per person
-4. Add pet occupancy channel with non-person side effects only
-5. Add room-mode queue for “house empty” vs “pet present”
-6. Add BDD scenarios for cross-sensor conflicts
+Status: complete for the Phase 2 people + pet fusion slice.
+
+Delivered artifacts:
+
+- Person tracker ingest helpers and contract
+- MmWave fusion helpers and contract
+- Pet classifier helpers and contract
+- Person room assignment helpers and contract
+- Desk-light profile helpers and contract
+- Climate person profile helpers and contract
+- Pet-mode household switch helpers and contract
 
 ## Work stream 4: Vehicle and recognition workflows
 

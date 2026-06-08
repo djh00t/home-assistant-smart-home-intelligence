@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Pet detection classifier contract for phase 0.
+version: 0.2.0
+description: Pet detection classifier contract for phase 2.
 
 supported_labels:
   - cat

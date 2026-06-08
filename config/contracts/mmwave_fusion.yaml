@@ -1,5 +1,5 @@
-version: 0.1.0
-description: MmWave and Frigate room-level fusion contract for phase 0.
+version: 0.2.0
+description: MmWave and Frigate room-level fusion contract for phase 2.
 
 sources:
   - mmwave

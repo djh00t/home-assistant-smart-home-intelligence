@@ -1,6 +1,6 @@
 # Climate Person Profiles
 
-This document defines the first deterministic climate preference profile slice for phase 0.
+This document defines the first deterministic climate preference profile slice for phase 2.
 
 ## Scope
 

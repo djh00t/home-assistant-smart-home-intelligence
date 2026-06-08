@@ -1,6 +1,6 @@
 # Pet Detection Classifier
 
-This document defines the first pet-normalization slice for phase 0.
+This document defines the first pet-normalization slice for phase 2.
 
 ## Scope
 
