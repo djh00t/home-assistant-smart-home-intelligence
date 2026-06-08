@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FEATURE_DIR = ROOT / "tests" / "features"
 REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "phase0_foundation.feature",
+    FEATURE_DIR / "mqtt_presence_bridge.feature",
     FEATURE_DIR / "smart_home_presence.feature",
 ]
 STEP_PREFIXES = ("Given ", "When ", "Then ", "And ", "But ")

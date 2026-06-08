@@ -13,9 +13,11 @@ REQUIRED_FILES = [
     ROOT / "config/inventory/rooms.yaml",
     ROOT / "config/inventory/room_capabilities.yaml",
     ROOT / "config/contracts/mqtt_topics.yaml",
+    ROOT / "config/contracts/presence_bridge.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
+    ROOT / "docs/contracts/mqtt-presence-bridge.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -40,6 +42,12 @@ REQUIRED_CAPABILITY_LINES = [
 REQUIRED_TOPICS = [
     "ha/presence/event",
     "ha/presence/event/dlq",
+]
+REQUIRED_BRIDGE_LINES = [
+    "canonical_topic: ha/presence/event",
+    "dead_letter_topic: ha/presence/event/dlq",
+    "mwave: mmwave",
+    "bedroom_master: master_bedroom",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -87,6 +95,16 @@ def validate_topics() -> None:
         print("Missing required MQTT topics:")
         for topic in missing:
             print(topic)
+        raise SystemExit(1)
+
+
+def validate_bridge_contract() -> None:
+    text = (ROOT / "config/contracts/presence_bridge.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_BRIDGE_LINES if line not in text]
+    if missing:
+        print("Missing bridge contract lines:")
+        for line in missing:
+            print(line)
         raise SystemExit(1)
 
 
@@ -144,6 +162,7 @@ def main() -> int:
     validate_rooms()
     validate_capabilities()
     validate_topics()
+    validate_bridge_contract()
     validate_schema()
     validate_retention()
 

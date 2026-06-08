@@ -1,0 +1,20 @@
+version: 0.1
+description: Normalization contract for presence events before they are published to the canonical MQTT topic.
+
+canonical_topic: ha/presence/event
+dead_letter_topic: ha/presence/event/dlq
+
+source_aliases:
+  mwave: mmwave
+
+room_aliases:
+  bedroom_master: master_bedroom
+
+required_fields:
+  - event_id
+  - source
+  - type
+  - room
+  - entity_class
+  - confidence
+  - ts
