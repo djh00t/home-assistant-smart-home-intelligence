@@ -37,14 +37,17 @@ Delivered:
 - Climate-person profile helpers, contract, and acceptance coverage
 - Empty-house pet-mode switch helpers, contract, and acceptance coverage
 
-## Phase 3 - Vehicle and contextual recognition (2-4 weeks)
+## Phase 3 - Vehicle and contextual recognition (complete)
 
-1. ONVIF-compatible camera zones for driveway and entrances
-2. ANPR service + plate-event to HA bridge
-3. Face recognition service integration with confidence gating
-4. Pram-aware walking-vs-driving inference
-5. Car arrival/departure automations with guardrails
-6. Foreign plate/person log entity and alert path
+Delivered:
+
+- Driveway zone setup helpers, contract, and acceptance coverage
+- ANPR service and event helpers, contract, and acceptance coverage
+- Face enrollment and match helpers, contract, and acceptance coverage
+- Vehicle-person linking helpers, contract, and acceptance coverage
+- Pram walking-vs-driving helpers, contract, and acceptance coverage
+- Foreign identity log queue helpers, contract, and acceptance coverage
+- Security and retention job helpers, contract, and acceptance coverage
 
 ## Phase 4 - Reliability and expansion (ongoing)
 
