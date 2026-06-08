@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Canonical driveway zone setup for phase 0 vehicle-aware presence normalization.
 
 zone:

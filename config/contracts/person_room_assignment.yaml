@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Deterministic room-to-person assignment contract for phase 0.
 
 required_snapshot_fields:

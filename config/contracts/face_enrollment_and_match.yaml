@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Face enrollment metadata and canonical face-match events for phase 0 planning.
 
 scope:

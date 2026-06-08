@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Deterministic climate preference profile resolution for phase 0 person-room assignments.
 
 required_snapshot_fields:

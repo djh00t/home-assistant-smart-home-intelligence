@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: Deterministic planning-only multi-room heatmap report for occupancy review.
 
 scope:

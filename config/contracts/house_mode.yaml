@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 description: House mode switch for empty-house and pet-only states.
 
 modes:

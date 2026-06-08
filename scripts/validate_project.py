@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_ROOT = ROOT / "src" / "smart_home_presence_intelligence"
 REQUIRED_FILES = [
     PACKAGE_ROOT / "__init__.py",
+    ROOT / "VERSION",
+    ROOT / "CHANGELOG.md",
 ]
 REQUIRED_GITIGNORE_ENTRIES = [
     ".venv/",
@@ -47,6 +49,17 @@ def validate_gitignore() -> None:
         raise SystemExit(1)
 
 
+def validate_version_file() -> None:
+    version_file = ROOT / "VERSION"
+    version = version_file.read_text(encoding="utf-8").strip()
+    if not version:
+        print("VERSION is empty")
+        raise SystemExit(1)
+    if version.count(".") != 2 or not all(part.isdigit() for part in version.split(".")):
+        print(f"VERSION is not semver: {version}")
+        raise SystemExit(1)
+
+
 def main() -> int:
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", "quality-gates"}:
         print("Usage: validate_project.py [check|quality-gates]")
@@ -54,6 +67,7 @@ def main() -> int:
 
     validate_required_files()
     validate_gitignore()
+    validate_version_file()
 
     print(
         "Project scaffold check passed"

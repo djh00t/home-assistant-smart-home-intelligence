@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.1.0
 policy: phase0_retention
 description: Minimum retention baseline for phase 0 presence, identity, and audit artifacts.
 
