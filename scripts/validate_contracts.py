@@ -33,6 +33,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/foreign_identity_log_queue.yaml",
     ROOT / "config/contracts/multi_room_heatmap.yaml",
     ROOT / "config/contracts/scene_preference_ui.yaml",
+    ROOT / "config/contracts/anomaly_and_false_action_dashboard.yaml",
     ROOT / "config/contracts/non_home_zone_queue.yaml",
     ROOT / "config/contracts/pram_walking_vs_driving.yaml",
     ROOT / "config/contracts/security_and_retention_jobs.yaml",
@@ -57,6 +58,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/foreign-identity-log-queue.md",
     ROOT / "docs/contracts/multi-room-heatmap.md",
     ROOT / "docs/contracts/scene-preference-ui.md",
+    ROOT / "docs/contracts/anomaly-and-false-action-dashboard.md",
     ROOT / "docs/contracts/non-home-zone-queue.md",
     ROOT / "docs/contracts/vehicle-person-linking.md",
     ROOT / "docs/contracts/pram-walking-vs-driving.md",
@@ -270,6 +272,22 @@ REQUIRED_SCENE_PREFERENCE_UI_LINES = [
     "ui_record_type: scene_preferences_dashboard",
     "record_name: scene_preference_ui",
     "ui_status: ready",
+    "retention_days: 90",
+    "immutable: true",
+]
+REQUIRED_ANOMALY_DASHBOARD_LINES = [
+    "behavior: deterministic_anomaly_and_false_action_dashboard",
+    "planning_only: true",
+    "no_actuation",
+    "no_scene_writes",
+    "no_schedule_writes",
+    "no_dashboard_backend_mutation",
+    "no_alert_escalation",
+    "incidents",
+    "room_reference_required: true",
+    "dashboard_record_type: anomaly_false_action_dashboard",
+    "record_name: anomaly_and_false_action_dashboard",
+    "dashboard_status: ready",
     "retention_days: 90",
     "immutable: true",
 ]
@@ -561,6 +579,18 @@ def validate_scene_preference_ui_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_anomaly_and_false_action_dashboard_contract() -> None:
+    text = (
+        ROOT / "config/contracts/anomaly_and_false_action_dashboard.yaml"
+    ).read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_ANOMALY_DASHBOARD_LINES if line not in text]
+    if missing:
+        print("Missing anomaly and false-action dashboard contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_non_home_zone_queue_contract() -> None:
     text = (ROOT / "config/contracts/non_home_zone_queue.yaml").read_text(
         encoding="utf-8"
@@ -684,6 +714,7 @@ def main() -> int:
     validate_foreign_identity_log_queue_contract()
     validate_multi_room_heatmap_contract()
     validate_scene_preference_ui_contract()
+    validate_anomaly_and_false_action_dashboard_contract()
     validate_non_home_zone_queue_contract()
     validate_pram_contract()
     validate_security_and_retention_contract()
