@@ -1,4 +1,4 @@
-# Foreign identity log queue for review
+# Foreign identity log queue for phase 3 review
 
 ## Scope
 
@@ -46,4 +46,3 @@ The queue record includes:
 ## Backlog link
 
 - `TASK-019 foreign_identity_log_queue`
-
