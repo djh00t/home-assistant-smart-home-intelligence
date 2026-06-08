@@ -1,5 +1,5 @@
 version: 0.1.0
-description: Template for restartable dwell timer behavior in phase 0.
+description: Template for restartable dwell timer behavior in phase 1.
 
 trigger_sources:
   - motion

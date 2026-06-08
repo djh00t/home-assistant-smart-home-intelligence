@@ -1,6 +1,6 @@
 # Dwell Reset Automation
 
-This document defines the first dwell-reset automation slice for phase 0.
+This document defines the first dwell-reset automation slice for phase 1.
 
 ## Scope
 
