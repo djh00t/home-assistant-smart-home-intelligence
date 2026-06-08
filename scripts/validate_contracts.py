@@ -19,6 +19,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/white_lighting.yaml",
     ROOT / "config/contracts/color_sync.yaml",
     ROOT / "config/contracts/bed_state_override.yaml",
+    ROOT / "config/contracts/house_mode.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -28,6 +29,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/adaptive-white-lighting.md",
     ROOT / "docs/contracts/color-sync-for-color-lights.md",
     ROOT / "docs/contracts/bed-state-override.md",
+    ROOT / "docs/contracts/empty-house-with-pet-mode-switch.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -96,6 +98,14 @@ REQUIRED_BED_LINES = [
     "suppress_wake_scene_while_bed_motion_only: true",
     "suppress_wake_scene_while_sleeping: true",
     "clear_override_on_exit_event: true",
+]
+REQUIRED_HOUSE_LINES = [
+    "empty",
+    "pet_mode",
+    "occupied",
+    "pets_only_selects_pet_mode: true",
+    "humans_present_forces_occupied: true",
+    "pet_mode_may_keep_pathway_lighting: true",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -206,6 +216,16 @@ def validate_bed_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_house_contract() -> None:
+    text = (ROOT / "config/contracts/house_mode.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_HOUSE_LINES if line not in text]
+    if missing:
+        print("Missing house mode contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -266,6 +286,7 @@ def main() -> int:
     validate_white_contract()
     validate_color_contract()
     validate_bed_contract()
+    validate_house_contract()
     validate_schema()
     validate_retention()
 

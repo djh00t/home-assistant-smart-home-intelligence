@@ -1,0 +1,12 @@
+version: 0.1
+description: House mode switch for empty-house and pet-only states.
+
+modes:
+  - empty
+  - pet_mode
+  - occupied
+
+rules:
+  pets_only_selects_pet_mode: true
+  humans_present_forces_occupied: true
+  pet_mode_may_keep_pathway_lighting: true
