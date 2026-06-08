@@ -12,20 +12,21 @@ Completed:
 6. TASK-005 `color_sync_for_color_lights`
 7. TASK-006 `bed_state_override`
 
-Queued for Phase 2:
+## Delivered Phase 2 - Person and Pet Personalization
+
+Completed:
 
 1. TASK-007 `empty_house_with_pet_mode_switch`
-
-## Priority B - Person and Pet Personalization
-
-1. TASK-008 `person_tracker_integration`
-2. TASK-009 `mmwave_fusion_rule`
-3. TASK-010 `pet_detection_classifier`
-4. TASK-011 `person_room_assignment`
-5. TASK-012 `desk_light_profiles`
-6. TASK-013 `climate_person_profiles`
+2. TASK-008 `person_tracker_integration`
+3. TASK-009 `mmwave_fusion_rule`
+4. TASK-010 `pet_detection_classifier`
+5. TASK-011 `person_room_assignment`
+6. TASK-012 `desk_light_profiles`
+7. TASK-013 `climate_person_profiles`
 
 ## Priority C - Car, Face, Plate, and Records
+
+Queued for Phase 3:
 
 1. TASK-014 `driveway_zone_setup`
 2. TASK-015 `anpr_service_and_event`
