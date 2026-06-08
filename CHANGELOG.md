@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.0] - 2026-06-09
+
+### Added
+
+- Delivered the Phase 4 reliability and expansion bundle: non-home zone queueing, multi-room heatmaps, scene preference UI planning, anomaly and false-action dashboard planning, and retention/reporting helpers.
+
+### Changed
+
+- Rebased the backlog, roadmap, README, implementation plan, and phase-specific contract docs to mark Phase 4 complete.
+
 ## [0.3.0] - 2026-06-09
 
 ### Added
