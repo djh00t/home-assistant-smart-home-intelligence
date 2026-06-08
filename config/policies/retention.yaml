@@ -1,0 +1,17 @@
+version: 0.1
+policy: phase0_retention
+description: Minimum retention baseline for phase 0 presence, identity, and audit artifacts.
+
+retention_days:
+  event_records: 90
+  room_state_history: 90
+  person_vehicle_links: 90
+  face_plate_audit: 90
+  media_metadata: 90
+  foreign_plate_person_alerts: 90
+
+controls:
+  cleanup_job_required: true
+  immutable_audit_required: true
+  privacy_window_override_supported: true
+

@@ -1,0 +1,29 @@
+version: 0.1
+namespace: ha/presence
+description: MQTT topic contract for canonical presence events and supporting dead-letter routing.
+
+topics:
+  presence_event:
+    topic: ha/presence/event
+    qos: 1
+    retain: false
+    payload_schema: config/contracts/presence_event.schema.json
+    publishers:
+      - frigate_bridge
+      - tracker_bridge
+      - mmwave_bridge
+      - motion_bridge
+      - face_bridge
+      - anpr_bridge
+    consumers:
+      - occupancy_engine
+      - audit_logger
+      - dead_letter_router
+
+  presence_event_dlq:
+    topic: ha/presence/event/dlq
+    qos: 1
+    retain: false
+    payload_format: json
+    description: Failed validation or routing metadata for events that could not be accepted on the canonical topic.
+

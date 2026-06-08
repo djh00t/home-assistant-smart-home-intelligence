@@ -4,19 +4,25 @@ SHELL := /bin/bash
 
 check:
 	@python3 scripts/validate_docs.py check
+	@python3 scripts/validate_project.py check
+	@python3 scripts/validate_contracts.py check
+	@python3 scripts/validate_features.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
+	@python3 scripts/validate_project.py quality-gates
+	@python3 scripts/validate_contracts.py quality-gates
+	@python3 scripts/validate_features.py quality-gates
 
 install:
 	@python3 -m venv .venv
 
 clean:
-	@rm -rf .venv dist
+	@rm -rf .venv dist __pycache__ .pytest_cache .mypy_cache .ruff_cache htmlcov
 
 build:
 	@mkdir -p dist
-	@printf '%s\n' 'Documentation bundle; no compiled artifact.' > dist/build.txt
+	@printf '%s\n' 'Phase 0 foundation bundle; no compiled artifact.' > dist/build.txt
 
 publish: build
-	@printf '%s\n' 'No publish target configured for this documentation bundle.'
+	@printf '%s\n' 'No publish target configured for this phase 0 foundation bundle.'

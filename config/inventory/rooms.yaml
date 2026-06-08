@@ -1,0 +1,73 @@
+version: 0.1
+site: smart_home_presence_intelligence
+description: Phase 0 room and zone inventory for presence, lighting, and vehicle-aware automations.
+
+rooms:
+  - room_id: hall
+    display_name: Hall
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - frigate
+
+  - room_id: kitchen
+    display_name: Kitchen
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - motion
+      - mmwave
+      - frigate
+
+  - room_id: living_room
+    display_name: Living Room
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - frigate
+
+  - room_id: office
+    display_name: Office
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - tracker
+      - mmwave
+      - motion
+      - face
+
+  - room_id: master_bedroom
+    display_name: Master Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - face
+
+external_zones:
+  - room_id: driveway
+    display_name: Driveway
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - anpr
+      - frigate
+      - face
+

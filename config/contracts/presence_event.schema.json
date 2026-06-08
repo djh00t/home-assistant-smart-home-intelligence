@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/contracts/presence_event.schema.json",
+  "title": "Presence Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "source", "type", "room", "entity_class", "confidence", "ts"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable UUID or comparable unique event identifier."
+    },
+    "source": {
+      "type": "string",
+      "enum": ["frigate", "mmwave", "motion", "face", "anpr", "tracker"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["enter", "leave", "stay", "state_change", "confidence"]
+    },
+    "room": {
+      "type": "string",
+      "enum": ["hall", "kitchen", "living_room", "office", "master_bedroom", "driveway"]
+    },
+    "camera": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Camera or sensor identifier when a visual source is involved."
+    },
+    "entity_class": {
+      "type": "string",
+      "enum": ["human", "pet", "vehicle"]
+    },
+    "person_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable household person identifier or the literal unknown."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "track_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Upstream tracker id when the event originated from a visual or occupancy track."
+    },
+    "vehicle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plate": {
+          "type": "string",
+          "minLength": 1
+        },
+        "plate_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "vehicle_type": {
+          "type": "string",
+          "enum": ["car", "truck", "motorcycle", "unknown"]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "with_pram": {
+          "type": "boolean"
+        },
+        "with_face_match": {
+          "type": "boolean"
+        },
+        "is_owner_plate": {
+          "type": "boolean"
+        },
+        "lighting_blocked": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp in RFC 3339 format."
+    }
+  }
+}
+
