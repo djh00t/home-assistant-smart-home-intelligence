@@ -24,6 +24,7 @@ check:
 	@python3 scripts/validate_pet_classifier.py check
 	@python3 scripts/validate_driveway_zone_setup.py check
 	@python3 scripts/validate_vehicle_person_linking.py check
+	@python3 scripts/validate_pram_walking_vs_driving.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
@@ -47,6 +48,7 @@ quality-gates: check
 	@python3 scripts/validate_pet_classifier.py quality-gates
 	@python3 scripts/validate_driveway_zone_setup.py quality-gates
 	@python3 scripts/validate_vehicle_person_linking.py quality-gates
+	@python3 scripts/validate_pram_walking_vs_driving.py quality-gates
 
 install:
 	@python3 -m venv .venv

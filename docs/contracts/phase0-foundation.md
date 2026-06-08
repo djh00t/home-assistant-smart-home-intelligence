@@ -23,6 +23,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - ANPR service and driveway vehicle event normalization
 - Face enrollment metadata and face-match canonical events
 - Vehicle-person linking for deterministic driveway planning events
+- Pram walking-vs-driving classification for transport-mode inference
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -130,6 +131,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `config/contracts/anpr_service_and_event.yaml` defines ANPR driveway vehicle canonicalization and validation.
 - `docs/contracts/anpr-service-and-event.md` documents ANPR-only vehicle planning and event creation behavior.
 - `docs/contracts/vehicle-person-linking.md` documents deterministic vehicle-person linking for driveway planning events.
+- `config/contracts/pram_walking_vs_driving.yaml`
+- `docs/contracts/pram-walking-vs-driving.md` documents pram walking-vs-driving transport classification.
 
 ## Driveway Zone Notes
 

@@ -30,6 +30,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/anpr_service_and_event.yaml",
     ROOT / "config/contracts/face_enrollment_and_match.yaml",
     ROOT / "config/contracts/vehicle_person_linking.yaml",
+    ROOT / "config/contracts/pram_walking_vs_driving.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -49,6 +50,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/anpr-service-and-event.md",
     ROOT / "docs/contracts/face-enrollment-and-match.md",
     ROOT / "docs/contracts/vehicle-person-linking.md",
+    ROOT / "docs/contracts/pram-walking-vs-driving.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -215,6 +217,14 @@ REQUIRED_VEHICLE_PERSON_LINKING_LINES = [
     "face_match_confidence_threshold: 0.75",
     "arrival: vehicle_arrival",
     "departure: vehicle_departure",
+]
+REQUIRED_PRAM_LINES = [
+    "behavior: deterministic_classification",
+    "planning_only: true",
+    "vehicle_context_window_seconds: 90",
+    "with_pram_false: not_pram",
+    "with_pram_true_match_within_window: drive",
+    "with_pram_true_no_match_or_stale: walk",
 ]
 REQUIRED_FACE_LINES = [
     "canonicalization_only",
@@ -435,6 +445,18 @@ def validate_vehicle_person_linking_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_pram_contract() -> None:
+    text = (ROOT / "config/contracts/pram_walking_vs_driving.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [line for line in REQUIRED_PRAM_LINES if line not in text]
+    if missing:
+        print("Missing pram walking-vs-driving contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_face_contract() -> None:
     text = (ROOT / "config/contracts/face_enrollment_and_match.yaml").read_text(
         encoding="utf-8"
@@ -517,6 +539,7 @@ def main() -> int:
     validate_anpr_contract()
     validate_face_contract()
     validate_vehicle_person_linking_contract()
+    validate_pram_contract()
     validate_schema()
     validate_retention()
 
