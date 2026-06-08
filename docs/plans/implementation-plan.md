@@ -37,6 +37,16 @@
 8. Add bed-state overrides (`in_bed`, `bed_movement`) to suppress harsh scenes
 9. Add manual override locks and cooldown windows
 
+Status: complete for the Phase 1 core occupancy + lighting slice.
+
+Delivered artifacts:
+
+- Room state machine helpers and contract
+- Dwell reset helpers and contract
+- Bed-state override helpers and contract
+- White-light orchestration helpers and contract
+- Color-sync routing helpers and contract
+
 ## Work stream 3: Person and pet fusion
 
 1. Ingest person trackers, mmWave entities, and PIR/motion signals
