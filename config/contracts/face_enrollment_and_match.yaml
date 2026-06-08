@@ -1,0 +1,43 @@
+version: 0.1
+description: Face enrollment metadata and canonical face-match events for phase 0 planning.
+
+scope:
+  behavior: canonicalization_only
+  backlog_boundary:
+    - no_vehicle_person_linking
+    - no_camera_only_unlock_actions
+    - no_door_or_lock_actuation
+    - no_face_match_as_only_unlock_signal
+
+sources:
+  allowed: [face]
+  enrollment_default_source: face
+  match_default_source: face
+
+enrollment:
+  required_fields:
+    - person_id
+    - room
+    - camera
+    - face_signature
+  optional_fields:
+    - source
+    - enrollment_id
+    - recorded_at
+  retention_days: 90
+
+face_match:
+  required_fields:
+    - person_id
+    - room
+    - camera
+    - face_match_confidence
+  optional_fields:
+    - track_id
+    - event_id
+    - ts
+  deterministic_threshold: 0.75
+  source: face
+  entity_class: human
+  room_reference_required: true
+  output_event_type: confidence
