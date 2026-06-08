@@ -25,6 +25,7 @@ check:
 	@python3 scripts/validate_driveway_zone_setup.py check
 	@python3 scripts/validate_vehicle_person_linking.py check
 	@python3 scripts/validate_foreign_identity_log_queue.py check
+	@python3 scripts/validate_multi_room_heatmap.py check
 	@python3 scripts/validate_non_home_zone_queue.py check
 	@python3 scripts/validate_pram_walking_vs_driving.py check
 	@python3 scripts/validate_security_and_retention_jobs.py check
@@ -52,6 +53,7 @@ quality-gates: check
 	@python3 scripts/validate_driveway_zone_setup.py quality-gates
 	@python3 scripts/validate_vehicle_person_linking.py quality-gates
 	@python3 scripts/validate_foreign_identity_log_queue.py quality-gates
+	@python3 scripts/validate_multi_room_heatmap.py quality-gates
 	@python3 scripts/validate_non_home_zone_queue.py quality-gates
 	@python3 scripts/validate_pram_walking_vs_driving.py quality-gates
 	@python3 scripts/validate_security_and_retention_jobs.py quality-gates

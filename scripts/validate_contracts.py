@@ -31,6 +31,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/face_enrollment_and_match.yaml",
     ROOT / "config/contracts/vehicle_person_linking.yaml",
     ROOT / "config/contracts/foreign_identity_log_queue.yaml",
+    ROOT / "config/contracts/multi_room_heatmap.yaml",
     ROOT / "config/contracts/non_home_zone_queue.yaml",
     ROOT / "config/contracts/pram_walking_vs_driving.yaml",
     ROOT / "config/contracts/security_and_retention_jobs.yaml",
@@ -53,6 +54,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/anpr-service-and-event.md",
     ROOT / "docs/contracts/face-enrollment-and-match.md",
     ROOT / "docs/contracts/foreign-identity-log-queue.md",
+    ROOT / "docs/contracts/multi-room-heatmap.md",
     ROOT / "docs/contracts/non-home-zone-queue.md",
     ROOT / "docs/contracts/vehicle-person-linking.md",
     ROOT / "docs/contracts/pram-walking-vs-driving.md",
@@ -233,6 +235,23 @@ REQUIRED_FOREIGN_IDENTITY_QUEUE_LINES = [
     "queue_record_type: foreign_identity_alert",
     "record_name: foreign_identity_log",
     "review_status: queued",
+    "retention_days: 90",
+    "immutable: true",
+]
+REQUIRED_MULTI_ROOM_HEATMAP_LINES = [
+    "behavior: deterministic_multi_room_heatmap",
+    "planning_only: true",
+    "no_actuation",
+    "no_room_control",
+    "no_light_control",
+    "no_schedule_writes",
+    "observations",
+    "room_reference_required: true",
+    "supports_occupancy_required: true",
+    "ignore_non_occupancy_rooms: true",
+    "report_record_type: room_heatmap",
+    "record_name: multi_room_heatmap",
+    "report_status: ready",
     "retention_days: 90",
     "immutable: true",
 ]
@@ -500,6 +519,18 @@ def validate_foreign_identity_log_queue_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_multi_room_heatmap_contract() -> None:
+    text = (ROOT / "config/contracts/multi_room_heatmap.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [line for line in REQUIRED_MULTI_ROOM_HEATMAP_LINES if line not in text]
+    if missing:
+        print("Missing multi-room heatmap contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_non_home_zone_queue_contract() -> None:
     text = (ROOT / "config/contracts/non_home_zone_queue.yaml").read_text(
         encoding="utf-8"
@@ -621,6 +652,7 @@ def main() -> int:
     validate_face_contract()
     validate_vehicle_person_linking_contract()
     validate_foreign_identity_log_queue_contract()
+    validate_multi_room_heatmap_contract()
     validate_non_home_zone_queue_contract()
     validate_pram_contract()
     validate_security_and_retention_contract()
