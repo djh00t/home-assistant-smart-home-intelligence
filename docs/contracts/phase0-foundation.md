@@ -22,6 +22,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Pet detection classifier for canonical pet occupancy events
 - ANPR service and driveway vehicle event normalization
 - Foreign identity alert queue for review retention
+- Security and retention dry-run jobs for cleanup candidates
 - Face enrollment metadata and face-match canonical events
 - Vehicle-person linking for deterministic driveway planning events
 - Pram walking-vs-driving classification for transport-mode inference
@@ -58,6 +59,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/presence_event.schema.json`
 - `config/contracts/driveway_zone_setup.yaml`
 - `config/contracts/anpr_service_and_event.yaml`
+- `config/contracts/security_and_retention_jobs.yaml`
 - `config/contracts/foreign_identity_log_queue.yaml`
 - `config/contracts/vehicle_person_linking.yaml`
 - `config/policies/retention.yaml`
@@ -75,6 +77,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/desk-light-profiles.md`
 - `docs/contracts/mmwave-fusion-rule.md`
 - `docs/contracts/anpr-service-and-event.md`
+- `docs/contracts/security-and-retention-jobs.md`
 - `docs/contracts/foreign-identity-log-queue.md`
 - `docs/contracts/face-enrollment-and-match.md`
 
@@ -155,3 +158,4 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - Phase 0 retention is a minimum baseline, not a maximum.
 - Event records, room-state history, linkage logs, audit records, and media metadata all retain for 90 days in this phase.
 - Cleanup jobs and auditability are required for the phase 0 retention policy to be considered implemented.
+- TASK-020 requires planning-only dry-run retention candidate reports to prove cleanup boundaries.

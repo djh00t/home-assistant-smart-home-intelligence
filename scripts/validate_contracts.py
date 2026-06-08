@@ -32,6 +32,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/vehicle_person_linking.yaml",
     ROOT / "config/contracts/foreign_identity_log_queue.yaml",
     ROOT / "config/contracts/pram_walking_vs_driving.yaml",
+    ROOT / "config/contracts/security_and_retention_jobs.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -53,6 +54,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/foreign-identity-log-queue.md",
     ROOT / "docs/contracts/vehicle-person-linking.md",
     ROOT / "docs/contracts/pram-walking-vs-driving.md",
+    ROOT / "docs/contracts/security-and-retention-jobs.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -239,6 +241,17 @@ REQUIRED_PRAM_LINES = [
     "with_pram_false: not_pram",
     "with_pram_true_match_within_window: drive",
     "with_pram_true_no_match_or_stale: walk",
+]
+REQUIRED_SECURITY_AND_RETENTION_LINES = [
+    "scope:",
+    "planning_only: true",
+    "reference: config/policies/retention.yaml",
+    "report_type: retention_audit",
+    "cleanup_job_required: true",
+    "immutable_audit_required: true",
+    "cleanup_mode: dry_run",
+    "cleanup_condition: age_days > retention_days",
+    "task: TASK-020",
 ]
 REQUIRED_FACE_LINES = [
     "canonicalization_only",
@@ -485,6 +498,20 @@ def validate_pram_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_security_and_retention_contract() -> None:
+    text = (ROOT / "config/contracts/security_and_retention_jobs.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [
+        line for line in REQUIRED_SECURITY_AND_RETENTION_LINES if line not in text
+    ]
+    if missing:
+        print("Missing security and retention jobs contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_face_contract() -> None:
     text = (ROOT / "config/contracts/face_enrollment_and_match.yaml").read_text(
         encoding="utf-8"
@@ -569,6 +596,7 @@ def main() -> int:
     validate_vehicle_person_linking_contract()
     validate_foreign_identity_log_queue_contract()
     validate_pram_contract()
+    validate_security_and_retention_contract()
     validate_schema()
     validate_retention()
 

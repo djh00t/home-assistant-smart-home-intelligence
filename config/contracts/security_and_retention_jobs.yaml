@@ -1,0 +1,43 @@
+version: 0.1
+description: Planning-only security and retention audit job contract for phase 0.
+
+scope:
+  behavior: security_and_retention_jobs
+  planning_only: true
+
+input:
+  required_fields:
+    - record_type
+    - age_days
+  optional_fields:
+    - record_id
+    - source
+    - room_id
+    - ts
+
+policy:
+  reference: config/policies/retention.yaml
+  default_retention_days:
+    event_records: 90
+    room_state_history: 90
+    person_vehicle_links: 90
+    face_plate_audit: 90
+    media_metadata: 90
+    foreign_plate_person_alerts: 90
+
+report:
+  report_type: retention_audit
+  report_record_type: retention_audit
+  report_record_name: retention_audit_plan
+  immutable_audit_required: true
+  cleanup_job_required: true
+  cleanup_mode: dry_run
+  cleanup_condition: age_days > retention_days
+  sort_keys:
+    - record_type
+    - age_days
+    - record_id
+
+backlog_link:
+  task: TASK-020
+  title: security_and_retention_jobs

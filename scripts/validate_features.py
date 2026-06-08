@@ -26,6 +26,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "pram_walking_vs_driving.feature",
     FEATURE_DIR / "pet_detection_classifier.feature",
     FEATURE_DIR / "driveway_zone_setup.feature",
+    FEATURE_DIR / "security_and_retention_jobs.feature",
     FEATURE_DIR / "person_tracker_integration.feature",
     FEATURE_DIR / "person_room_assignment.feature",
     FEATURE_DIR / "phase0_foundation.feature",
