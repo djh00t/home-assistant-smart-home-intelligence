@@ -27,6 +27,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Vehicle-person linking for deterministic driveway planning events
 - Non-home zone queueing for exterior-zone review artifacts
 - Multi-room heatmap report for occupancy review
+- Scene preference UI for room scene presets and override controls
 - Pram walking-vs-driving classification for transport-mode inference
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
@@ -64,6 +65,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/security_and_retention_jobs.yaml`
 - `config/contracts/foreign_identity_log_queue.yaml`
 - `config/contracts/multi_room_heatmap.yaml`
+- `config/contracts/scene_preference_ui.yaml`
 - `config/contracts/vehicle_person_linking.yaml`
 - `config/contracts/non_home_zone_queue.yaml`
 - `config/policies/retention.yaml`
@@ -84,6 +86,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/security-and-retention-jobs.md`
 - `docs/contracts/foreign-identity-log-queue.md`
 - `docs/contracts/multi-room-heatmap.md`
+- `docs/contracts/scene-preference-ui.md`
 - `docs/contracts/non-home-zone-queue.md`
 - `docs/contracts/face-enrollment-and-match.md`
 
@@ -143,9 +146,11 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `config/contracts/anpr_service_and_event.yaml` defines ANPR driveway vehicle canonicalization and validation.
 - `config/contracts/non_home_zone_queue.yaml` defines planning-only queue records for non-home zone sightings.
 - `config/contracts/multi_room_heatmap.yaml` defines planning-only heatmap reports for multi-room occupancy review.
+- `config/contracts/scene_preference_ui.yaml` defines planning-only dashboard models for room scene preferences and override controls.
 - `docs/contracts/anpr-service-and-event.md` documents ANPR-only vehicle planning and event creation behavior.
 - `docs/contracts/non-home-zone-queue.md` documents the non-home zone review queue behavior.
 - `docs/contracts/multi-room-heatmap.md` documents the multi-room heatmap report behavior.
+- `docs/contracts/scene-preference-ui.md` documents the scene preference dashboard model behavior.
 - `docs/contracts/vehicle-person-linking.md` documents deterministic vehicle-person linking for driveway planning events.
 - `config/contracts/pram_walking_vs_driving.yaml`
 - `docs/contracts/pram-walking-vs-driving.md` documents pram walking-vs-driving transport classification.

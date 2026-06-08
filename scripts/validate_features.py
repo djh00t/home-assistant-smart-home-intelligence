@@ -24,6 +24,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "vehicle_person_linking.feature",
     FEATURE_DIR / "foreign_identity_log_queue.feature",
     FEATURE_DIR / "multi_room_heatmap.feature",
+    FEATURE_DIR / "scene_preference_ui.feature",
     FEATURE_DIR / "non_home_zone_queue.feature",
     FEATURE_DIR / "pram_walking_vs_driving.feature",
     FEATURE_DIR / "pet_detection_classifier.feature",

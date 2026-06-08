@@ -1,0 +1,44 @@
+version: 0.1
+description: Deterministic planning-only scene preference dashboard model for phase 0 rooms.
+
+scope:
+  behavior: deterministic_scene_preference_ui
+  planning_only: true
+  backlog_boundary:
+    - no_actuation
+    - no_scene_writes
+    - no_dashboard_backend_mutation
+    - no_schedule_writes
+
+input:
+  required:
+    - room_capabilities
+  optional:
+    - focus_room_id
+    - ts
+
+normalization:
+  canonical_room_inventory: config/inventory/rooms.yaml
+  canonical_room_capabilities: config/inventory/room_capabilities.yaml
+  room_reference_required: true
+  include_only_lighting_rooms: true
+  exclude_external_zones: true
+  sort_by: room_id
+
+output:
+  include_fields:
+    - source
+    - dashboard_id
+    - ui_record_type
+    - record_name
+    - ui_status
+    - tabs
+    - room_cards
+    - summary
+    - retention
+    - ts
+  ui_record_type: scene_preferences_dashboard
+  record_name: scene_preference_ui
+  ui_status: ready
+  retention_days: 90
+  immutable: true
