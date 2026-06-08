@@ -1,5 +1,5 @@
 version: 0.1.0
-description: Adaptive white-light policy for phase 0 rooms.
+description: Adaptive white-light policy for phase 1 rooms.
 
 circadian_periods:
   morning:
