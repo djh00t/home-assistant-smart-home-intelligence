@@ -24,9 +24,9 @@ Completed:
 6. TASK-012 `desk_light_profiles`
 7. TASK-013 `climate_person_profiles`
 
-## Priority C - Car, Face, Plate, and Records
+## Delivered Phase 3 - Vehicle and Contextual Recognition
 
-Queued for Phase 3:
+Completed:
 
 1. TASK-014 `driveway_zone_setup`
 2. TASK-015 `anpr_service_and_event`
