@@ -21,6 +21,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - MmWave and Frigate room fusion for room-level occupancy
 - Pet detection classifier for canonical pet occupancy events
 - ANPR service and driveway vehicle event normalization
+- Foreign identity alert queue for review retention
 - Face enrollment metadata and face-match canonical events
 - Vehicle-person linking for deterministic driveway planning events
 - Pram walking-vs-driving classification for transport-mode inference
@@ -57,6 +58,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/presence_event.schema.json`
 - `config/contracts/driveway_zone_setup.yaml`
 - `config/contracts/anpr_service_and_event.yaml`
+- `config/contracts/foreign_identity_log_queue.yaml`
 - `config/contracts/vehicle_person_linking.yaml`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
@@ -73,6 +75,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/desk-light-profiles.md`
 - `docs/contracts/mmwave-fusion-rule.md`
 - `docs/contracts/anpr-service-and-event.md`
+- `docs/contracts/foreign-identity-log-queue.md`
 - `docs/contracts/face-enrollment-and-match.md`
 
 ## Room Inventory Notes

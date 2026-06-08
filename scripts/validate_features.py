@@ -22,6 +22,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "mmwave_fusion_rule.feature",
     FEATURE_DIR / "face_enrollment_and_match.feature",
     FEATURE_DIR / "vehicle_person_linking.feature",
+    FEATURE_DIR / "foreign_identity_log_queue.feature",
     FEATURE_DIR / "pram_walking_vs_driving.feature",
     FEATURE_DIR / "pet_detection_classifier.feature",
     FEATURE_DIR / "driveway_zone_setup.feature",
