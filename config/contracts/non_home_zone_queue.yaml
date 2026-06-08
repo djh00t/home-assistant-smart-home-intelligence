@@ -1,0 +1,49 @@
+version: 0.1
+description: Deterministic planning-only queueing for non-home zone sightings.
+
+scope:
+  behavior: deterministic_non_home_zone_queue
+  backlog_boundary:
+    - no_actuation
+    - no_indoor_room_automation
+    - no_vehicle_person_linking
+    - no_action_hooks
+
+input:
+  required:
+    - room_id
+    - camera
+  optional:
+    - source
+    - plate
+    - person_id
+    - identity_status
+    - face_match_confidence
+    - event_id
+    - ts
+    - direction
+    - confidence
+
+normalization:
+  room_reference_required: true
+  canonical_room_inventory: config/inventory/rooms.yaml
+  room_class: exterior_zone
+  use_driveway_as_default: true
+
+output:
+  include_fields:
+    - source
+    - queue_id
+    - queue_record_type
+    - record_name
+    - room
+    - camera
+    - evidence
+    - retention
+    - review_status
+    - ts
+  queue_record_type: non_home_zone_alert
+  record_name: non_home_zone_queue
+  review_status: queued
+  retention_days: 90
+  immutable: true
