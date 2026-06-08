@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic driveway vehicle-person linking for phase 0 planning.
+version: 0.3.0
+description: Deterministic driveway vehicle-person linking for phase 3 planning.
 
 scope:
   behavior: deterministic_linking
