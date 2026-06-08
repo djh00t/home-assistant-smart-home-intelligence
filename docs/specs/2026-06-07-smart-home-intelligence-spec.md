@@ -2,7 +2,7 @@
 title: Smart Home Presence, Lighting, and Personalization Spec
 owner: Home Assistant Program
 created: 2026-06-07
-version: 0.3.0
+version: 0.4.0
 ---
 
 # Smart Home Presence, Lighting, and Personalization
