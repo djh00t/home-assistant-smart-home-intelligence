@@ -20,6 +20,7 @@ check:
 	@python3 scripts/validate_climate_person_profiles.py check
 	@python3 scripts/validate_mmwave_fusion.py check
 	@python3 scripts/validate_pet_classifier.py check
+	@python3 scripts/validate_driveway_zone_setup.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
@@ -39,6 +40,7 @@ quality-gates: check
 	@python3 scripts/validate_climate_person_profiles.py quality-gates
 	@python3 scripts/validate_mmwave_fusion.py quality-gates
 	@python3 scripts/validate_pet_classifier.py quality-gates
+	@python3 scripts/validate_driveway_zone_setup.py quality-gates
 
 install:
 	@python3 -m venv .venv

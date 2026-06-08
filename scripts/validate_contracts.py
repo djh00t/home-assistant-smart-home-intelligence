@@ -26,6 +26,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/climate_person_profiles.yaml",
     ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/pet_detection_classifier.yaml",
+    ROOT / "config/contracts/driveway_zone_setup.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -41,6 +42,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/climate-person-profiles.md",
     ROOT / "docs/contracts/mmwave-fusion-rule.md",
     ROOT / "docs/contracts/pet-detection-classifier.md",
+    ROOT / "docs/contracts/driveway-zone-setup.md",
 ]
 REQUIRED_ROOMS = [
     "hall",

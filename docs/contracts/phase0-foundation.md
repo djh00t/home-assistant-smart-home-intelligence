@@ -50,6 +50,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/climate_person_profiles.yaml`
 - `config/contracts/mmwave_fusion.yaml`
 - `config/contracts/presence_event.schema.json`
+- `config/contracts/driveway_zone_setup.yaml`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
 - `docs/contracts/room-fsm-template.md`
@@ -117,6 +118,13 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/mmwave-fusion-rule.md` documents the first mmWave fusion backlog slice.
 - `config/contracts/pet_detection_classifier.yaml` defines the pet classifier normalization contract.
 - `docs/contracts/pet-detection-classifier.md` documents the first pet classifier backlog slice.
+- `docs/contracts/driveway-zone-setup.md` defines the canonical driveway zone setup and normalization contract.
+
+## Driveway Zone Notes
+
+- `driveway` is the canonical exterior zone identifier for vehicle-aware events in phase 0.
+- The driveway setup defines explicit source priority as `anpr`, `frigate`, then `face`.
+- Direction normalization is deterministic and canonicalized to `arrival`, `departure`, and `stationary`.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes

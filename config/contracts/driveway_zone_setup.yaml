@@ -1,0 +1,43 @@
+version: 0.1
+description: Canonical driveway zone setup for phase 0 vehicle-aware presence normalization.
+
+zone:
+  zone_id: driveway
+  room_id: driveway
+  scope: exterior
+  canonical_room_id: driveway
+  canonical_source_priority:
+    - anpr
+    - frigate
+    - face
+
+normalization:
+  source_priority:
+    anpr:
+      vehicle_route: preferred
+      canonical_for_vehicle_events: true
+    frigate:
+      continuity_route: preferred
+      canonical_when_face_missing: true
+    face:
+      fallback_route: optional
+
+direction:
+  canonical_inbound: arrival
+  canonical_outbound: departure
+  canonical_resident: stationary
+  raw_direction_map:
+    enter: arrival
+    entered: arrival
+    in: arrival
+    exit: departure
+    exited: departure
+    out: departure
+    stay: stationary
+    stationary: stationary
+
+guardrails:
+  canonical_room_reference_required: true
+  canonical_direction_required: false
+  behavior_scope: setup_planning_only
+  no_anpr_vehicle_linkage: true
