@@ -1,6 +1,6 @@
 # MmWave Fusion Rule
 
-This document defines the first mmWave fusion slice for phase 0.
+This document defines the first mmWave fusion slice for phase 2.
 
 ## Scope
 
