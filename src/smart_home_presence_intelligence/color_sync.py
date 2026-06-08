@@ -1,4 +1,4 @@
-"""Color scene routing helpers for phase 0."""
+"""Color scene routing helpers for phase 1."""
 
 from __future__ import annotations
 
