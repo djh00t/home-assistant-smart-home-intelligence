@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ROOT / "config/inventory/rooms.yaml",
+    ROOT / "config/inventory/room_capabilities.yaml",
     ROOT / "config/contracts/mqtt_topics.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
@@ -23,6 +24,18 @@ REQUIRED_ROOMS = [
     "office",
     "master_bedroom",
     "driveway",
+]
+REQUIRED_CAPABILITY_LINES = [
+    "room_id: hall",
+    "room_id: kitchen",
+    "room_id: living_room",
+    "room_id: office",
+    "room_id: master_bedroom",
+    "room_id: driveway",
+    "supports_lighting: true",
+    "supports_lighting: false",
+    "supports_color: true",
+    "supports_color: false",
 ]
 REQUIRED_TOPICS = [
     "ha/presence/event",
@@ -54,6 +67,16 @@ def validate_rooms() -> None:
         print("Missing required room ids:")
         for room in missing:
             print(room)
+        raise SystemExit(1)
+
+
+def validate_capabilities() -> None:
+    text = (ROOT / "config/inventory/room_capabilities.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_CAPABILITY_LINES if line not in text]
+    if missing:
+        print("Missing required room capability entries:")
+        for line in missing:
+            print(line)
         raise SystemExit(1)
 
 
@@ -119,6 +142,7 @@ def main() -> int:
 
     validate_files_exist()
     validate_rooms()
+    validate_capabilities()
     validate_topics()
     validate_schema()
     validate_retention()

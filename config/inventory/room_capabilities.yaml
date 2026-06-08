@@ -1,0 +1,114 @@
+version: 0.1
+site: smart_home_presence_intelligence
+description: Phase 0 room capability catalog for lighting, sensing, and policy routing.
+
+room_capabilities:
+  - room_id: hall
+    occupancy_sources:
+      - mmwave
+      - motion
+      - frigate
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - hall_ceiling
+      color_groups: []
+      default_day_scene: hall_day
+      default_night_scene: hall_night
+    policies:
+      manual_override_minutes: 30
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: kitchen
+    occupancy_sources:
+      - motion
+      - mmwave
+      - frigate
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - kitchen_ceiling
+      color_groups: []
+      default_day_scene: kitchen_day
+      default_night_scene: kitchen_night
+    policies:
+      manual_override_minutes: 30
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: living_room
+    occupancy_sources:
+      - mmwave
+      - motion
+      - frigate
+    lighting:
+      supports_lighting: true
+      supports_color: true
+      white_groups:
+        - living_room_white
+      color_groups:
+        - living_room_color
+      default_day_scene: living_room_day
+      default_night_scene: living_room_night
+    policies:
+      manual_override_minutes: 45
+      person_only_actions: true
+      pet_only_actions: true
+
+  - room_id: office
+    occupancy_sources:
+      - tracker
+      - mmwave
+      - motion
+      - face
+    lighting:
+      supports_lighting: true
+      supports_color: true
+      white_groups:
+        - office_ceiling
+      color_groups:
+        - office_desk
+      default_day_scene: office_day
+      default_night_scene: office_night
+    policies:
+      manual_override_minutes: 60
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: master_bedroom
+    occupancy_sources:
+      - mmwave
+      - motion
+      - face
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - master_bedroom_ceiling
+      color_groups: []
+      default_day_scene: master_bedroom_day
+      default_night_scene: master_bedroom_night
+    policies:
+      manual_override_minutes: 120
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: driveway
+    occupancy_sources:
+      - anpr
+      - frigate
+      - face
+    lighting:
+      supports_lighting: false
+      supports_color: false
+      white_groups: []
+      color_groups: []
+      default_day_scene: null
+      default_night_scene: null
+    policies:
+      manual_override_minutes: 0
+      person_only_actions: false
+      pet_only_actions: false

@@ -6,6 +6,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 ## Scope
 
 - Room and zone inventory for the first rollout slice
+- Room capability inventory for light and policy routing
 - Canonical MQTT topic contract for presence events
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
@@ -23,6 +24,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 ## Artifact Index
 
 - `config/inventory/rooms.yaml`
+- `config/inventory/room_capabilities.yaml`
 - `config/contracts/mqtt_topics.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
@@ -39,6 +41,17 @@ The initial inventory covers the spaces referenced by the current spec and featu
 - `driveway` as an exterior zone
 
 The `driveway` entry is retained in the room inventory file so that vehicle-linked presence events can share the same canonical `room` field without introducing a second location identifier model in phase 0.
+
+## Room Capability Notes
+
+The capability catalog provides the first pass at per-room routing rules for phase 0:
+
+- `room_id` stays aligned with the canonical room inventory.
+- `occupancy_sources` expresses the preferred sensor order for each room.
+- `lighting` captures whether a room supports white or color lighting and which groups should receive automations.
+- `policies` carries room-specific override and safety expectations for later automation slices.
+
+The catalog is intentionally simple and declarative so that later backlog items can reference one consistent source for room behavior.
 
 ## Topic Contract Notes
 
@@ -57,4 +70,3 @@ The `driveway` entry is retained in the room inventory file so that vehicle-link
 - Phase 0 retention is a minimum baseline, not a maximum.
 - Event records, room-state history, linkage logs, audit records, and media metadata all retain for 90 days in this phase.
 - Cleanup jobs and auditability are required for the phase 0 retention policy to be considered implemented.
-

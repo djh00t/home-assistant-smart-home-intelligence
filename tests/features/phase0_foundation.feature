@@ -12,6 +12,12 @@ Feature: Phase 0 foundation
     Then a config directory should exist for environment and runtime settings
     And the config artifacts should be easy to discover from the repository root
 
+  Scenario: Room capability inventory is defined for phase 0
+    Given phase 0 room capability rules are needed
+    When the capability catalog is inspected
+    Then a room capability inventory should exist for every phase 0 room and zone
+    And each capability entry should state lighting support and occupancy source order
+
   Scenario: Retention policy is defined for phase 0
     Given phase 0 retention rules are needed
     When the retention baseline is inspected
