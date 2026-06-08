@@ -22,6 +22,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/house_mode.yaml",
     ROOT / "config/contracts/person_tracker.yaml",
     ROOT / "config/contracts/mmwave_fusion.yaml",
+    ROOT / "config/contracts/pet_detection_classifier.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -34,6 +35,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/empty-house-with-pet-mode-switch.md",
     ROOT / "docs/contracts/person-tracker-integration.md",
     ROOT / "docs/contracts/mmwave-fusion-rule.md",
+    ROOT / "docs/contracts/pet-detection-classifier.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -119,6 +121,16 @@ REQUIRED_TRACKER_LINES = [
     "not_home",
     "arriving",
     "leaving",
+]
+REQUIRED_PET_LINES = [
+    "cat",
+    "dog",
+    "pet",
+    "canonical_entity_class: pet",
+    "preserve_room_context: true",
+    "preserve_confidence: true",
+    "pet_only_affects_pet_occupancy: true",
+    "person_targeted_automations: false",
 ]
 REQUIRED_MMWAVE_LINES = [
     "mmwave",
@@ -256,6 +268,16 @@ def validate_tracker_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_pet_contract() -> None:
+    text = (ROOT / "config/contracts/pet_detection_classifier.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_PET_LINES if line not in text]
+    if missing:
+        print("Missing pet classifier contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_mmwave_contract() -> None:
     text = (ROOT / "config/contracts/mmwave_fusion.yaml").read_text(encoding="utf-8")
     missing = [line for line in REQUIRED_MMWAVE_LINES if line not in text]
@@ -328,6 +350,7 @@ def main() -> int:
     validate_bed_contract()
     validate_house_contract()
     validate_tracker_contract()
+    validate_pet_contract()
     validate_mmwave_contract()
     validate_schema()
     validate_retention()

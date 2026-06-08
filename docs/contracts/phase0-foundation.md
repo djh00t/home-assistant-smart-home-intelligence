@@ -17,6 +17,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Empty-house pet mode switch for pet-only occupancy
 - Person tracker integration for mobile app, BLE, and geofencing signals
 - MmWave and Frigate room fusion for room-level occupancy
+- Pet detection classifier for canonical pet occupancy events
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -102,6 +103,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/person-tracker-integration.md` documents the first person tracker backlog slice.
 - `config/contracts/mmwave_fusion.yaml` defines the initial mmWave/frigate fusion contract.
 - `docs/contracts/mmwave-fusion-rule.md` documents the first mmWave fusion backlog slice.
+- `config/contracts/pet_detection_classifier.yaml` defines the pet classifier normalization contract.
+- `docs/contracts/pet-detection-classifier.md` documents the first pet classifier backlog slice.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes

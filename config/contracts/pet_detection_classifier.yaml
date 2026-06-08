@@ -1,0 +1,17 @@
+version: 0.1
+description: Pet detection classifier contract for phase 0.
+
+supported_labels:
+  - cat
+  - dog
+  - pet
+
+canonical_source: frigate
+
+canonical_entity_class: pet
+
+rules:
+  preserve_room_context: true
+  preserve_confidence: true
+  pet_only_affects_pet_occupancy: true
+  person_targeted_automations: false
