@@ -1,0 +1,16 @@
+version: 0.1
+description: MmWave and Frigate room-level fusion contract for phase 0.
+
+sources:
+  - mmwave
+  - frigate
+
+confidence_weights:
+  mmwave_only: 0.9
+  frigate_only: 0.65
+  mmwave_and_frigate: 0.95
+
+rules:
+  mmwave_takes_priority_for_room_presence: true
+  frigate_provides_continuity_only: true
+  fused_room_state_drives_room_automation: true

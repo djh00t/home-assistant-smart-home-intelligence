@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/bed_state_override.yaml",
     ROOT / "config/contracts/house_mode.yaml",
     ROOT / "config/contracts/person_tracker.yaml",
+    ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -32,6 +33,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/bed-state-override.md",
     ROOT / "docs/contracts/empty-house-with-pet-mode-switch.md",
     ROOT / "docs/contracts/person-tracker-integration.md",
+    ROOT / "docs/contracts/mmwave-fusion-rule.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -117,6 +119,13 @@ REQUIRED_TRACKER_LINES = [
     "not_home",
     "arriving",
     "leaving",
+]
+REQUIRED_MMWAVE_LINES = [
+    "mmwave",
+    "frigate",
+    "mmwave_takes_priority_for_room_presence: true",
+    "frigate_provides_continuity_only: true",
+    "fused_room_state_drives_room_automation: true",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -247,6 +256,16 @@ def validate_tracker_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_mmwave_contract() -> None:
+    text = (ROOT / "config/contracts/mmwave_fusion.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_MMWAVE_LINES if line not in text]
+    if missing:
+        print("Missing mmWave fusion contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -309,6 +328,7 @@ def main() -> int:
     validate_bed_contract()
     validate_house_contract()
     validate_tracker_contract()
+    validate_mmwave_contract()
     validate_schema()
     validate_retention()
 

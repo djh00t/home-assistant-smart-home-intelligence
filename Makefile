@@ -15,6 +15,7 @@ check:
 	@python3 scripts/validate_bed_state_override.py check
 	@python3 scripts/validate_house_mode.py check
 	@python3 scripts/validate_person_tracker.py check
+	@python3 scripts/validate_mmwave_fusion.py check
 
 quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
@@ -29,6 +30,7 @@ quality-gates: check
 	@python3 scripts/validate_bed_state_override.py quality-gates
 	@python3 scripts/validate_house_mode.py quality-gates
 	@python3 scripts/validate_person_tracker.py quality-gates
+	@python3 scripts/validate_mmwave_fusion.py quality-gates
 
 install:
 	@python3 -m venv .venv

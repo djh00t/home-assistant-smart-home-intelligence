@@ -16,6 +16,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "dwell_reset_automation.feature",
     FEATURE_DIR / "empty_house_with_pet_mode_switch.feature",
     FEATURE_DIR / "mqtt_presence_bridge.feature",
+    FEATURE_DIR / "mmwave_fusion_rule.feature",
     FEATURE_DIR / "person_tracker_integration.feature",
     FEATURE_DIR / "phase0_foundation.feature",
     FEATURE_DIR / "presence_fsm_room_template.feature",

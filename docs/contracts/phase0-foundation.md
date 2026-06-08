@@ -16,6 +16,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Bed-state override for sleep-safe wake suppression
 - Empty-house pet mode switch for pet-only occupancy
 - Person tracker integration for mobile app, BLE, and geofencing signals
+- MmWave and Frigate room fusion for room-level occupancy
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -42,6 +43,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/bed_state_override.yaml`
 - `config/contracts/house_mode.yaml`
 - `config/contracts/person_tracker.yaml`
+- `config/contracts/mmwave_fusion.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
@@ -52,6 +54,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/bed-state-override.md`
 - `docs/contracts/empty-house-with-pet-mode-switch.md`
 - `docs/contracts/person-tracker-integration.md`
+- `docs/contracts/mmwave-fusion-rule.md`
 
 ## Room Inventory Notes
 
@@ -97,6 +100,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/empty-house-with-pet-mode-switch.md` documents the final Priority A backlog slice.
 - `config/contracts/person_tracker.yaml` defines the first tracker integration contract.
 - `docs/contracts/person-tracker-integration.md` documents the first person tracker backlog slice.
+- `config/contracts/mmwave_fusion.yaml` defines the initial mmWave/frigate fusion contract.
+- `docs/contracts/mmwave-fusion-rule.md` documents the first mmWave fusion backlog slice.
 - Canonical publishers are bridge-style producers only; consumers should not republish raw upstream payloads back onto the canonical topic.
 
 ## Schema Notes
