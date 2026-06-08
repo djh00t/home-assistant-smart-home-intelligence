@@ -1,5 +1,5 @@
 version: 0.1.0
-description: Template for the phase 0 room presence state machine.
+description: Template for the phase 1 room presence state machine.
 
 states:
   - empty
