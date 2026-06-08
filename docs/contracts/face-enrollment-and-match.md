@@ -1,4 +1,4 @@
-# Face enrollment and match canonicalization
+# Face enrollment and match phase 3 canonicalization
 
 ## Scope
 
