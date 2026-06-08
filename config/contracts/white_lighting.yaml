@@ -1,0 +1,25 @@
+version: 0.1
+description: Adaptive white-light policy for phase 0 rooms.
+
+circadian_periods:
+  morning:
+    start_hour: 5
+    end_hour: 11
+    preferred_scene: day
+  day:
+    start_hour: 12
+    end_hour: 16
+    preferred_scene: day
+  evening:
+    start_hour: 17
+    end_hour: 20
+    preferred_scene: evening
+  night:
+    start_hour: 21
+    end_hour: 4
+    preferred_scene: night
+
+guardrails:
+  manual_override_suppresses_auto_on: true
+  bed_motion_only_never_full_brightens: true
+  preserve_hue_temperature_policy: true

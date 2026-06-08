@@ -10,6 +10,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 FEATURE_DIR = ROOT / "tests" / "features"
 REQUIRED_FEATURE_FILES = [
+    FEATURE_DIR / "adaptive_white_lighting.feature",
     FEATURE_DIR / "dwell_reset_automation.feature",
     FEATURE_DIR / "mqtt_presence_bridge.feature",
     FEATURE_DIR / "phase0_foundation.feature",
