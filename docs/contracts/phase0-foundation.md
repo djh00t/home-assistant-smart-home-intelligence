@@ -17,6 +17,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Empty-house pet mode switch for pet-only occupancy
 - Person tracker integration for mobile app, BLE, and geofencing signals
 - Person-room assignment for deterministic room identity plans
+- Climate-person profiles for deterministic climate preference routing
 - MmWave and Frigate room fusion for room-level occupancy
 - Pet detection classifier for canonical pet occupancy events
 - JSON schema for normalized presence events
@@ -46,6 +47,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/house_mode.yaml`
 - `config/contracts/person_tracker.yaml`
 - `config/contracts/person_room_assignment.yaml`
+- `config/contracts/climate_person_profiles.yaml`
 - `config/contracts/mmwave_fusion.yaml`
 - `config/contracts/presence_event.schema.json`
 - `config/policies/retention.yaml`
@@ -58,6 +60,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/empty-house-with-pet-mode-switch.md`
 - `docs/contracts/person-tracker-integration.md`
 - `docs/contracts/person-room-assignment.md`
+- `docs/contracts/climate-person-profiles.md`
 - `config/contracts/desk_light_profiles.yaml`
 - `docs/contracts/desk-light-profiles.md`
 - `docs/contracts/mmwave-fusion-rule.md`
@@ -108,6 +111,8 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/person-tracker-integration.md` documents the first person tracker backlog slice.
 - `config/contracts/person_room_assignment.yaml` defines deterministic room assignment from occupancy and identity signals.
 - `docs/contracts/person-room-assignment.md` documents the room assignment plan slice that feeds later personalization.
+- `config/contracts/climate_person_profiles.yaml` defines deterministic climate preference routing from assigned people.
+- `docs/contracts/climate-person-profiles.md` documents the first climate-person profile backlog slice.
 - `config/contracts/mmwave_fusion.yaml` defines the initial mmWave/frigate fusion contract.
 - `docs/contracts/mmwave-fusion-rule.md` documents the first mmWave fusion backlog slice.
 - `config/contracts/pet_detection_classifier.yaml` defines the pet classifier normalization contract.

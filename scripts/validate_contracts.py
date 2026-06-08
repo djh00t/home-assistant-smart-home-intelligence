@@ -23,6 +23,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/person_tracker.yaml",
     ROOT / "config/contracts/person_room_assignment.yaml",
     ROOT / "config/contracts/desk_light_profiles.yaml",
+    ROOT / "config/contracts/climate_person_profiles.yaml",
     ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/pet_detection_classifier.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
@@ -37,6 +38,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/empty-house-with-pet-mode-switch.md",
     ROOT / "docs/contracts/person-tracker-integration.md",
     ROOT / "docs/contracts/person-room-assignment.md",
+    ROOT / "docs/contracts/climate-person-profiles.md",
     ROOT / "docs/contracts/mmwave-fusion-rule.md",
     ROOT / "docs/contracts/pet-detection-classifier.md",
 ]
@@ -150,6 +152,21 @@ REQUIRED_DESK_LIGHT_LINES = [
     "preserve_assigned_person: true",
     "preserve_assignment_source: true",
     "preserve_confidence: true",
+]
+REQUIRED_CLIMATE_LINES = [
+    "room_id",
+    "assigned_person",
+    "assignment_source",
+    "confidence",
+    "climate_profiles",
+    "assignment_required_for_resolution: true",
+    "mapping_required_for_apply: true",
+    "should_apply_marks_planning_only: true",
+    "preserve_room_context: true",
+    "preserve_assigned_person: true",
+    "preserve_assignment_source: true",
+    "preserve_confidence: true",
+    "preserve_climate_profiles: true",
 ]
 REQUIRED_PET_LINES = [
     "cat",
@@ -317,6 +334,16 @@ def validate_desk_light_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_climate_contract() -> None:
+    text = (ROOT / "config/contracts/climate_person_profiles.yaml").read_text(encoding="utf-8")
+    missing = [line for line in REQUIRED_CLIMATE_LINES if line not in text]
+    if missing:
+        print("Missing climate person profile contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_pet_contract() -> None:
     text = (ROOT / "config/contracts/pet_detection_classifier.yaml").read_text(encoding="utf-8")
     missing = [line for line in REQUIRED_PET_LINES if line not in text]
@@ -401,6 +428,7 @@ def main() -> int:
     validate_tracker_contract()
     validate_person_room_contract()
     validate_desk_light_contract()
+    validate_climate_contract()
     validate_pet_contract()
     validate_mmwave_contract()
     validate_schema()
