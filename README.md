@@ -1,12 +1,17 @@
 # Smart Home Intelligence Repo (Private Project)
 
-This directory contains the phase 0 planning and foundation bundle for your Home Assistant automation design:
+This directory contains the phase 1 core occupancy and lighting bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [Roadmap](docs/roadmap/roadmap.md)
 - [Implementation plan](docs/plans/implementation-plan.md)
 - [Task backlog](docs/tasks/task_backlog.md)
-- [BDD feature scenarios](tests/features/smart_home_presence.feature)
+- [Phase 1 occupancy and lighting feature scenarios](tests/features/smart_home_presence.feature)
+- [Room FSM feature scenarios](tests/features/presence_fsm_room_template.feature)
+- [Dwell reset feature scenarios](tests/features/dwell_reset_automation.feature)
+- [Adaptive white-lighting feature scenarios](tests/features/adaptive_white_lighting.feature)
+- [Color sync feature scenarios](tests/features/color_sync_for_color_lights.feature)
+- [Bed-state override feature scenarios](tests/features/bed_state_override.feature)
 - [Phase 0 foundation feature scenarios](tests/features/phase0_foundation.feature)
 
 ## How this repo is organized
@@ -20,8 +25,9 @@ This directory contains the phase 0 planning and foundation bundle for your Home
 ## Current status
 
 - Created as an isolated private project folder under your workspace.
-- Phase 0 foundation artifacts are now checked in locally.
-- All remaining slices are ready for implementation work.
+- Phase 1 core occupancy and lighting artifacts are now checked in locally.
+- Phase 0 foundation artifacts remain available for the broader project baseline.
+- Later-phase slices are documented and queued for subsequent work.
 
 ## Publish as private GitHub repository
 
