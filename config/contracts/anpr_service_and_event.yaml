@@ -1,0 +1,48 @@
+version: 0.1
+description: ANPR driveway vehicle event normalization for phase 0 planning.
+
+scope:
+  behavior: canonicalization_only
+  backlog_boundary:
+    - no_face_linkage
+    - no_foreign_plate_queue
+    - no_vehicle_person_linking
+
+inputs:
+  required:
+    - room_id
+    - plate
+    - plate_confidence
+    - camera
+  optional:
+    - direction
+    - vehicle_type
+
+normalization:
+  canonical_room_id: driveway
+  source: anpr
+  entity_class: vehicle
+  room_reference_required: true
+  plate_transform: uppercase_strip_separators
+  plate_confidence_range: [0.0, 1.0]
+  vehicle_type_fallback: unknown
+
+direction:
+  fallback: stationary
+  mapping_source: driveway_zone_setup
+
+output:
+  include_fields:
+    - event_id
+    - source
+    - type
+    - room
+    - entity_class
+    - confidence
+    - camera
+    - vehicle
+    - ts
+  canonical_event:
+    source: anpr
+    entity_class: vehicle
+    room: driveway

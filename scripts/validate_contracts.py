@@ -27,6 +27,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/mmwave_fusion.yaml",
     ROOT / "config/contracts/pet_detection_classifier.yaml",
     ROOT / "config/contracts/driveway_zone_setup.yaml",
+    ROOT / "config/contracts/anpr_service_and_event.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -43,6 +44,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/mmwave-fusion-rule.md",
     ROOT / "docs/contracts/pet-detection-classifier.md",
     ROOT / "docs/contracts/driveway-zone-setup.md",
+    ROOT / "docs/contracts/anpr-service-and-event.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -186,6 +188,20 @@ REQUIRED_MMWAVE_LINES = [
     "mmwave_takes_priority_for_room_presence: true",
     "frigate_provides_continuity_only: true",
     "fused_room_state_drives_room_automation: true",
+]
+REQUIRED_ANPR_LINES = [
+    "behavior: canonicalization_only",
+    "no_face_linkage",
+    "no_foreign_plate_queue",
+    "no_vehicle_person_linking",
+    "canonical_room_id: driveway",
+    "source: anpr",
+    "entity_class: vehicle",
+    "room_reference_required: true",
+    "plate_transform: uppercase_strip_separators",
+    "plate_confidence_range: [0.0, 1.0]",
+    "vehicle_type_fallback: unknown",
+    "mapping_source: driveway_zone_setup",
 ]
 REQUIRED_RETENTION_LINES = [
     "event_records: 90",
@@ -366,6 +382,18 @@ def validate_mmwave_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_anpr_contract() -> None:
+    text = (ROOT / "config/contracts/anpr_service_and_event.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [line for line in REQUIRED_ANPR_LINES if line not in text]
+    if missing:
+        print("Missing ANPR service contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_schema() -> None:
     schema_path = ROOT / "config/contracts/presence_event.schema.json"
     schema = loads(schema_path.read_text(encoding="utf-8"))
@@ -433,6 +461,7 @@ def main() -> int:
     validate_climate_contract()
     validate_pet_contract()
     validate_mmwave_contract()
+    validate_anpr_contract()
     validate_schema()
     validate_retention()
 

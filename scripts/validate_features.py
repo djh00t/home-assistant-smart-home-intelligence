@@ -12,6 +12,7 @@ FEATURE_DIR = ROOT / "tests" / "features"
 REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "adaptive_white_lighting.feature",
     FEATURE_DIR / "bed_state_override.feature",
+    FEATURE_DIR / "anpr_service_and_event.feature",
     FEATURE_DIR / "color_sync_for_color_lights.feature",
     FEATURE_DIR / "climate_person_profiles.feature",
     FEATURE_DIR / "dwell_reset_automation.feature",
