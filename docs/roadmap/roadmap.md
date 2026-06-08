@@ -25,14 +25,17 @@ Delivered:
 - White-light circadian orchestration helpers, contract, and acceptance coverage
 - Color-sync routing helpers, contract, and acceptance coverage
 
-## Phase 2 - People + Pets (2-4 weeks)
+## Phase 2 - People + Pets (complete)
 
-1. Person tracker ingest (phone/BLE/zone)
-2. mmWave and Frigate fusion for room-level occupancy
-3. Pet actor model and room pet occupancy
-4. Personal desk-light and climate profile actions
-5. Safety rules: person actions require person signal, not pet-only signal
-6. Household-hold lights with pet occupancy mode switch
+Delivered:
+
+- Person tracker ingest helpers, contract, and acceptance coverage
+- mmWave and Frigate fusion helpers, contract, and acceptance coverage
+- Pet detection classifier helpers, contract, and acceptance coverage
+- Person room assignment helpers, contract, and acceptance coverage
+- Desk-light profile helpers, contract, and acceptance coverage
+- Climate-person profile helpers, contract, and acceptance coverage
+- Empty-house pet-mode switch helpers, contract, and acceptance coverage
 
 ## Phase 3 - Vehicle and contextual recognition (2-4 weeks)
 
