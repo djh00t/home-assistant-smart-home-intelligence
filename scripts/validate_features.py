@@ -21,6 +21,7 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "mqtt_presence_bridge.feature",
     FEATURE_DIR / "mmwave_fusion_rule.feature",
     FEATURE_DIR / "face_enrollment_and_match.feature",
+    FEATURE_DIR / "vehicle_person_linking.feature",
     FEATURE_DIR / "pet_detection_classifier.feature",
     FEATURE_DIR / "driveway_zone_setup.feature",
     FEATURE_DIR / "person_tracker_integration.feature",

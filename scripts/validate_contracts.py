@@ -29,6 +29,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/driveway_zone_setup.yaml",
     ROOT / "config/contracts/anpr_service_and_event.yaml",
     ROOT / "config/contracts/face_enrollment_and_match.yaml",
+    ROOT / "config/contracts/vehicle_person_linking.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -47,6 +48,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/driveway-zone-setup.md",
     ROOT / "docs/contracts/anpr-service-and-event.md",
     ROOT / "docs/contracts/face-enrollment-and-match.md",
+    ROOT / "docs/contracts/vehicle-person-linking.md",
 ]
 REQUIRED_ROOMS = [
     "hall",
@@ -204,6 +206,15 @@ REQUIRED_ANPR_LINES = [
     "plate_confidence_range: [0.0, 1.0]",
     "vehicle_type_fallback: unknown",
     "mapping_source: driveway_zone_setup",
+]
+REQUIRED_VEHICLE_PERSON_LINKING_LINES = [
+    "behavior: deterministic_linking",
+    "canonical_room_id: driveway",
+    "room_reference_required: true",
+    "plate_confidence_threshold: 0.8",
+    "face_match_confidence_threshold: 0.75",
+    "arrival: vehicle_arrival",
+    "departure: vehicle_departure",
 ]
 REQUIRED_FACE_LINES = [
     "canonicalization_only",
@@ -410,6 +421,20 @@ def validate_anpr_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_vehicle_person_linking_contract() -> None:
+    text = (ROOT / "config/contracts/vehicle_person_linking.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [
+        line for line in REQUIRED_VEHICLE_PERSON_LINKING_LINES if line not in text
+    ]
+    if missing:
+        print("Missing vehicle-person linking contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_face_contract() -> None:
     text = (ROOT / "config/contracts/face_enrollment_and_match.yaml").read_text(
         encoding="utf-8"
@@ -491,6 +516,7 @@ def main() -> int:
     validate_mmwave_contract()
     validate_anpr_contract()
     validate_face_contract()
+    validate_vehicle_person_linking_contract()
     validate_schema()
     validate_retention()
 

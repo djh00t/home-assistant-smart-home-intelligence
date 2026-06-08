@@ -22,6 +22,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - Pet detection classifier for canonical pet occupancy events
 - ANPR service and driveway vehicle event normalization
 - Face enrollment metadata and face-match canonical events
+- Vehicle-person linking for deterministic driveway planning events
 - JSON schema for normalized presence events
 - Minimum retention policy for phase 0 records and audit data
 
@@ -55,6 +56,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/presence_event.schema.json`
 - `config/contracts/driveway_zone_setup.yaml`
 - `config/contracts/anpr_service_and_event.yaml`
+- `config/contracts/vehicle_person_linking.yaml`
 - `config/policies/retention.yaml`
 - `docs/contracts/mqtt-presence-bridge.md`
 - `docs/contracts/room-fsm-template.md`
@@ -127,6 +129,7 @@ The catalog is intentionally simple and declarative so that later backlog items 
 - `docs/contracts/driveway-zone-setup.md` defines the canonical driveway zone setup and normalization contract.
 - `config/contracts/anpr_service_and_event.yaml` defines ANPR driveway vehicle canonicalization and validation.
 - `docs/contracts/anpr-service-and-event.md` documents ANPR-only vehicle planning and event creation behavior.
+- `docs/contracts/vehicle-person-linking.md` documents deterministic vehicle-person linking for driveway planning events.
 
 ## Driveway Zone Notes
 
