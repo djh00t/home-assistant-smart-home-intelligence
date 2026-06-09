@@ -14,6 +14,7 @@ REQUIRED_FILES = [
     ROOT / "hacs.json",
     ROOT / "brand" / "icon.png",
     INTEGRATION_ROOT / "__init__.py",
+    INTEGRATION_ROOT / "binary_sensor.py",
     INTEGRATION_ROOT / "bridge.py",
     INTEGRATION_ROOT / "const.py",
     INTEGRATION_ROOT / "config_flow.py",
@@ -21,10 +22,12 @@ REQUIRED_FILES = [
     INTEGRATION_ROOT / "manifest.json",
     INTEGRATION_ROOT / "repair.py",
     INTEGRATION_ROOT / "runtime.py",
+    INTEGRATION_ROOT / "sensor.py",
     INTEGRATION_ROOT / "services.yaml",
     INTEGRATION_ROOT / "strings.json",
     INTEGRATION_ROOT / "translations" / "en.json",
     ROOT / "tests" / "features" / "hacs_package_management.feature",
+    ROOT / "tests" / "features" / "hacs_integration_entities.feature",
 ]
 
 
@@ -88,6 +91,18 @@ def validate_feature_file() -> None:
             raise SystemExit(f"{feature.relative_to(ROOT)} missing scenario text: {needle}")
 
 
+def validate_entity_feature_file() -> None:
+    feature = ROOT / "tests" / "features" / "hacs_integration_entities.feature"
+    text = feature.read_text(encoding="utf-8")
+    for needle in (
+        "Room activity sensors reflect routed events",
+        "Manual override is surfaced as a binary sensor",
+        "Runtime state is serializable for restore",
+    ):
+        if needle not in text:
+            raise SystemExit(f"{feature.relative_to(ROOT)} missing scenario text: {needle}")
+
+
 def main() -> int:
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", "quality-gates"}:
         print("Usage: validate_hacs_package.py [check|quality-gates]")
@@ -98,6 +113,7 @@ def main() -> int:
     validate_hacs_json()
     validate_manifest()
     validate_feature_file()
+    validate_entity_feature_file()
 
     print(
         "HACS package check passed"
