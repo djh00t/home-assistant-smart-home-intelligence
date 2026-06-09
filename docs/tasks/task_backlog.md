@@ -53,6 +53,7 @@ Completed:
 2. TASK-026 `hacs_integration_scaffold`
 3. TASK-027 `hacs_config_flow_and_services`
 4. TASK-028 `hacs_release_and_validation`
+5. TASK-029 `status_and_configuration_dashboard`
 
 Planned next:
 

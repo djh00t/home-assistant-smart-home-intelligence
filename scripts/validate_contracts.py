@@ -34,6 +34,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/multi_room_heatmap.yaml",
     ROOT / "config/contracts/scene_preference_ui.yaml",
     ROOT / "config/contracts/anomaly_and_false_action_dashboard.yaml",
+    ROOT / "config/contracts/status_and_configuration_dashboard.yaml",
     ROOT / "config/contracts/non_home_zone_queue.yaml",
     ROOT / "config/contracts/pram_walking_vs_driving.yaml",
     ROOT / "config/contracts/security_and_retention_jobs.yaml",
@@ -60,6 +61,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/multi-room-heatmap.md",
     ROOT / "docs/contracts/scene-preference-ui.md",
     ROOT / "docs/contracts/anomaly-and-false-action-dashboard.md",
+    ROOT / "docs/contracts/status-and-configuration-dashboard.md",
     ROOT / "docs/contracts/non-home-zone-queue.md",
     ROOT / "docs/contracts/vehicle-person-linking.md",
     ROOT / "docs/contracts/pram-walking-vs-driving.md",
@@ -295,6 +297,23 @@ REQUIRED_ANOMALY_DASHBOARD_LINES = [
     "room_reference_required: true",
     "dashboard_record_type: anomaly_false_action_dashboard",
     "record_name: anomaly_and_false_action_dashboard",
+    "dashboard_status: ready",
+    "retention_days: 90",
+    "immutable: true",
+]
+REQUIRED_STATUS_CONFIGURATION_DASHBOARD_LINES = [
+    "behavior: deterministic_status_and_configuration_dashboard",
+    "dashboard_artifact: lovelace_yaml",
+    "read_only_configuration: true",
+    "no_persistent_config_mutation",
+    "no_dashboard_backend_mutation",
+    "no_schedule_writes",
+    "canonical_room_inventory: config/inventory/rooms.yaml",
+    "canonical_room_capabilities: config/inventory/room_capabilities.yaml",
+    "canonical_topic: ha/presence/event",
+    "dead_letter_topic: ha/presence/event/dlq",
+    "dashboard_record_type: status_configuration_dashboard",
+    "record_name: status_and_configuration_dashboard",
     "dashboard_status: ready",
     "retention_days: 90",
     "immutable: true",
@@ -616,6 +635,20 @@ def validate_anomaly_and_false_action_dashboard_contract() -> None:
         raise SystemExit(1)
 
 
+def validate_status_and_configuration_dashboard_contract() -> None:
+    text = (
+        ROOT / "config/contracts/status_and_configuration_dashboard.yaml"
+    ).read_text(encoding="utf-8")
+    missing = [
+        line for line in REQUIRED_STATUS_CONFIGURATION_DASHBOARD_LINES if line not in text
+    ]
+    if missing:
+        print("Missing status and configuration dashboard contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def validate_non_home_zone_queue_contract() -> None:
     text = (ROOT / "config/contracts/non_home_zone_queue.yaml").read_text(
         encoding="utf-8"
@@ -752,6 +785,7 @@ def main() -> int:
     validate_multi_room_heatmap_contract()
     validate_scene_preference_ui_contract()
     validate_anomaly_and_false_action_dashboard_contract()
+    validate_status_and_configuration_dashboard_contract()
     validate_non_home_zone_queue_contract()
     validate_pram_contract()
     validate_security_and_retention_contract()
