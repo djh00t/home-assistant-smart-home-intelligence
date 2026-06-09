@@ -57,25 +57,34 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             entry.options.get(CONF_ENABLE_DIAGNOSTICS, DEFAULT_ENABLE_DIAGNOSTICS)
         ),
     )
-    runtime = IntegrationRuntime(settings=settings)
+    runtime = IntegrationRuntime.from_restore_payload(
+        settings=settings,
+        payload=entry.data.get("runtime_state"),
+    )
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = runtime
+    if hasattr(entry, "runtime_data"):
+        entry.runtime_data = runtime
 
     async def _publish_test_event(call: ServiceCall) -> None:
         event = runtime.build_test_event(dict(call.data))
         routed = route_presence_event(event)
-        runtime.last_routed_event = routed
+        runtime.apply_routed_event(routed)
+        _persist_runtime_state(hass, entry, runtime)
 
     async def _reload_contracts(call: ServiceCall) -> None:
         runtime.reload_contracts()
+        _persist_runtime_state(hass, entry, runtime)
 
     async def _set_override(call: ServiceCall) -> None:
         runtime.set_override(
             enabled=bool(call.data.get("enabled", False)),
             reason=str(call.data.get("reason", "")).strip(),
         )
+        _persist_runtime_state(hass, entry, runtime)
 
     async def _run_retention_audit(call: ServiceCall) -> None:
         runtime.last_retention_audit = runtime.run_retention_audit()
+        _persist_runtime_state(hass, entry, runtime)
 
     _register_service(hass, SERVICE_PUBLISH_TEST_EVENT, _publish_test_event)
     _register_service(hass, SERVICE_RELOAD_CONTRACTS, _reload_contracts)
@@ -89,9 +98,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
 
+    runtime = hass.data.get(DOMAIN, {}).get(entry.entry_id)
+    if isinstance(runtime, IntegrationRuntime):
+        _persist_runtime_state(hass, entry, runtime)
+    await hass.config_entries.async_unload_platforms(entry, list(PLATFORMS))
     hass.data.get(DOMAIN, {}).pop(entry.entry_id, None)
     if not hass.data.get(DOMAIN):
         hass.data.pop(DOMAIN, None)
+    if hasattr(entry, "runtime_data"):
+        entry.runtime_data = None
     return True
 
 
@@ -114,3 +129,15 @@ def runtime_snapshot(hass: HomeAssistant, entry_id: str) -> dict[str, Any]:
     snapshot["canonical_topic"] = CANONICAL_TOPIC
     snapshot["dead_letter_topic"] = DEAD_LETTER_TOPIC
     return snapshot
+
+
+def _persist_runtime_state(hass: HomeAssistant, entry: ConfigEntry, runtime: IntegrationRuntime) -> None:
+    """Persist the current runtime state back onto the config entry."""
+
+    if not hasattr(hass.config_entries, "async_update_entry"):
+        return
+
+    hass.config_entries.async_update_entry(
+        entry,
+        data={**dict(getattr(entry, "data", {})), "runtime_state": runtime.serialize()},
+    )
