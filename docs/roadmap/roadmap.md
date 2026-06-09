@@ -62,6 +62,7 @@ Delivered:
 - Multi-room heatmap helpers, contract, and acceptance coverage
 - Scene preference UI helpers, contract, and acceptance coverage
 - Anomaly and false-action dashboard helpers, contract, and acceptance coverage
+- Status and configuration dashboard helpers, importable Lovelace dashboard, Jetson Xavier setup guide, and validation coverage
 
 ## Phase 5 - HACS integration foundation
 

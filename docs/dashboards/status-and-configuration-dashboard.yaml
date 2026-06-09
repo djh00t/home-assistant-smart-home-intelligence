@@ -1,0 +1,87 @@
+title: Smart Home Presence Intelligence
+views:
+  - title: Status & Config
+    path: status-config
+    icon: mdi:shield-home
+    cards:
+      - type: markdown
+        title: Overview
+        content: |
+          # Smart Home Presence Intelligence
+
+          This dashboard is read-only for persistent configuration. Use the Home Assistant options flow for configuration changes and the cards below for operational actions.
+
+          Canonical MQTT topic: `ha/presence/event`
+          Dead-letter topic: `ha/presence/event/dlq`
+      - type: entities
+        title: Integration Status
+        entities:
+          - entity: sensor.bridge_health
+          - entity: sensor.bridge_last_topic
+          - entity: sensor.mqtt_topic_prefix
+          - entity: sensor.retention_days
+          - entity: sensor.retention_audit_status
+          - entity: binary_sensor.manual_override_active
+          - entity: binary_sensor.diagnostics_enabled
+          - entity: sensor.house_mode
+      - type: entities
+        title: Configuration Snapshot
+        entities:
+          - entity: sensor.room_inventory_path
+          - entity: sensor.room_capabilities_path
+          - entity: sensor.retention_days
+          - entity: binary_sensor.diagnostics_enabled
+      - type: grid
+        title: Service Actions
+        columns: 2
+        square: false
+        cards:
+          - type: button
+            name: Publish test event
+            icon: mdi:send
+            tap_action:
+              action: call-service
+              service: smart_home_presence_intelligence.publish_test_event
+              data:
+                source: tracker
+                room: lounge_room
+                type: state_change
+          - type: button
+            name: Reload contracts
+            icon: mdi:reload
+            tap_action:
+              action: call-service
+              service: smart_home_presence_intelligence.reload_contracts
+          - type: button
+            name: Set override
+            icon: mdi:hand-back-right
+            tap_action:
+              action: call-service
+              service: smart_home_presence_intelligence.set_override
+              data:
+                enabled: true
+                reason: family activity
+          - type: button
+            name: Run retention audit
+            icon: mdi:shield-check
+            tap_action:
+              action: call-service
+              service: smart_home_presence_intelligence.run_retention_audit
+      - type: entities
+        title: Room Activity
+        entities:
+          - entity: sensor.bedroom_master_state
+          - entity: sensor.bedroom_max_state
+          - entity: sensor.bedroom_spare_state
+          - entity: sensor.lounge_room_state
+          - entity: sensor.kitchen_state
+          - entity: sensor.garage_state
+          - entity: sensor.driveway_state
+          - entity: sensor.backyard_shed_state
+          - entity: sensor.backyard_deck_state
+      - type: markdown
+        title: Jetson Xavier
+        content: |
+          Connect the Jetson Xavier to the same MQTT broker used by Home Assistant, run Frigate on the Jetson, and publish canonical presence events to `ha/presence/event`.
+
+          If the bridge stops routing events, check the canonical topic, the dead-letter topic, and the integration's bridge health sensor.

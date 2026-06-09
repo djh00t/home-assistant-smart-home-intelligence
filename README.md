@@ -6,6 +6,13 @@ HACS-first Home Assistant integration for presence routing, room state, lighting
 
 This repository packages the Home Assistant side of a smart-home presence system. It consumes canonical MQTT presence events, normalizes room and policy state, exposes Home Assistant entities and services, and keeps external inference systems out of the HA runtime.
 
+## Status And Configuration Dashboard
+
+The repository includes an importable Lovelace dashboard for runtime status, configuration visibility, and service actions.
+
+- Dashboard YAML: [docs/dashboards/status-and-configuration-dashboard.yaml](docs/dashboards/status-and-configuration-dashboard.yaml)
+- Jetson Xavier setup guide: [docs/guides/jetson-xavier-frigate-mqtt.md](docs/guides/jetson-xavier-frigate-mqtt.md)
+
 ## What It Does
 
 - Consumes canonical presence events from MQTT.
@@ -136,6 +143,18 @@ The main runtime entity groups are:
 | Retention sensors | `sensor.retention_days`, `sensor.retention_audit_status` |
 | Override and diagnostics binary sensors | `binary_sensor.manual_override_active`, `binary_sensor.diagnostics_enabled` |
 | House and room policy sensors | `sensor.house_mode`, `sensor.room_delta_white_scene`, `sensor.room_gamma_color_sync` |
+
+## Dashboard
+
+Use the importable dashboard to keep operational status and configuration aligned with the integration options flow.
+
+- It shows bridge health, MQTT topic routing, retention state, diagnostics, and room activity.
+- It keeps persistent configuration in Home Assistant's options flow instead of duplicating it in the dashboard.
+- It exposes buttons for `publish_test_event`, `reload_contracts`, `set_override`, and `run_retention_audit`.
+
+## Jetson Xavier
+
+If you run Frigate on a Jetson Xavier, follow the setup guide linked above to keep the MQTT bridge aligned with the canonical `ha/presence/event` and `ha/presence/event/dlq` topics.
 
 ## Architecture
 

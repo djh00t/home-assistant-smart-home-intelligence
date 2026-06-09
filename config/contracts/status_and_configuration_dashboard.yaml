@@ -1,0 +1,47 @@
+version: 0.1.0
+description: Deterministic operational status and configuration dashboard model for Home Assistant.
+
+scope:
+  behavior: deterministic_status_and_configuration_dashboard
+  dashboard_artifact: lovelace_yaml
+  read_only_configuration: true
+  backlog_boundary:
+    - no_persistent_config_mutation
+    - no_dashboard_backend_mutation
+    - no_schedule_writes
+
+input:
+  required:
+    - runtime_snapshot
+  optional:
+    - ts
+
+normalization:
+  canonical_room_inventory: config/inventory/rooms.yaml
+  canonical_room_capabilities: config/inventory/room_capabilities.yaml
+  include_all_canonical_rooms: true
+  sort_by: room_id
+  canonical_topic: ha/presence/event
+  dead_letter_topic: ha/presence/event/dlq
+
+output:
+  include_fields:
+    - source
+    - dashboard_id
+    - dashboard_record_type
+    - record_name
+    - dashboard_status
+    - tabs
+    - sections
+    - summary
+    - config_snapshot
+    - action_cards
+    - jetson_cards
+    - room_cards
+    - retention
+    - ts
+  dashboard_record_type: status_configuration_dashboard
+  record_name: status_and_configuration_dashboard
+  dashboard_status: ready
+  retention_days: 90
+  immutable: true
