@@ -1,0 +1,17 @@
+{
+  "domain": "smart_home_presence_intelligence",
+  "name": "Smart Home Presence Intelligence",
+  "codeowners": [
+    "@djh00t"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "mqtt"
+  ],
+  "documentation": "https://github.com/djh00t/home-assistant-smart-home-intelligence",
+  "integration_type": "hub",
+  "issue_tracker": "https://github.com/djh00t/home-assistant-smart-home-intelligence/issues",
+  "iot_class": "local_push",
+  "quality_scale": "bronze",
+  "version": "0.6.1"
+}

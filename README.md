@@ -1,8 +1,11 @@
 # Smart Home Intelligence Repo (Private Project)
 
-This directory contains the phase 1 core occupancy and lighting bundle, the phase 2 people and pets bundle, the phase 3 vehicle and contextual recognition bundle, and the phase 4 reliability and expansion bundle for your Home Assistant automation design, plus the earlier phase 0 foundation artifacts:
+This directory now contains the HACS-first Home Assistant integration scaffold for the smart home presence intelligence bundle, plus the earlier phase 0 foundation artifacts and the phase 1 through phase 4 feature bundles:
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
+- [HACS package management contract](docs/contracts/hacs-package-management.md)
+- [HACS package management feature scenarios](tests/features/hacs_package_management.feature)
+- [HACS release and validation feature scenarios](tests/features/hacs_release_and_validation.feature)
 - [Roadmap](docs/roadmap/roadmap.md)
 - [Implementation plan](docs/plans/implementation-plan.md)
 - [Task backlog](docs/tasks/task_backlog.md)
@@ -43,11 +46,22 @@ This directory contains the phase 1 core occupancy and lighting bundle, the phas
 ## Current status
 
 - Created as an isolated private project folder under your workspace.
+- HACS integration packaging and release scaffolding are now checked in locally.
+- The HACS integration now exposes room activity, bridge health, override, and retention-status entity scaffolding.
+- The HACS integration now also exposes room-policy sensors for house mode and per-room lighting behavior.
+- The HACS release validation now checks version, changelog, manifest, and release tag alignment.
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
 - Phase 2 people and pet personalization artifacts are now checked in locally.
 - Phase 3 vehicle and contextual recognition artifacts are now checked in locally.
 - Phase 4 reliability and expansion artifacts are now checked in locally.
 - Phase 0 foundation artifacts remain available for the broader project baseline.
+
+## HACS install
+
+1. Add this repository as a custom HACS integration.
+2. Install `Smart Home Presence Intelligence` from the HACS integration list.
+3. Reload Home Assistant and configure the MQTT topic prefix, room inventory path, and retention settings in the integration options.
+4. Keep Frigate, Jetson, ANPR, and any face/plate inference services external; this repository owns the Home Assistant-facing integration and contracts.
 
 ## Publish as private GitHub repository
 

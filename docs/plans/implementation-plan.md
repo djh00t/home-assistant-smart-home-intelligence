@@ -91,6 +91,24 @@ Delivered artifacts:
 - Scene preference UI helpers and contract
 - Anomaly and false-action dashboard helpers and contract
 
+## Work stream 6: HACS packaging and integration foundation
+
+Status: complete for the HACS-first packaging and release-guard slice.
+
+Planned artifacts:
+
+- `hacs.json` repository metadata
+- `custom_components/smart_home_presence_intelligence/manifest.json`
+- room activity, override, and retention status entities
+- room-policy sensors for house mode, white scene, and color sync
+- config flow and options flow
+- service, diagnostics, and repair scaffolding
+- restoreable config-entry runtime payloads
+- policy snapshots derived from room capabilities and runtime occupancy
+- release metadata and downgrade notes
+- HACS package management BDD scenarios
+- HACS release verification and downgrade path
+
 ## Suggested ticket order
 
 1. `PLAN-001` Foundation and data model

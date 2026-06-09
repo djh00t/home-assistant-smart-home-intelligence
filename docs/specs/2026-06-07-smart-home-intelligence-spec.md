@@ -2,7 +2,7 @@
 title: Smart Home Presence, Lighting, and Personalization Spec
 owner: Home Assistant Program
 created: 2026-06-07
-version: 0.4.0
+version: 0.6.0
 ---
 
 # Smart Home Presence, Lighting, and Personalization
@@ -24,21 +24,22 @@ Retention requirement: keep records, metadata, and media (images where needed) f
 
 In scope:
 
-- Home Assistant automations/packages and supporting scripts
+- Home Assistant custom integration packaged for HACS
+- Canonical MQTT contracts and release metadata for the integration
 - Jetson Xavier ML stack (Frigate + optional face/plate service + MQTT bridge)
 - Event and scene policy in HA
 - Dashboard for mode/room state and overrides
+- Runtime-backed room-policy sensors for house mode and per-room lighting state
 - BDD scenarios for every behavior change
 
 Out of scope (for this stage):
 
 - rewriting vendor camera apps
-- full custom integration development for every brand
 - automatic cloud backups of face/plate records
 
 ## 3) Source-of-truth model
 
-Home Assistant remains source of home control state. Vendor apps remain for manual control/monitoring only.
+Home Assistant remains source of home control state. Vendor apps remain for manual control/monitoring only. The HACS custom integration is the packaging and runtime surface for HA-facing behavior; external sensing and inference services stay outside the package.
 
 Priority input sources:
 

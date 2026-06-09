@@ -65,6 +65,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `config/contracts/driveway_zone_setup.yaml`
 - `config/contracts/anpr_service_and_event.yaml`
 - `config/contracts/security_and_retention_jobs.yaml`
+- `config/contracts/hacs_package_management.yaml`
 - `config/contracts/foreign_identity_log_queue.yaml`
 - `config/contracts/multi_room_heatmap.yaml`
 - `config/contracts/scene_preference_ui.yaml`
@@ -87,6 +88,7 @@ It is the contract between the spec, the inventory, the MQTT topic layout, the e
 - `docs/contracts/mmwave-fusion-rule.md`
 - `docs/contracts/anpr-service-and-event.md`
 - `docs/contracts/security-and-retention-jobs.md`
+- `docs/contracts/hacs-package-management.md`
 - `docs/contracts/foreign-identity-log-queue.md`
 - `docs/contracts/multi-room-heatmap.md`
 - `docs/contracts/scene-preference-ui.md`

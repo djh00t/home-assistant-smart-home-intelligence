@@ -36,6 +36,10 @@ REQUIRED_FEATURE_FILES = [
     FEATURE_DIR / "phase0_foundation.feature",
     FEATURE_DIR / "presence_fsm_room_template.feature",
     FEATURE_DIR / "smart_home_presence.feature",
+    FEATURE_DIR / "hacs_package_management.feature",
+    FEATURE_DIR / "hacs_integration_entities.feature",
+    FEATURE_DIR / "hacs_room_policy_entities.feature",
+    FEATURE_DIR / "hacs_release_and_validation.feature",
 ]
 STEP_PREFIXES = ("Given ", "When ", "Then ", "And ", "But ")
 SCENARIO_PREFIXES = ("Scenario:", "Scenario Outline:")

@@ -37,6 +37,7 @@ REQUIRED_FILES = [
     ROOT / "config/contracts/non_home_zone_queue.yaml",
     ROOT / "config/contracts/pram_walking_vs_driving.yaml",
     ROOT / "config/contracts/security_and_retention_jobs.yaml",
+    ROOT / "config/contracts/hacs_package_management.yaml",
     ROOT / "config/contracts/presence_event.schema.json",
     ROOT / "config/policies/retention.yaml",
     ROOT / "docs/contracts/phase0-foundation.md",
@@ -63,6 +64,7 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/vehicle-person-linking.md",
     ROOT / "docs/contracts/pram-walking-vs-driving.md",
     ROOT / "docs/contracts/security-and-retention-jobs.md",
+    ROOT / "docs/contracts/hacs-package-management.md",
 ]
 REQUIRED_ROOMS = [
     "bedroom_master",
@@ -349,6 +351,23 @@ REQUIRED_RETENTION_LINES = [
     "face_plate_audit: 90",
     "media_metadata: 90",
     "foreign_plate_person_alerts: 90",
+]
+REQUIRED_HACS_LINES = [
+    "version: 0.6.1",
+    "name: smart_home_presence_intelligence",
+    "category: integration",
+    "package_root: custom_components/smart_home_presence_intelligence",
+    "repository_type: custom_repository",
+    "version_source: VERSION",
+    "changelog_required: true",
+    "git_tag_required: true",
+    "downgrade_supported: true",
+    "mqtt_bridge_topic: ha/presence/event",
+    "dead_letter_topic: ha/presence/event/dlq",
+    "publish_test_event",
+    "reload_contracts",
+    "set_override",
+    "run_retention_audit",
 ]
 
 
@@ -692,6 +711,18 @@ def validate_retention() -> None:
         raise SystemExit(1)
 
 
+def validate_hacs_package_contract() -> None:
+    text = (ROOT / "config/contracts/hacs_package_management.yaml").read_text(
+        encoding="utf-8"
+    )
+    missing = [line for line in REQUIRED_HACS_LINES if line not in text]
+    if missing:
+        print("Missing HACS package contract lines:")
+        for line in missing:
+            print(line)
+        raise SystemExit(1)
+
+
 def main() -> int:
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", "quality-gates"}:
         print("Usage: validate_contracts.py [check|quality-gates]")
@@ -724,6 +755,7 @@ def main() -> int:
     validate_non_home_zone_queue_contract()
     validate_pram_contract()
     validate_security_and_retention_contract()
+    validate_hacs_package_contract()
     validate_schema()
     validate_retention()
 

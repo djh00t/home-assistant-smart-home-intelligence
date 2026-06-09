@@ -2,6 +2,36 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.1] - 2026-06-09
+
+### Added
+
+- HACS release verification coverage for changelog, manifest, version, and git-tag alignment.
+
+### Changed
+
+- Rebased the package management contract and validation gates to enforce the release tag and downgrade path for HACS packaging.
+
+## [0.6.0] - 2026-06-09
+
+### Added
+
+- Room-policy sensor surfaces for house mode, white scenes, and color-sync decisions derived from the room capability catalog.
+
+### Changed
+
+- Rebased the HACS package metadata, validators, README, roadmap, and implementation plan to reflect the new runtime policy surfaces.
+
+## [0.5.0] - 2026-06-09
+
+### Added
+
+- HACS-first Home Assistant integration scaffold with canonical MQTT bridge helpers, config flow, services, diagnostics, repair support, and release packaging metadata.
+
+### Changed
+
+- Reframed the project around an installable `smart_home_presence_intelligence` custom integration so upgrades, downgrades, and removal can follow the HACS lifecycle.
+
 ## [0.4.0] - 2026-06-09
 
 ### Added
