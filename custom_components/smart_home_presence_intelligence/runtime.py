@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any, Callable
+
+import yaml
 
 from .bridge import DEAD_LETTER_TOPIC, VALID_ROOMS
 
@@ -15,6 +18,7 @@ class IntegrationSettings:
 
     mqtt_topic_prefix: str
     room_inventory_path: str
+    room_capabilities_path: str
     retention_days: int
     enable_diagnostics: bool = True
 
@@ -36,20 +40,23 @@ class IntegrationRuntime:
     last_retention_audit: dict[str, Any] | None = None
     refreshed_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     _listeners: list[Callable[[], None]] = field(default_factory=list, repr=False)
+    _room_capabilities_cache: dict[str, dict[str, Any]] | None = field(
+        default=None, repr=False
+    )
 
     def __post_init__(self) -> None:
         for room_id in VALID_ROOMS:
-            self.room_activity.setdefault(
-                room_id,
-                {
-                    "state": "idle",
-                    "last_event_type": "",
-                    "last_source": "",
-                    "last_entity_class": "",
-                    "last_confidence": 0.0,
-                    "last_seen": "",
-                },
-            )
+            current = dict(self.room_activity.get(room_id, {}))
+            current.setdefault("state", "idle")
+            current.setdefault("human_count", 0)
+            current.setdefault("pet_count", 0)
+            current.setdefault("vehicle_count", 0)
+            current.setdefault("last_event_type", "")
+            current.setdefault("last_source", "")
+            current.setdefault("last_entity_class", "")
+            current.setdefault("last_confidence", 0.0)
+            current.setdefault("last_seen", "")
+            self.room_activity[room_id] = current
 
     @classmethod
     def from_restore_payload(
@@ -97,6 +104,7 @@ class IntegrationRuntime:
         """Record that the integration reloaded its local contract view."""
 
         self.refreshed_at = datetime.now(UTC)
+        self._room_capabilities_cache = None
         self._notify_listeners()
 
     def set_override(self, *, enabled: bool, reason: str) -> None:
@@ -122,6 +130,89 @@ class IntegrationRuntime:
         event.update(payload)
         return event
 
+    def _load_room_capabilities(self) -> dict[str, dict[str, Any]]:
+        """Return the room capability catalog keyed by room id."""
+
+        if self._room_capabilities_cache is not None:
+            return self._room_capabilities_cache
+
+        path = Path(self.settings.room_capabilities_path)
+        with path.open(encoding="utf-8") as handle:
+            payload = yaml.safe_load(handle) or {}
+        capabilities: dict[str, dict[str, Any]] = {}
+        for entry in payload.get("room_capabilities", []):
+            if not isinstance(entry, dict):
+                continue
+            room_id = entry.get("room_id")
+            if isinstance(room_id, str) and room_id.strip():
+                capabilities[room_id.strip().lower()] = entry
+        self._room_capabilities_cache = capabilities
+        return capabilities
+
+    def room_capability(self, room_id: str) -> dict[str, Any]:
+        """Return the capability entry for a room."""
+
+        return self._load_room_capabilities().get(room_id, {})
+
+    def total_humans_present(self) -> int:
+        """Return the total number of tracked humans across all rooms."""
+
+        return sum(int(room.get("human_count", 0)) for room in self.room_activity.values())
+
+    def total_pets_present(self) -> int:
+        """Return the total number of tracked pets across all rooms."""
+
+        return sum(int(room.get("pet_count", 0)) for room in self.room_activity.values())
+
+    def house_mode(self) -> str:
+        """Return the canonical house mode for the current runtime state."""
+
+        humans = self.total_humans_present()
+        pets = self.total_pets_present()
+        if humans > 0:
+            return "occupied"
+        if pets > 0:
+            return "pet_mode"
+        return "empty"
+
+    def room_policy_snapshot(self, room_id: str) -> dict[str, Any]:
+        """Return a policy summary for one room."""
+
+        room = self.room_activity.get(room_id, {})
+        capability = self.room_capability(room_id)
+        lighting = capability.get("lighting", {}) if isinstance(capability, dict) else {}
+        policies = capability.get("policies", {}) if isinstance(capability, dict) else {}
+        supports_lighting = bool(lighting.get("supports_lighting", False))
+        supports_color = bool(lighting.get("supports_color", False))
+        manual_override_minutes = int(policies.get("manual_override_minutes", 0) or 0)
+        current_hour = datetime.now().hour
+        is_daytime = 5 <= current_hour <= 16
+        if not supports_lighting:
+            scene = "none"
+        elif room.get("state") in {"idle", "sleeping", "bed_motion_only"} or not is_daytime:
+            scene = lighting.get("default_night_scene") or "none"
+        else:
+            scene = lighting.get("default_day_scene") or lighting.get("default_night_scene") or "none"
+        color_sync_enabled = bool(
+            supports_color and room.get("state") == "occupied" and not self.override_enabled
+        )
+        return {
+            "room_id": room_id,
+            "house_mode": self.house_mode(),
+            "supports_lighting": supports_lighting,
+            "supports_color": supports_color,
+            "white_scene": scene,
+            "color_sync_enabled": color_sync_enabled,
+            "manual_override_minutes": manual_override_minutes,
+            "person_only_actions": bool(policies.get("person_only_actions", False)),
+            "pet_only_actions": bool(policies.get("pet_only_actions", False)),
+            "occupancy_state": room.get("state", "idle"),
+            "human_count": int(room.get("human_count", 0)),
+            "pet_count": int(room.get("pet_count", 0)),
+            "vehicle_count": int(room.get("vehicle_count", 0)),
+            "last_seen": room.get("last_seen", ""),
+        }
+
     def apply_routed_event(self, routed: dict[str, Any]) -> None:
         """Store the latest routed event and refresh room activity."""
 
@@ -140,6 +231,9 @@ class IntegrationRuntime:
             room_id,
             {
                 "state": "idle",
+                "human_count": 0,
+                "pet_count": 0,
+                "vehicle_count": 0,
                 "last_event_type": "",
                 "last_source": "",
                 "last_entity_class": "",
@@ -152,7 +246,27 @@ class IntegrationRuntime:
         room["last_entity_class"] = str(event.get("entity_class", ""))
         room["last_confidence"] = float(event.get("confidence", 0.0) or 0.0)
         room["last_seen"] = str(event.get("ts", ""))
-        room["state"] = "idle" if room["last_event_type"] == "leave" else "occupied"
+
+        delta = 0
+        if room["last_event_type"] == "enter":
+            delta = 1
+        elif room["last_event_type"] == "leave":
+            delta = -1
+
+        if room["last_entity_class"] == "human":
+            room["human_count"] = max(0, int(room.get("human_count", 0)) + delta)
+        elif room["last_entity_class"] == "pet":
+            room["pet_count"] = max(0, int(room.get("pet_count", 0)) + delta)
+        elif room["last_entity_class"] == "vehicle":
+            room["vehicle_count"] = max(0, int(room.get("vehicle_count", 0)) + delta)
+
+        room["state"] = (
+            "occupied"
+            if int(room.get("human_count", 0)) > 0
+            or int(room.get("pet_count", 0)) > 0
+            or int(room.get("vehicle_count", 0)) > 0
+            else "idle"
+        )
         self.bridge_health = "healthy"
         self.bridge_last_error = ""
         self.refreshed_at = datetime.now(UTC)
@@ -185,6 +299,9 @@ class IntegrationRuntime:
             "bridge_last_error": self.bridge_last_error,
             "retention_audit_status": self.retention_audit_status,
             "retention_audit_message": self.retention_audit_message,
+            "house_mode": self.house_mode(),
+            "total_humans_present": self.total_humans_present(),
+            "total_pets_present": self.total_pets_present(),
             "room_activity": self.room_activity,
             "last_routed_event": self.last_routed_event,
             "last_retention_audit": self.last_retention_audit,

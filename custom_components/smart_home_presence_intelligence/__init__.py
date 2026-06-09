@@ -9,10 +9,12 @@ from .const import (
     CONF_ENABLE_DIAGNOSTICS,
     CONF_MQTT_TOPIC_PREFIX,
     CONF_RETENTION_DAYS,
+    CONF_ROOM_CAPABILITIES_PATH,
     CONF_ROOM_INVENTORY_PATH,
     DEFAULT_ENABLE_DIAGNOSTICS,
     DEFAULT_MQTT_TOPIC_PREFIX,
     DEFAULT_RETENTION_DAYS,
+    DEFAULT_ROOM_CAPABILITIES_PATH,
     DEFAULT_ROOM_INVENTORY_PATH,
     DOMAIN,
     PLATFORMS,
@@ -51,6 +53,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         ),
         room_inventory_path=entry.options.get(
             CONF_ROOM_INVENTORY_PATH, DEFAULT_ROOM_INVENTORY_PATH
+        ),
+        room_capabilities_path=entry.options.get(
+            CONF_ROOM_CAPABILITIES_PATH, DEFAULT_ROOM_CAPABILITIES_PATH
         ),
         retention_days=int(entry.options.get(CONF_RETENTION_DAYS, DEFAULT_RETENTION_DAYS)),
         enable_diagnostics=bool(

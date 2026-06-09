@@ -8,10 +8,12 @@ from .const import (
     CONF_ENABLE_DIAGNOSTICS,
     CONF_MQTT_TOPIC_PREFIX,
     CONF_RETENTION_DAYS,
+    CONF_ROOM_CAPABILITIES_PATH,
     CONF_ROOM_INVENTORY_PATH,
     DEFAULT_ENABLE_DIAGNOSTICS,
     DEFAULT_MQTT_TOPIC_PREFIX,
     DEFAULT_RETENTION_DAYS,
+    DEFAULT_ROOM_CAPABILITIES_PATH,
     DEFAULT_ROOM_INVENTORY_PATH,
     DOMAIN,
     NAME,
@@ -42,6 +44,12 @@ def _schema(defaults: dict[str, Any] | None = None) -> Any:
             vol.Required(
                 CONF_ROOM_INVENTORY_PATH,
                 default=defaults.get(CONF_ROOM_INVENTORY_PATH, DEFAULT_ROOM_INVENTORY_PATH),
+            ): str,
+            vol.Required(
+                CONF_ROOM_CAPABILITIES_PATH,
+                default=defaults.get(
+                    CONF_ROOM_CAPABILITIES_PATH, DEFAULT_ROOM_CAPABILITIES_PATH
+                ),
             ): str,
             vol.Required(
                 CONF_RETENTION_DAYS,
@@ -91,4 +99,3 @@ if hasattr(config_entries, "ConfigFlow"):
         """Return the options flow handler."""
 
         return SmartHomePresenceOptionsFlow(config_entry)
-
