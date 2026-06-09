@@ -13,6 +13,9 @@ REQUIRED_FILES = [
     PACKAGE_ROOT / "__init__.py",
     ROOT / "VERSION",
     ROOT / "CHANGELOG.md",
+    ROOT / "hacs.json",
+    ROOT / "brand" / "icon.png",
+    ROOT / "custom_components" / "smart_home_presence_intelligence" / "manifest.json",
 ]
 REQUIRED_GITIGNORE_ENTRIES = [
     ".venv/",

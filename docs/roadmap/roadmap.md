@@ -63,6 +63,22 @@ Delivered:
 - Scene preference UI helpers, contract, and acceptance coverage
 - Anomaly and false-action dashboard helpers, contract, and acceptance coverage
 
+## Phase 5 - HACS integration foundation
+
+Delivered:
+
+- HACS repository metadata and brand assets
+- Custom integration scaffold and config flow
+- Canonical MQTT bridge and runtime helpers
+- Service, diagnostics, and repair scaffolding
+- Release/version packaging alignment
+
+Planned next:
+
+- Entity platforms for room state, lighting, and dashboards
+- Restoreable HA config entry behavior
+- HACS release verification and downgrade path
+
 ## Milestones
 
 - M1: Pilot room stable with no false brightening in bed-state

@@ -15,6 +15,7 @@ REQUIRED_FILES = [
     ROOT / "docs/plans/implementation-plan.md",
     ROOT / "docs/tasks/task_backlog.md",
     ROOT / "tests/features/smart_home_presence.feature",
+    ROOT / "tests/features/hacs_package_management.feature",
 ]
 
 

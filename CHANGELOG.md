@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.5.0] - 2026-06-09
+
+### Added
+
+- HACS-first Home Assistant integration scaffold with canonical MQTT bridge helpers, config flow, services, diagnostics, repair support, and release packaging metadata.
+
+### Changed
+
+- Reframed the project around an installable `smart_home_presence_intelligence` custom integration so upgrades, downgrades, and removal can follow the HACS lifecycle.
+
 ## [0.4.0] - 2026-06-09
 
 ### Added
