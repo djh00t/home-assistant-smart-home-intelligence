@@ -9,6 +9,7 @@ required_files:
   - hacs.json
   - brand/icon.png
   - custom_components/smart_home_presence_intelligence/__init__.py
+  - custom_components/smart_home_presence_intelligence/binary_sensor.py
   - custom_components/smart_home_presence_intelligence/bridge.py
   - custom_components/smart_home_presence_intelligence/const.py
   - custom_components/smart_home_presence_intelligence/config_flow.py
@@ -16,6 +17,7 @@ required_files:
   - custom_components/smart_home_presence_intelligence/manifest.json
   - custom_components/smart_home_presence_intelligence/repair.py
   - custom_components/smart_home_presence_intelligence/runtime.py
+  - custom_components/smart_home_presence_intelligence/sensor.py
   - custom_components/smart_home_presence_intelligence/services.yaml
   - custom_components/smart_home_presence_intelligence/strings.json
   - custom_components/smart_home_presence_intelligence/translations/en.json
@@ -37,4 +39,3 @@ runtime_contracts:
     - reload_contracts
     - set_override
     - run_retention_audit
-
