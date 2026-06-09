@@ -2,7 +2,7 @@
 
 This directory now contains the HACS-first Home Assistant integration scaffold for the smart home presence intelligence bundle, plus the earlier phase 0 foundation artifacts and the phase 1 through phase 4 feature bundles:
 
-[![Open your Home Assistant instance and show the repository in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=djh00t&repository=home-assistant-smart-home-intelligence)
+[![Open your Home Assistant instance and show the repository in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=djh00t&repository=home-assistant-smart-home-intelligence&category=integration)
 
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [HACS package management contract](docs/contracts/hacs-package-management.md)
