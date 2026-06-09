@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic planning-only queueing for non-home zone sightings.
+version: 0.4.0
+description: Deterministic planning-only queueing for phase 4 non-home zone sightings.
 
 scope:
   behavior: deterministic_non_home_zone_queue

@@ -1,4 +1,4 @@
-# Non-home zone queue for planning review
+# Non-home zone queue for phase 4 planning review
 
 ## Scope
 
@@ -27,7 +27,7 @@
 
 - Load room inventory from `config/inventory/rooms.yaml`.
 - Treat entries under `external_zones` as queue-eligible non-home zones.
-- The queue is currently driven by the `driveway` exterior zone in phase 0.
+- The queue is currently driven by the `driveway` exterior zone in phase 4.
 - Return `None` for home-zone/supported-occupancy rooms.
 - Preserve all non-room/camera evidence in the queue payload as-is.
 - Queue records are deterministic.

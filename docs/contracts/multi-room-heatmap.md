@@ -1,4 +1,4 @@
-# Multi-room heatmap report
+# Phase 4 multi-room heatmap report
 
 ## Scope
 

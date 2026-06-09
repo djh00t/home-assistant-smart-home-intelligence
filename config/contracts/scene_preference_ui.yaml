@@ -1,5 +1,5 @@
-version: 0.1.0
-description: Deterministic planning-only scene preference dashboard model for phase 0 rooms.
+version: 0.4.0
+description: Deterministic planning-only scene preference dashboard model for phase 4 rooms.
 
 scope:
   behavior: deterministic_scene_preference_ui
