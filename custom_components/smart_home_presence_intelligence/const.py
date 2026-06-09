@@ -17,12 +17,9 @@ DEFAULT_MQTT_TOPIC_PREFIX = "ha/presence"
 DEFAULT_RETENTION_DAYS = 90
 DEFAULT_ROOM_INVENTORY_PATH = "config/inventory/rooms.yaml"
 
-DATA_RUNTIME = "runtime"
-
 SERVICE_PUBLISH_TEST_EVENT = "publish_test_event"
 SERVICE_RELOAD_CONTRACTS = "reload_contracts"
 SERVICE_SET_OVERRIDE = "set_override"
 SERVICE_RUN_RETENTION_AUDIT = "run_retention_audit"
 
-PLATFORMS: tuple[str, ...] = ()
-
+PLATFORMS: tuple[str, ...] = ("sensor", "binary_sensor")
