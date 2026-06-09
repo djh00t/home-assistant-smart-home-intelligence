@@ -99,8 +99,10 @@ Planned artifacts:
 
 - `hacs.json` repository metadata
 - `custom_components/smart_home_presence_intelligence/manifest.json`
+- room activity, override, and retention status entities
 - config flow and options flow
 - service, diagnostics, and repair scaffolding
+- restoreable config-entry runtime payloads
 - release metadata and downgrade notes
 - HACS package management BDD scenarios
 
