@@ -1,12 +1,12 @@
 version: 0.1.0
 site: smart_home_presence_intelligence
-description: Phase 0 room and zone inventory for presence, lighting, and vehicle-aware automations.
+description: Synthetic public phase 0 room and zone inventory sample for presence, lighting, and vehicle-aware automations.
 
 rooms:
-  - room_id: bedroom_master
-    display_name: Master Bedroom
+  - room_id: room_alpha
+    display_name: Room Alpha
     room_type: room
-    level: upper_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: true
     source_priority:
@@ -14,10 +14,10 @@ rooms:
       - motion
       - face
 
-  - room_id: bedroom_max
-    display_name: Max Bedroom
+  - room_id: room_beta
+    display_name: Room Beta
     room_type: room
-    level: upper_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: true
     source_priority:
@@ -25,10 +25,10 @@ rooms:
       - motion
       - face
 
-  - room_id: bedroom_spare
-    display_name: Spare Bedroom
+  - room_id: room_gamma
+    display_name: Room Gamma
     room_type: room
-    level: upper_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: true
     source_priority:
@@ -37,10 +37,10 @@ rooms:
       - motion
       - face
 
-  - room_id: lounge_room
-    display_name: Lounge Room
+  - room_id: room_delta
+    display_name: Room Delta
     room_type: room
-    level: ground_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: true
     source_priority:
@@ -48,10 +48,10 @@ rooms:
       - motion
       - frigate
 
-  - room_id: kitchen
-    display_name: Kitchen
+  - room_id: room_epsilon
+    display_name: Room Epsilon
     room_type: room
-    level: ground_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: true
     source_priority:
@@ -59,10 +59,10 @@ rooms:
       - mmwave
       - frigate
 
-  - room_id: garage
-    display_name: Garage
+  - room_id: room_zeta
+    display_name: Room Zeta
     room_type: room
-    level: ground_floor
+    level: sample_interior
     supports_occupancy: true
     supports_lighting: false
     source_priority:
@@ -70,10 +70,10 @@ rooms:
       - frigate
 
 external_zones:
-  - room_id: driveway
-    display_name: Driveway
+  - room_id: zone_alpha
+    display_name: Zone Alpha
     room_type: exterior_zone
-    level: exterior
+    level: sample_exterior
     supports_occupancy: false
     supports_lighting: false
     source_priority:
@@ -81,20 +81,20 @@ external_zones:
       - frigate
       - face
 
-  - room_id: backyard_shed
-    display_name: Backyard Shed
+  - room_id: zone_beta
+    display_name: Zone Beta
     room_type: exterior_zone
-    level: exterior
+    level: sample_exterior
     supports_occupancy: false
     supports_lighting: false
     source_priority:
       - motion
       - frigate
 
-  - room_id: backyard_deck
-    display_name: Backyard Deck
+  - room_id: zone_gamma
+    display_name: Zone Gamma
     room_type: exterior_zone
-    level: exterior
+    level: sample_exterior
     supports_occupancy: false
     supports_lighting: false
     source_priority:

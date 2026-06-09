@@ -1,5 +1,5 @@
 version: 0.3.0
-description: ANPR driveway vehicle event normalization for phase 3 planning.
+description: ANPR zone_alpha vehicle event normalization for phase 3 planning.
 
 scope:
   behavior: canonicalization_only
@@ -19,7 +19,7 @@ inputs:
     - vehicle_type
 
 normalization:
-  canonical_room_id: driveway
+  canonical_room_id: zone_alpha
   source: anpr
   entity_class: vehicle
   room_reference_required: true
@@ -29,7 +29,7 @@ normalization:
 
 direction:
   fallback: stationary
-  mapping_source: driveway_zone_setup
+  mapping_source: zone_alpha_zone_setup
 
 output:
   include_fields:
@@ -45,4 +45,8 @@ output:
   canonical_event:
     source: anpr
     entity_class: vehicle
-    room: driveway
+    room: zone_alpha
+  fallback_event_id_mode: opaque_sha256_digest
+  fallback_event_id_format: anpr_event::sha256:{event_digest}
+  fallback_event_id_exposes_plate: false
+  upstream_event_id_passthrough: false

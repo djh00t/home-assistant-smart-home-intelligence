@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -34,6 +35,7 @@ def validate_contract_text() -> None:
         "canonical_entity_class: pet",
         "preserve_room_context: true",
         "preserve_confidence: true",
+        "fallback_event_id_mode: opaque_nonce_digest",
         "pet_only_affects_pet_occupancy: true",
         "person_targeted_automations: false",
     ):
@@ -47,16 +49,16 @@ def validate_module_behavior() -> None:
 
     detection = {
         "label": "cat",
-        "room": "kitchen",
+        "room": "room_epsilon",
         "confidence": 0.87,
         "source": "frigate",
     }
     normalized = normalize_pet_detection(detection)
-    if normalized["label"] != "cat" or normalized["room"] != "kitchen":
+    if normalized["label"] != "cat" or normalized["room"] != "room_epsilon":
         raise SystemExit("pet detection normalization failed")
 
     event = build_pet_presence_event(detection)
-    if event["entity_class"] != "pet" or event["room"] != "kitchen":
+    if event["entity_class"] != "pet" or event["room"] != "room_epsilon":
         raise SystemExit("pet presence event build failed")
     if event["source"] != "frigate":
         raise SystemExit("pet presence event should preserve the frigate source")
@@ -64,6 +66,10 @@ def validate_module_behavior() -> None:
         raise SystemExit("pet confidence should be preserved")
     if "person_id" in event:
         raise SystemExit("pet events must not set person_id")
+    if not re.fullmatch(r"pet_event::sha256:[0-9a-f]{64}", event["event_id"]):
+        raise SystemExit("pet events should use an opaque fallback event_id")
+    if "room_epsilon" in event["event_id"] or "cat" in event["event_id"]:
+        raise SystemExit("pet fallback event_id should not expose raw pet metadata")
 
 
 def main() -> int:

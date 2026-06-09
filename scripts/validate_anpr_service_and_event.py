@@ -3,6 +3,9 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
+import re
 import sys
 from pathlib import Path
 
@@ -31,14 +34,30 @@ def validate_contract_text() -> None:
     for needle in (
         "scope:",
         "behavior: canonicalization_only",
-        "canonical_room_id: driveway",
+        "canonical_room_id: zone_alpha",
         "source: anpr",
         "entity_class: vehicle",
         "room_reference_required: true",
         "plate_transform: uppercase_strip_separators",
+        "fallback_event_id_mode: opaque_sha256_digest",
+        "fallback_event_id_format: anpr_event::sha256:{event_digest}",
+        "fallback_event_id_exposes_plate: false",
     ):
         if needle not in text:
             raise SystemExit(f"anpr_service_and_event.yaml missing {needle}")
+
+    doc_text = (ROOT / "docs/contracts/anpr-service-and-event.md").read_text(
+        encoding="utf-8"
+    )
+    for needle in (
+        "opaque SHA-256 digest derived from canonical event evidence",
+        "fallback `event_id` must not embed the raw or canonicalized license plate",
+        "event_id stays deterministic without exposing plate-derived content",
+    ):
+        if needle not in doc_text:
+            raise SystemExit(
+                f"anpr-service-and-event.md missing required privacy text: {needle}"
+            )
 
 
 def validate_module_behavior() -> None:
@@ -52,10 +71,10 @@ def validate_module_behavior() -> None:
 
     event = build_anpr_vehicle_event(
         {
-            "room_id": "driveway",
+            "room_id": "zone_alpha",
             "plate": "ab c-12-34",
             "plate_confidence": 0.86,
-            "camera": "frigate_driveway",
+            "camera": "frigate_zone_alpha",
             "direction": "enter",
             "vehicle_type": "car",
             "ts": "2026-06-08T10:00:00+10:00",
@@ -65,17 +84,41 @@ def validate_module_behavior() -> None:
         raise SystemExit("event should use ANPR as source")
     if event["entity_class"] != ANPR_ENTITY_CLASS:
         raise SystemExit("event should use vehicle entity class")
-    if event["room"] != "driveway":
-        raise SystemExit("event room should be driveway")
+    if event["room"] != "zone_alpha":
+        raise SystemExit("event room should be zone_alpha")
     if event["type"] != "enter":
         raise SystemExit("arrive direction should map to enter")
     if event["vehicle"]["plate"] != "ABC1234":
         raise SystemExit("plate should be uppercase and separator free")
     if event["vehicle"]["vehicle_type"] != "car":
         raise SystemExit("vehicle type should be preserved when known")
-    if event["camera"] != "frigate_driveway":
+    if event["camera"] != "frigate_zone_alpha":
         raise SystemExit("camera context should be preserved")
-
+    fallback_event_id = event["event_id"]
+    if re.fullmatch(r"anpr_event::sha256:[0-9a-f]{64}", fallback_event_id) is None:
+        raise SystemExit(
+            "fallback event_id should use the opaque anpr_event::sha256:<64 hex> format"
+        )
+    expected_fallback_event_id = "anpr_event::sha256:" + hashlib.sha256(
+        json.dumps(
+            {
+                "camera": "frigate_zone_alpha",
+                "direction": "arrival",
+                "plate": "ABC1234",
+                "plate_confidence": 0.86,
+                "room": "zone_alpha",
+                "ts": "2026-06-08T10:00:00+10:00",
+                "type": "enter",
+                "vehicle_type": "car",
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    if fallback_event_id != expected_fallback_event_id:
+        raise SystemExit("fallback event_id should use a deterministic sha256 digest")
+    if "ABC1234" in fallback_event_id or "ab c-12-34" in fallback_event_id.lower():
+        raise SystemExit("fallback event_id should not expose plate content")
     if event["vehicle"]["plate_confidence"] != 0.86:
         raise SystemExit("plate confidence should be preserved")
 
@@ -84,18 +127,32 @@ def validate_module_behavior() -> None:
     if normalize_anpr_direction(None) != "stationary":
         raise SystemExit("missing direction should normalize to stationary")
 
-    non_driveway_event = {
-        "room_id": "lounge_room",
+    explicit_id_event = build_anpr_vehicle_event(
+        {
+            "room_id": "zone_alpha",
+            "plate": "XYZ123",
+            "plate_confidence": 0.75,
+            "camera": "frigate_zone_alpha",
+            "event_id": "external-event-1",
+        }
+    )
+    if re.fullmatch(r"anpr_event::sha256:[0-9a-f]{64}", explicit_id_event["event_id"]) is None:
+        raise SystemExit("explicit upstream event_id should be normalized to an opaque id")
+    if "external-event-1" in explicit_id_event["event_id"]:
+        raise SystemExit("explicit upstream event_id should not leak through unchanged")
+
+    non_zone_alpha_event = {
+        "room_id": "room_delta",
         "plate": "XYZ123",
         "plate_confidence": 0.75,
         "camera": "internal_cam",
     }
     try:
-        build_anpr_vehicle_event(non_driveway_event)
+        build_anpr_vehicle_event(non_zone_alpha_event)
     except ValueError:
         pass
     else:
-        raise SystemExit("non-driveway room should be rejected")
+        raise SystemExit("non-zone_alpha room should be rejected")
 
 
 def main() -> int:

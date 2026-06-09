@@ -37,6 +37,9 @@ output:
     - summary
     - retention
     - ts
+  dashboard_id_digest: sha256_canonical_json
+  dashboard_id_format: scene_preference_ui::sha256:{dashboard_digest}
+  dashboard_id_raw_telemetry: false
   ui_record_type: scene_preferences_dashboard
   record_name: scene_preference_ui
   ui_status: ready

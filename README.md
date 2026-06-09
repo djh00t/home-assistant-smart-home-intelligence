@@ -9,7 +9,8 @@ This repository packages the Home Assistant side of a smart-home presence system
 ## What It Does
 
 - Consumes canonical presence events from MQTT.
-- Tracks room state for `bedroom_master`, `bedroom_max`, `bedroom_spare`, `lounge_room`, `garage`, `driveway`, `backyard_shed`, `backyard_deck`, and `kitchen`.
+- Tracks room state for the synthetic public inventory sample declared in `config/inventory/rooms.yaml`; point `room_inventory_path` at a local file for real deployments.
+- Ships a synthetic capability sample in `config/inventory/room_capabilities.yaml`; point `room_capabilities_path` at a local file for real deployments.
 - Publishes operator-facing sensors for room activity, bridge health, retention, house mode, and room lighting policy.
 - Exposes Home Assistant services for test events, contract reloads, manual overrides, and retention audits.
 - Restores runtime state across Home Assistant reloads so current state is not lost on restart.
@@ -22,12 +23,12 @@ This repository packages the Home Assistant side of a smart-home presence system
 The integration creates runtime-backed entities such as:
 
 ```text
-sensor.lounge_room_state                 occupied
+sensor.room_delta_state                 occupied
 sensor.bridge_health                     healthy
 sensor.retention_audit_status            pass
 sensor.house_mode                        occupied
-sensor.lounge_room_white_scene           lounge_room_day
-sensor.lounge_room_color_sync            true
+sensor.room_delta_white_scene           scene_day_social
+sensor.room_delta_color_sync            true
 binary_sensor.manual_override_active     off
 binary_sensor.diagnostics_enabled        on
 ```
@@ -37,11 +38,11 @@ binary_sensor.diagnostics_enabled        on
 Per-room policy sensors reflect both room capabilities and live occupancy:
 
 ```yaml
-room_id: lounge_room
+room_id: room_delta
 house_mode: occupied
 supports_lighting: true
 supports_color: true
-white_scene: lounge_room_day
+white_scene: scene_day_social
 color_sync_enabled: true
 manual_override_minutes: 45
 occupancy_state: occupied
@@ -59,7 +60,7 @@ The canonical event contract is intentionally small and recorder-safe:
   "event_id": "evt-001",
   "source": "tracker",
   "type": "enter",
-  "room": "lounge_room",
+  "room": "room_delta",
   "entity_class": "human",
   "confidence": 0.98,
   "ts": "2026-06-09T12:00:00Z"
@@ -74,7 +75,7 @@ Publish a synthetic event through the integration:
 service: smart_home_presence_intelligence.publish_test_event
 data:
   source: tracker
-  room: lounge_room
+  room: room_delta
   type: enter
 ```
 
@@ -130,11 +131,11 @@ The main runtime entity groups are:
 
 | Entity group | Examples |
 | --- | --- |
-| Room activity sensors | `sensor.lounge_room_state`, `sensor.kitchen_state` |
+| Room activity sensors | `sensor.room_delta_state`, `sensor.room_epsilon_state` |
 | Bridge and runtime sensors | `sensor.bridge_health`, `sensor.bridge_last_topic` |
 | Retention sensors | `sensor.retention_days`, `sensor.retention_audit_status` |
 | Override and diagnostics binary sensors | `binary_sensor.manual_override_active`, `binary_sensor.diagnostics_enabled` |
-| House and room policy sensors | `sensor.house_mode`, `sensor.lounge_room_white_scene`, `sensor.bedroom_spare_color_sync` |
+| House and room policy sensors | `sensor.house_mode`, `sensor.room_delta_white_scene`, `sensor.room_gamma_color_sync` |
 
 ## Architecture
 

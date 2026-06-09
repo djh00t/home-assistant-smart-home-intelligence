@@ -2,9 +2,9 @@
 
 ## Scope
 
-- Record face enrollment metadata with deterministic identifiers and retention metadata.
+- Record face enrollment metadata with deterministic opaque identifiers and retention metadata.
 - Canonicalize face match signals into a normalized `face` presence-event shape.
-- Preserve local-only identity evidence for downstream planning stages.
+- Preserve person/room/camera context without returning raw biometric signatures.
 
 ## Backlog boundary
 
@@ -42,8 +42,9 @@
 
 - Enrollment builder:
   - keeps the person identity and room/camera/source context.
+  - converts the returned `face_signature` into a deterministic opaque `sha256:<digest>` representation instead of retaining the raw biometric signature.
   - emits retention metadata so retention policy consumers can apply the same baseline.
-  - produces a stable deterministic `enrollment_id` when none is provided.
+  - produces a stable deterministic opaque `face-enrollment::<sha256-prefix>` `enrollment_id` when none is provided.
 - Face-match builder:
   - emits event shape with:
     - `source: face`
@@ -52,6 +53,7 @@
     - preserved `person_id`
     - preserved `face_match_confidence` as `confidence`
     - `type: confidence`
+  - produces a stable deterministic opaque `face-match::<sha256-prefix>` `event_id` when none is provided.
   - rejects matches below deterministic threshold `0.75`.
 
 ## Retention

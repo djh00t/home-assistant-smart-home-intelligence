@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 from typing import Any, Mapping
 
 
@@ -14,6 +15,7 @@ FACE_ENROLLMENT_RECORD_RETENTION_DAYS = 90
 DEFAULT_TS = "1970-01-01T00:00:00Z"
 DEFAULT_ENROLLMENT_ID_PREFIX = "face-enrollment"
 DEFAULT_MATCH_EVENT_ID_PREFIX = "face-match"
+OPAQUE_ID_DIGEST_LENGTH = 20
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,6 +85,11 @@ def _normalize_face_signature(snapshot: Mapping[str, Any]) -> str:
     return signature
 
 
+def _digest_parts(*parts: str) -> str:
+    digest_input = "\x1f".join(parts)
+    return hashlib.sha256(digest_input.encode("utf-8")).hexdigest()
+
+
 def _normalize_confidence(value: Any) -> float:
     if not isinstance(value, (int, float)):
         raise ValueError(f"face confidence must be numeric: {value!r}")
@@ -99,8 +106,9 @@ def _parse_timestamp(snapshot: Mapping[str, Any], field_name: str) -> str:
     return str(timestamp)
 
 
-def _to_event_id(prefix: str, room: str, person_id: str) -> str:
-    return f"{prefix}::{room}::{person_id}"
+def _to_event_id(prefix: str, *parts: str) -> str:
+    digest = _digest_parts(*parts)[:OPAQUE_ID_DIGEST_LENGTH]
+    return f"{prefix}::{digest}"
 
 
 def build_face_enrollment_record(snapshot: Mapping[str, Any]) -> dict[str, Any]:
@@ -109,13 +117,23 @@ def build_face_enrollment_record(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     person_id = _normalize_person_id(snapshot)
     room = _normalize_room(snapshot)
     camera = _normalize_camera(snapshot)
-    _normalize_face_signature(snapshot)
+    face_signature = _normalize_face_signature(snapshot)
     source = _normalize_source(snapshot)
     recorded_at = _parse_timestamp(snapshot, "recorded_at")
-    face_signature = snapshot.get("face_signature")
 
     enrollment_id = str(
-        snapshot.get("enrollment_id", _to_event_id(DEFAULT_ENROLLMENT_ID_PREFIX, room, person_id))
+        snapshot.get(
+            "enrollment_id",
+            _to_event_id(
+                DEFAULT_ENROLLMENT_ID_PREFIX,
+                person_id,
+                room,
+                camera,
+                source,
+                recorded_at,
+                face_signature,
+            ),
+        )
     )
 
     return {
@@ -124,7 +142,7 @@ def build_face_enrollment_record(snapshot: Mapping[str, Any]) -> dict[str, Any]:
         "room": room,
         "camera": camera,
         "source": source,
-        "face_signature": str(face_signature),
+        "face_signature": f"sha256:{_digest_parts(face_signature)}",
         "recorded_at": recorded_at,
         "retention": {
             "days": FACE_ENROLLMENT_RECORD_RETENTION_DAYS,
@@ -157,7 +175,20 @@ def build_face_match_event(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     )
 
     return {
-        "event_id": str(snapshot.get("event_id", _to_event_id(DEFAULT_MATCH_EVENT_ID_PREFIX, room, person_id))),
+        "event_id": str(
+            snapshot.get(
+                "event_id",
+                _to_event_id(
+                    DEFAULT_MATCH_EVENT_ID_PREFIX,
+                    normalized.person_id,
+                    normalized.room,
+                    normalized.camera,
+                    source,
+                    f"{normalized.confidence:.6f}",
+                    str(snapshot.get("ts", DEFAULT_TS)),
+                ),
+            )
+        ),
         "source": source,
         "type": FACE_MATCH_TYPE,
         "room": normalized.room,

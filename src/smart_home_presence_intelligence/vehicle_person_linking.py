@@ -1,7 +1,8 @@
-"""Deterministic driveway vehicle-person linking helpers."""
+"""Deterministic arrival-zone vehicle-person linking helpers."""
 
 from __future__ import annotations
 
+import hashlib
 from typing import Any, Mapping
 
 from .anpr_service_and_event import (
@@ -15,6 +16,8 @@ from .driveway_zone_setup import validate_driveway_reference
 LINKING_SOURCE = "vehicle_person_linking"
 LINKING_ENTITY_CLASS = "vehicle"
 DEFAULT_TS = "1970-01-01T00:00:00Z"
+FALLBACK_EVENT_ID_PREFIX = "vehicle_link"
+FALLBACK_EVENT_ID_DIGEST_LENGTH = 20
 VEHICLE_ARRIVAL_EVENT = "vehicle_arrival"
 VEHICLE_DEPARTURE_EVENT = "vehicle_departure"
 PLATE_CONFIDENCE_THRESHOLD = 0.8
@@ -33,7 +36,7 @@ def _normalize_room(snapshot: Mapping[str, Any]) -> str:
     if not room_text:
         raise ValueError("room context cannot be empty")
     if not validate_driveway_reference(snapshot):
-        raise ValueError(f"non-driveway linking payload rejected: {room_text}")
+        raise ValueError(f"non-zone_alpha linking payload rejected: {room_text}")
     return room_text
 
 
@@ -69,8 +72,32 @@ def _normalize_face_match_confidence(snapshot: Mapping[str, Any]) -> float:
     return confidence_value
 
 
-def _to_event_id(room: str, person_id: str, plate: str) -> str:
-    return f"vehicle_link::{room}::{person_id}::{plate}"
+def _to_event_id(
+    room: str,
+    person_id: str,
+    plate: str,
+    camera: str,
+    event_type: str,
+    ts: str,
+    plate_confidence: float,
+    face_match_confidence: float,
+) -> str:
+    digest_input = "\x1f".join(
+        (
+            room,
+            person_id,
+            plate,
+            camera,
+            event_type,
+            ts,
+            f"{plate_confidence:.6f}",
+            f"{face_match_confidence:.6f}",
+        )
+    )
+    digest = hashlib.sha256(digest_input.encode("utf-8")).hexdigest()[
+        :FALLBACK_EVENT_ID_DIGEST_LENGTH
+    ]
+    return f"{FALLBACK_EVENT_ID_PREFIX}::{digest}"
 
 
 def _link_direction_event_type(direction: str) -> str:
@@ -83,7 +110,7 @@ def _link_direction_event_type(direction: str) -> str:
 
 
 def build_vehicle_person_linked_event(snapshot: Mapping[str, Any]) -> dict[str, Any]:
-    """Build a canonical linked vehicle-person planning event from driveway evidence."""
+    """Build a canonical linked vehicle-person planning event from zone_alpha evidence."""
 
     room = _normalize_room(snapshot)
     person_id = _normalize_person_id(snapshot)
@@ -108,7 +135,22 @@ def build_vehicle_person_linked_event(snapshot: Mapping[str, Any]) -> dict[str, 
     direction = normalize_anpr_direction(snapshot.get("direction"))
     event_type = _link_direction_event_type(direction)
     linked_confidence = min(plate_confidence, face_match_confidence)
-    event_id = str(snapshot.get("event_id", _to_event_id(room, person_id, plate)))
+    ts = str(snapshot.get("ts", DEFAULT_TS))
+    event_id = str(
+        snapshot.get(
+            "event_id",
+            _to_event_id(
+                room,
+                person_id,
+                plate,
+                camera,
+                event_type,
+                ts,
+                plate_confidence,
+                face_match_confidence,
+            ),
+        )
+    )
 
     return {
         "event_id": event_id,
@@ -124,5 +166,5 @@ def build_vehicle_person_linked_event(snapshot: Mapping[str, Any]) -> dict[str, 
             "plate_confidence": plate_confidence,
             "face_match_confidence": face_match_confidence,
         },
-        "ts": str(snapshot.get("ts", DEFAULT_TS)),
+        "ts": ts,
     }

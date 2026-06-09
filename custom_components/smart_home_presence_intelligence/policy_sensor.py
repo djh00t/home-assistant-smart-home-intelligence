@@ -115,14 +115,7 @@ class RoomPolicySensor(SensorEntity):  # type: ignore[misc]
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        if self._spec.key.startswith("room_"):
-            room_id = self._spec.key.removeprefix("room_").rsplit("_", 2)[0]
-            return self._runtime.room_policy_snapshot(room_id)
-        return {
-            "bridge_health": self._runtime.bridge_health,
-            "refresh_time": self._runtime.refreshed_at.isoformat(),
-            "supported_rooms": list(VALID_ROOMS),
-        }
+        return {}
 
     async def async_added_to_hass(self) -> None:
         self._unsubscribe = self._runtime.add_listener(self.async_write_ha_state)

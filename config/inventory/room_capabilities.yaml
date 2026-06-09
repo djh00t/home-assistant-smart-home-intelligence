@@ -1,9 +1,9 @@
 version: 0.1.0
 site: smart_home_presence_intelligence
-description: Phase 0 room capability catalog for lighting, sensing, and policy routing.
+description: Synthetic sample room capability catalog for public lighting, sensing, and policy routing examples.
 
 room_capabilities:
-  - room_id: bedroom_master
+  - room_id: sample_room_alpha
     occupancy_sources:
       - mmwave
       - motion
@@ -12,16 +12,16 @@ room_capabilities:
       supports_lighting: true
       supports_color: false
       white_groups:
-        - bedroom_master_ceiling
+        - group_white_sleep_a
       color_groups: []
-      default_day_scene: bedroom_master_day
-      default_night_scene: bedroom_master_night
+      default_day_scene: scene_day_sleep_a
+      default_night_scene: scene_night_sleep_a
     policies:
       manual_override_minutes: 120
       person_only_actions: true
       pet_only_actions: false
 
-  - room_id: bedroom_max
+  - room_id: sample_room_beta
     occupancy_sources:
       - mmwave
       - motion
@@ -30,16 +30,16 @@ room_capabilities:
       supports_lighting: true
       supports_color: false
       white_groups:
-        - bedroom_max_ceiling
+        - group_white_sleep_b
       color_groups: []
-      default_day_scene: bedroom_max_day
-      default_night_scene: bedroom_max_night
+      default_day_scene: scene_day_sleep_b
+      default_night_scene: scene_night_sleep_b
     policies:
       manual_override_minutes: 60
       person_only_actions: true
       pet_only_actions: false
 
-  - room_id: bedroom_spare
+  - room_id: sample_study_zone
     occupancy_sources:
       - tracker
       - mmwave
@@ -49,17 +49,17 @@ room_capabilities:
       supports_lighting: true
       supports_color: true
       white_groups:
-        - bedroom_spare_white
+        - group_white_focus
       color_groups:
-        - bedroom_spare_color
-      default_day_scene: bedroom_spare_day
-      default_night_scene: bedroom_spare_night
+        - group_color_focus
+      default_day_scene: scene_day_focus
+      default_night_scene: scene_night_focus
     policies:
       manual_override_minutes: 60
       person_only_actions: true
       pet_only_actions: false
 
-  - room_id: lounge_room
+  - room_id: sample_room_delta
     occupancy_sources:
       - mmwave
       - motion
@@ -68,17 +68,17 @@ room_capabilities:
       supports_lighting: true
       supports_color: true
       white_groups:
-        - lounge_room_white
+        - group_white_social
       color_groups:
-        - lounge_room_color
-      default_day_scene: lounge_room_day
-      default_night_scene: lounge_room_night
+        - group_color_social
+      default_day_scene: scene_day_social
+      default_night_scene: scene_night_social
     policies:
       manual_override_minutes: 45
       person_only_actions: true
       pet_only_actions: true
 
-  - room_id: kitchen
+  - room_id: sample_room_epsilon
     occupancy_sources:
       - motion
       - mmwave
@@ -87,16 +87,16 @@ room_capabilities:
       supports_lighting: true
       supports_color: false
       white_groups:
-        - kitchen_ceiling
+        - group_white_prep
       color_groups: []
-      default_day_scene: kitchen_day
-      default_night_scene: kitchen_night
+      default_day_scene: scene_day_prep
+      default_night_scene: scene_night_prep
     policies:
       manual_override_minutes: 30
       person_only_actions: true
       pet_only_actions: false
 
-  - room_id: garage
+  - room_id: sample_storage_zone
     occupancy_sources:
       - motion
       - frigate
@@ -111,4 +111,3 @@ room_capabilities:
       manual_override_minutes: 0
       person_only_actions: false
       pet_only_actions: false
-

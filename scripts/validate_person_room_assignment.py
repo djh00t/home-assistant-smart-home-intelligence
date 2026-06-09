@@ -45,7 +45,7 @@ def validate_module_behavior() -> None:
 
     agreed_plan = assign_person_to_room(
         {
-            "room_id": "bedroom_spare",
+            "room_id": "room_gamma",
             "occupied_humans": ["sel", "sam"],
             "face_identity": {"person_id": "sel", "confidence": 0.93},
             "tracker_identity": {"person_id": "sel", "confidence": 0.81},
@@ -60,7 +60,7 @@ def validate_module_behavior() -> None:
 
     fallback_plan = assign_person_to_room(
         {
-            "room_id": "kitchen",
+            "room_id": "room_epsilon",
             "occupied_humans": ["sam"],
         }
     )
@@ -73,7 +73,7 @@ def validate_module_behavior() -> None:
 
     ambiguous_plan = assign_person_to_room(
         {
-            "room_id": "lounge_room",
+            "room_id": "room_delta",
             "occupied_humans": ["sel", "sam"],
             "tracker_identity": {"person_id": "alex", "confidence": 0.88},
         }

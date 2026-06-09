@@ -13,5 +13,6 @@ canonical_entity_class: pet
 rules:
   preserve_room_context: true
   preserve_confidence: true
+  fallback_event_id_mode: opaque_nonce_digest
   pet_only_affects_pet_occupancy: true
   person_targeted_automations: false

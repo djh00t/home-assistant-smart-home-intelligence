@@ -4,7 +4,7 @@
 
 - Deterministically classify a pram snapshot as `walk` or `drive` using local vehicle-context recency.
 - Preserve available room/person context from the input snapshot.
-- Planning-only behavior; do not trigger lock/garage actions, unlocks, or actuation.
+- Planning-only behavior; do not trigger lock/room_zeta actions, unlocks, or actuation.
 - Do not implement ANPR-only decisioning or vehicle-person linking logic here.
 
 ## Input contract

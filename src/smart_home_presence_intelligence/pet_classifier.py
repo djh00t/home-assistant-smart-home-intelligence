@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 from typing import Any, Mapping
+from uuid import uuid4
+
+from .anpr_service_and_event import build_opaque_identifier
 
 
 PET_LABELS = ("cat", "dog", "pet")
 PET_EVENT_SOURCE = "frigate"
+OPAQUE_EVENT_ID_RE = re.compile(r"^[a-z_]+::sha256:[0-9a-f]{64}$")
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,8 +42,24 @@ def normalize_pet_detection(detection: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(confidence, (int, float)) or not 0.0 <= float(confidence) <= 1.0:
         raise ValueError(f"invalid pet confidence: {confidence}")
 
+    fallback_event_id = build_opaque_identifier(
+        "pet_event",
+        {
+            "nonce": uuid4().hex,
+            "source": normalized.get("source", PET_EVENT_SOURCE),
+            "ts": normalized.get("ts", "1970-01-01T00:00:00Z"),
+        },
+    )
+    supplied_event_id = normalized.get("event_id")
+    if isinstance(supplied_event_id, str) and OPAQUE_EVENT_ID_RE.fullmatch(
+        supplied_event_id.strip()
+    ):
+        event_id = supplied_event_id.strip()
+    else:
+        event_id = fallback_event_id
+
     return {
-        "event_id": normalized.get("event_id", f"pet::{room}::{label}"),
+        "event_id": event_id,
         "label": label,
         "room": room,
         "confidence": float(confidence),

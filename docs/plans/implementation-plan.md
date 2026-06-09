@@ -67,7 +67,7 @@ Status: complete for the Phase 3 vehicle and contextual recognition slice.
 
 Delivered artifacts:
 
-- Driveway zone setup helpers and contract
+- Arrival Zone zone setup helpers and contract
 - ANPR service and event helpers and contract
 - Face enrollment and match helpers and contract
 - Vehicle-person linking helpers and contract

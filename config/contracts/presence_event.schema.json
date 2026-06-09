@@ -9,7 +9,8 @@
     "event_id": {
       "type": "string",
       "minLength": 1,
-      "description": "Stable UUID or comparable unique event identifier."
+      "pattern": "^[a-z_]+::sha256:[0-9a-f]{64}$",
+      "description": "Opaque deterministic event identifier used on canonical and dead-letter MQTT outputs."
     },
     "source": {
       "type": "string",
@@ -22,15 +23,15 @@
     "room": {
       "type": "string",
       "enum": [
-        "bedroom_master",
-        "bedroom_max",
-        "bedroom_spare",
-        "lounge_room",
-        "garage",
-        "driveway",
-        "backyard_shed",
-        "backyard_deck",
-        "kitchen"
+        "room_alpha",
+        "room_beta",
+        "room_gamma",
+        "room_delta",
+        "room_zeta",
+        "zone_alpha",
+        "zone_beta",
+        "zone_gamma",
+        "room_epsilon"
       ]
     },
     "camera": {
@@ -42,28 +43,31 @@
       "type": "string",
       "enum": ["human", "pet", "vehicle"]
     },
-    "person_id": {
+    "person_ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Stable household person identifier or the literal unknown."
+      "pattern": "^(unknown|resident::sha256:[0-9a-f]{64})$",
+      "description": "Opaque household resident reference or the literal unknown."
     },
     "confidence": {
       "type": "number",
       "minimum": 0,
       "maximum": 1
     },
-    "track_id": {
+    "tracker_ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Upstream tracker id when the event originated from a visual or occupancy track."
+      "pattern": "^tracker::sha256:[0-9a-f]{64}$",
+      "description": "Opaque tracker reference when the event originated from a visual or occupancy track."
     },
     "vehicle": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "plate": {
+        "plate_ref": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "^plate::sha256:[0-9a-f]{64}$"
         },
         "plate_confidence": {
           "type": "number",

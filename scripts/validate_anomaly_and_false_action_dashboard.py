@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -41,6 +43,9 @@ def validate_contract_text() -> None:
         "dashboard_record_type: anomaly_false_action_dashboard",
         "record_name: anomaly_and_false_action_dashboard",
         "dashboard_status: ready",
+        "dashboard_id_digest: sha256_canonical_json",
+        "dashboard_id_format: anomaly_and_false_action_dashboard::sha256:{dashboard_digest}",
+        "dashboard_id_raw_telemetry: false",
         "retention_days: 90",
         "immutable: true",
     ):
@@ -63,28 +68,28 @@ def validate_module_behavior() -> None:
 
     incidents = [
         {
-            "room_id": "lounge_room",
+            "room_id": "room_delta",
             "kind": "anomaly",
             "severity": "medium",
             "category": "motion_gap",
             "ts": "2026-06-08T12:45:00+10:00",
         },
         {
-            "room_id": "lounge_room",
+            "room_id": "room_delta",
             "kind": "false_action",
             "severity": "high",
             "category": "false_light",
             "ts": "2026-06-08T12:46:00+10:00",
         },
         {
-            "room_id": "bedroom_spare",
+            "room_id": "room_gamma",
             "kind": "false_action",
             "severity": "critical",
             "category": "false_override",
             "ts": "2026-06-08T12:47:00+10:00",
         },
         {
-            "room_id": "driveway",
+            "room_id": "zone_alpha",
             "kind": "anomaly",
             "severity": "low",
             "category": "foreign_review",
@@ -93,7 +98,7 @@ def validate_module_behavior() -> None:
     ]
 
     dashboard = build_anomaly_and_false_action_dashboard(
-        incidents, focus_room_id="bedroom_spare"
+        incidents, focus_room_id="room_gamma"
     )
     if dashboard is None:
         raise SystemExit("incidents should create a dashboard")
@@ -107,17 +112,17 @@ def validate_module_behavior() -> None:
         raise SystemExit("dashboard should be ready")
 
     cards = dashboard["room_cards"]
-    if [card["room"] for card in cards] != ["bedroom_spare", "lounge_room", "driveway"]:
+    if [card["room"] for card in cards] != ["room_gamma", "room_delta", "zone_alpha"]:
         raise SystemExit("dashboard cards should follow canonical room order")
-    bedroom_spare = cards[0]
-    lounge_room = cards[1]
-    driveway = cards[2]
-    if lounge_room["incident_count"] != 2 or lounge_room["false_action_count"] != 1:
-        raise SystemExit("lounge_room incidents should be aggregated")
-    if bedroom_spare["peak_severity"] != "critical":
-        raise SystemExit("bedroom_spare should preserve highest severity")
-    if driveway["review_priority"] != "low":
-        raise SystemExit("driveway review priority should match severity")
+    room_gamma = cards[0]
+    room_delta = cards[1]
+    zone_alpha = cards[2]
+    if room_delta["incident_count"] != 2 or room_delta["false_action_count"] != 1:
+        raise SystemExit("room_delta incidents should be aggregated")
+    if room_gamma["peak_severity"] != "critical":
+        raise SystemExit("room_gamma should preserve highest severity")
+    if zone_alpha["review_priority"] != "low":
+        raise SystemExit("zone_alpha review priority should match severity")
     if dashboard["summary"]["incident_count"] != 4:
         raise SystemExit("summary should count all incidents")
     if dashboard["summary"]["anomaly_count"] != 2:
@@ -126,8 +131,22 @@ def validate_module_behavior() -> None:
         raise SystemExit("summary should count false actions")
     if dashboard["summary"]["critical_room_count"] != 1:
         raise SystemExit("summary should count critical rooms")
-    if dashboard["focus_room_id"] != "bedroom_spare":
+    if dashboard["focus_room_id"] != "room_gamma":
         raise SystemExit("focus_room_id should normalize to lowercase")
+    expected_dashboard_id = "anomaly_and_false_action_dashboard::sha256:" + hashlib.sha256(
+        json.dumps(
+            {
+                "focus_room_id": "room_gamma",
+                "room_cards": cards,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    if dashboard["dashboard_id"] != expected_dashboard_id:
+        raise SystemExit("dashboard_id should use a deterministic sha256 digest")
+    if "room_delta" in dashboard["dashboard_id"] or "2026-06-08T12:48:00+10:00" in dashboard["dashboard_id"]:
+        raise SystemExit("dashboard_id should not expose raw room telemetry")
 
     retention = dashboard.get("retention")
     if not isinstance(retention, dict) or retention.get("days") != 90:
@@ -138,7 +157,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("dashboard retention constant should be 90 days")
 
     repeated = build_anomaly_and_false_action_dashboard(
-        incidents, focus_room_id="bedroom_spare"
+        incidents, focus_room_id="room_gamma"
     )
     if repeated != dashboard:
         raise SystemExit("identical incidents should yield identical dashboard models")

@@ -1,12 +1,12 @@
 version: 0.3.0
-description: Immutable review queue for phase 3 foreign or unknown driveway identity evidence.
+description: Immutable review queue for phase 3 foreign or unknown zone_alpha identity evidence.
 
 scope:
   behavior: immutable_foreign_identity_queue
   backlog_boundary:
     - no_action_hooks
     - no_vehicle_person_linking
-    - no_garage_lock_actuation
+    - no_room_zeta_lock_actuation
     - no_vehicle_control
 
 input:
@@ -22,7 +22,7 @@ input:
     - ts
 
 normalization:
-  canonical_room_id: driveway
+  canonical_room_id: zone_alpha
   room_reference_required: true
   plate_transform: uppercase_strip_separators
   identity_status_foreign_values:
@@ -53,3 +53,7 @@ output:
   review_status: queued
   retention_days: 90
   immutable: true
+  queue_id_evidence_digest: sha256_canonical_json
+  queue_id_format: foreign_identity_log_queue::{room}::{camera}::sha256:{evidence_digest}
+  queue_id_raw_sensitive_evidence: false
+  identity_raw_plate_or_person: false

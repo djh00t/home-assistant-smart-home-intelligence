@@ -1,12 +1,12 @@
 version: 0.3.0
-description: Deterministic pram walking-vs-driving classification for phase 3 driveway-aware presence planning.
+description: Deterministic pram walking-vs-driving classification for phase 3 zone_alpha-aware presence planning.
 
 scope:
   behavior: deterministic_classification
   planning_only: true
   backlog_boundary:
     - no_lock_or_unlock_behavior
-    - no_garage_door_actuation
+    - no_room_zeta_door_actuation
     - no_anpr_only_logic
     - no_vehicle_person_linking
 
