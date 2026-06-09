@@ -176,3 +176,11 @@ These commands validate the README, contracts, package shape, release alignment,
 - [Roadmap](docs/roadmap/roadmap.md)
 - [Implementation plan](docs/plans/implementation-plan.md)
 - [Task backlog](docs/tasks/task_backlog.md)
+
+## Project Policies
+
+- [License](LICENSE)
+- [Security policy](SECURITY.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Support](SUPPORT.md)

@@ -10,6 +10,10 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ROOT / "README.md",
+    ROOT / "SECURITY.md",
+    ROOT / "CONTRIBUTING.md",
+    ROOT / "CODE_OF_CONDUCT.md",
+    ROOT / "SUPPORT.md",
     ROOT / "docs/specs/2026-06-07-smart-home-intelligence-spec.md",
     ROOT / "docs/roadmap/roadmap.md",
     ROOT / "docs/plans/implementation-plan.md",
