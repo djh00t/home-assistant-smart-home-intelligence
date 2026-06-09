@@ -69,15 +69,16 @@ Delivered:
 
 - HACS repository metadata and brand assets
 - Custom integration scaffold and config flow
+- Room activity, bridge health, override, and retention status entity scaffolding
+- Restoreable config-entry runtime payloads
 - Canonical MQTT bridge and runtime helpers
 - Service, diagnostics, and repair scaffolding
 - Release/version packaging alignment
 
 Planned next:
 
-- Entity platforms for room state, lighting, and dashboards
-- Restoreable HA config entry behavior
 - HACS release verification and downgrade path
+- Later phase-5 entity coverage for lighting, dashboards, and room-policy surfaces
 
 ## Milestones
 
