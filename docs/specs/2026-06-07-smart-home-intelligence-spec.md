@@ -2,7 +2,7 @@
 title: Smart Home Presence, Lighting, and Personalization Spec
 owner: Home Assistant Program
 created: 2026-06-07
-version: 0.5.0
+version: 0.6.0
 ---
 
 # Smart Home Presence, Lighting, and Personalization
@@ -29,6 +29,7 @@ In scope:
 - Jetson Xavier ML stack (Frigate + optional face/plate service + MQTT bridge)
 - Event and scene policy in HA
 - Dashboard for mode/room state and overrides
+- Runtime-backed room-policy sensors for house mode and per-room lighting state
 - BDD scenarios for every behavior change
 
 Out of scope (for this stage):

@@ -17,6 +17,7 @@ REQUIRED_FILES = [
     ROOT / "tests/features/smart_home_presence.feature",
     ROOT / "tests/features/hacs_package_management.feature",
     ROOT / "tests/features/hacs_integration_entities.feature",
+    ROOT / "tests/features/hacs_room_policy_entities.feature",
 ]
 
 

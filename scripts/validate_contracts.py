@@ -353,7 +353,7 @@ REQUIRED_RETENTION_LINES = [
     "foreign_plate_person_alerts: 90",
 ]
 REQUIRED_HACS_LINES = [
-    "version: 0.5.0",
+    "version: 0.6.0",
     "name: smart_home_presence_intelligence",
     "category: integration",
     "package_root: custom_components/smart_home_presence_intelligence",

@@ -1,4 +1,4 @@
-version: 0.5.0
+version: 0.6.0
 name: smart_home_presence_intelligence
 category: integration
 package_root: custom_components/smart_home_presence_intelligence
@@ -15,6 +15,7 @@ required_files:
   - custom_components/smart_home_presence_intelligence/config_flow.py
   - custom_components/smart_home_presence_intelligence/diagnostics.py
   - custom_components/smart_home_presence_intelligence/manifest.json
+  - custom_components/smart_home_presence_intelligence/policy_sensor.py
   - custom_components/smart_home_presence_intelligence/repair.py
   - custom_components/smart_home_presence_intelligence/runtime.py
   - custom_components/smart_home_presence_intelligence/sensor.py

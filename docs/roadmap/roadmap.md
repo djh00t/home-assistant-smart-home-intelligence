@@ -70,6 +70,7 @@ Delivered:
 - HACS repository metadata and brand assets
 - Custom integration scaffold and config flow
 - Room activity, bridge health, override, and retention status entity scaffolding
+- Room-policy sensor scaffolding for house mode and per-room lighting policy
 - Restoreable config-entry runtime payloads
 - Canonical MQTT bridge and runtime helpers
 - Service, diagnostics, and repair scaffolding
@@ -78,7 +79,7 @@ Delivered:
 Planned next:
 
 - HACS release verification and downgrade path
-- Later phase-5 entity coverage for lighting, dashboards, and room-policy surfaces
+- Later phase-5 entity coverage for dashboards and richer automation surfaces
 
 ## Milestones
 

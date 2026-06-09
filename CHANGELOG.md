@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.0] - 2026-06-09
+
+### Added
+
+- Room-policy sensor surfaces for house mode, white scenes, and color-sync decisions derived from the room capability catalog.
+
+### Changed
+
+- Rebased the HACS package metadata, validators, README, roadmap, and implementation plan to reflect the new runtime policy surfaces.
+
 ## [0.5.0] - 2026-06-09
 
 ### Added

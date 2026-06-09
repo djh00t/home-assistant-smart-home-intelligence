@@ -20,6 +20,7 @@ REQUIRED_FILES = [
     INTEGRATION_ROOT / "config_flow.py",
     INTEGRATION_ROOT / "diagnostics.py",
     INTEGRATION_ROOT / "manifest.json",
+    INTEGRATION_ROOT / "policy_sensor.py",
     INTEGRATION_ROOT / "repair.py",
     INTEGRATION_ROOT / "runtime.py",
     INTEGRATION_ROOT / "sensor.py",
@@ -28,6 +29,7 @@ REQUIRED_FILES = [
     INTEGRATION_ROOT / "translations" / "en.json",
     ROOT / "tests" / "features" / "hacs_package_management.feature",
     ROOT / "tests" / "features" / "hacs_integration_entities.feature",
+    ROOT / "tests" / "features" / "hacs_room_policy_entities.feature",
 ]
 
 
@@ -103,6 +105,18 @@ def validate_entity_feature_file() -> None:
             raise SystemExit(f"{feature.relative_to(ROOT)} missing scenario text: {needle}")
 
 
+def validate_policy_feature_file() -> None:
+    feature = ROOT / "tests" / "features" / "hacs_room_policy_entities.feature"
+    text = feature.read_text(encoding="utf-8")
+    for needle in (
+        "House mode reflects tracked occupancy",
+        "Room policy sensors expose white scenes and color sync state",
+        "Room policy sensors restore from runtime state",
+    ):
+        if needle not in text:
+            raise SystemExit(f"{feature.relative_to(ROOT)} missing scenario text: {needle}")
+
+
 def main() -> int:
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", "quality-gates"}:
         print("Usage: validate_hacs_package.py [check|quality-gates]")
@@ -114,6 +128,7 @@ def main() -> int:
     validate_manifest()
     validate_feature_file()
     validate_entity_feature_file()
+    validate_policy_feature_file()
 
     print(
         "HACS package check passed"

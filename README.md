@@ -47,6 +47,7 @@ This directory now contains the HACS-first Home Assistant integration scaffold f
 - Created as an isolated private project folder under your workspace.
 - HACS integration packaging and release scaffolding are now checked in locally.
 - The HACS integration now exposes room activity, bridge health, override, and retention-status entity scaffolding.
+- The HACS integration now also exposes room-policy sensors for house mode and per-room lighting behavior.
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
 - Phase 2 people and pet personalization artifacts are now checked in locally.
 - Phase 3 vehicle and contextual recognition artifacts are now checked in locally.
