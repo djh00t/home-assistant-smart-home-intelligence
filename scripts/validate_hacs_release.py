@@ -36,15 +36,14 @@ def validate_changelog(version: str) -> None:
 def validate_git_tag(version: str) -> None:
     tag = f"v{version}"
     result = subprocess.run(
-        ["git", "tag", "--points-at", "HEAD"],
+        ["git", "rev-parse", "--verify", f"refs/tags/{tag}"],
         cwd=ROOT,
         check=True,
         capture_output=True,
         text=True,
     )
-    tags = {line.strip() for line in result.stdout.splitlines() if line.strip()}
-    if tag not in tags:
-        raise SystemExit(f"HEAD is not tagged with {tag}")
+    if not result.stdout.strip():
+        raise SystemExit(f"release tag {tag} is missing")
 
 
 def validate_downgrade_path(version: str) -> None:
