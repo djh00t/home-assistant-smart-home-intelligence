@@ -39,13 +39,14 @@
 ## Output
 
 - `source: anomaly_and_false_action_dashboard`
-- deterministic `dashboard_id`
+- deterministic opaque `dashboard_id` using `anomaly_and_false_action_dashboard::sha256:{dashboard_digest}`
 - `dashboard_record_type: anomaly_false_action_dashboard`
 - `record_name: anomaly_and_false_action_dashboard`
 - `dashboard_status: ready`
 - `tabs` for summary, rooms, anomalies, and false actions
 - `room_cards` grouped by room
 - immutable 90-day retention metadata
+- raw room telemetry fragments and timestamps must never appear inside `dashboard_id`
 
 ## Backlog link
 

@@ -7,11 +7,7 @@ dead_letter_topic: ha/presence/event/dlq
 source_aliases:
   mwave: mmwave
 
-room_aliases:
-  hall: lounge_room
-  living_room: lounge_room
-  office: bedroom_spare
-  master_bedroom: bedroom_master
+room_aliases: {}
 
 required_fields:
   - event_id
@@ -21,3 +17,24 @@ required_fields:
   - entity_class
   - confidence
   - ts
+
+outbound_allowed_fields:
+  - event_id
+  - source
+  - type
+  - room
+  - camera
+  - entity_class
+  - person_ref
+  - confidence
+  - tracker_ref
+  - vehicle
+  - context
+  - ts
+
+dead_letter_payload_policy: contract_field_subset
+event_id_policy: opaque_or_rekeyed
+identity_redaction:
+  resident_ids: opaque_sha256_ref
+  tracker_ids: opaque_sha256_ref
+  license_plates: opaque_sha256_ref

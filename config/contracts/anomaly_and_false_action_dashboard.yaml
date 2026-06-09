@@ -47,6 +47,9 @@ output:
     - summary
     - retention
     - ts
+  dashboard_id_digest: sha256_canonical_json
+  dashboard_id_format: anomaly_and_false_action_dashboard::sha256:{dashboard_digest}
+  dashboard_id_raw_telemetry: false
   dashboard_record_type: anomaly_false_action_dashboard
   record_name: anomaly_and_false_action_dashboard
   dashboard_status: ready

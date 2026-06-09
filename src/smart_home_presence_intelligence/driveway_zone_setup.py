@@ -1,4 +1,4 @@
-"""Driveway zone setup contract helpers for phase 0."""
+"""Arrival-zone setup contract helpers for phase 0."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ from typing import Any, Mapping
 import yaml
 
 
-DRIVEWAY_ZONE_ID = "driveway"
-INVALID_ZONE_MESSAGE = f"unsupported driveway zone: expected '{DRIVEWAY_ZONE_ID}'"
+DRIVEWAY_ZONE_ID = "zone_alpha"
+INVALID_ZONE_MESSAGE = f"unsupported arrival zone: expected '{DRIVEWAY_ZONE_ID}'"
 SETUP_PATH = (
     Path(__file__).resolve().parents[2] / "config" / "contracts" / "driveway_zone_setup.yaml"
 )
@@ -29,18 +29,18 @@ _DEFAULT_DIRECTION_MAP = {
 
 
 def _read_setup_payload(path: Path) -> dict[str, Any]:
-    """Read the driveway setup contract from YAML."""
+    """Read the arrival-zone setup contract from YAML."""
 
     with path.open(encoding="utf-8") as handle:
         payload = yaml.safe_load(handle)
     if not isinstance(payload, dict):
-        raise ValueError("driveway zone setup contract must be a mapping")
+        raise ValueError("arrival-zone setup contract must be a mapping")
     return payload
 
 
 def load_driveway_zone_setup(path: Path | None = None) -> dict[str, Any]:
     """
-    Load driveway zone setup contract defaults.
+    Load arrival-zone setup contract defaults.
 
     The optional ``path`` argument is accepted for forward compatibility with future
     contract loaders and test wiring.
@@ -53,10 +53,10 @@ def load_driveway_zone_setup(path: Path | None = None) -> dict[str, Any]:
 
 def resolve_driveway_zone(zone_id: str) -> dict[str, Any]:
     """
-    Return the canonical driveway setup.
+    Return the canonical arrival-zone setup.
 
     Raises:
-        ValueError: when the zone_id is not the canonical driveway id.
+        ValueError: when the zone_id is not the canonical arrival-zone id.
     """
 
     setup = load_driveway_zone_setup()
@@ -70,7 +70,7 @@ def resolve_driveway_zone(zone_id: str) -> dict[str, Any]:
 
 
 def normalize_driveway_direction(direction: str | None) -> str:
-    """Normalize driveway direction semantics for planning and routing."""
+    """Normalize arrival-zone direction semantics for planning and routing."""
 
     if direction is None:
         return "stationary"
@@ -84,7 +84,7 @@ def normalize_driveway_direction(direction: str | None) -> str:
 
 def validate_driveway_reference(event: Mapping[str, Any]) -> bool:
     """
-    Validate the driveway reference in a setup-facing payload.
+    Validate the arrival-zone reference in a setup-facing payload.
 
     Returns False when room_id is missing or not canonical.
     """

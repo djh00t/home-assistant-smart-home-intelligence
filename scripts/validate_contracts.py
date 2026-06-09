@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from json import loads
 from pathlib import Path
+import re
 import sys
 
 
@@ -67,28 +68,48 @@ REQUIRED_FILES = [
     ROOT / "docs/contracts/hacs-package-management.md",
 ]
 REQUIRED_ROOMS = [
-    "bedroom_master",
-    "bedroom_max",
-    "bedroom_spare",
-    "lounge_room",
-    "garage",
-    "driveway",
-    "backyard_shed",
-    "backyard_deck",
-    "kitchen",
+    "room_alpha",
+    "room_beta",
+    "room_gamma",
+    "room_delta",
+    "room_zeta",
+    "zone_alpha",
+    "zone_beta",
+    "zone_gamma",
+    "room_epsilon",
 ]
 REQUIRED_CAPABILITY_LINES = [
-    "room_id: bedroom_master",
-    "room_id: bedroom_max",
-    "room_id: bedroom_spare",
-    "room_id: lounge_room",
-    "room_id: kitchen",
-    "room_id: garage",
+    "description: Synthetic sample room capability catalog",
+    "room_id: sample_room_alpha",
+    "room_id: sample_room_beta",
+    "room_id: sample_study_zone",
+    "room_id: sample_room_delta",
+    "room_id: sample_room_epsilon",
+    "room_id: sample_storage_zone",
     "supports_lighting: true",
     "supports_lighting: false",
     "supports_color: true",
     "supports_color: false",
 ]
+REQUIRED_PUBLIC_SAMPLE_DOC_LINES = {
+    ROOT / "README.md": [
+        "Ships a synthetic capability sample in `config/inventory/room_capabilities.yaml`",
+        "synthetic public inventory sample declared in `config/inventory/rooms.yaml`",
+        "sensor.room_delta_state",
+        "sensor.room_gamma_color_sync",
+    ],
+    ROOT / "docs/contracts/scene-preference-ui.md": [
+        "synthetic `sample_*` room ids",
+        "published room capability file as a synthetic sample",
+        "Exclude non-lighting or exterior-only entries from dashboard cards.",
+    ],
+    ROOT / "docs/contracts/phase0-foundation.md": [
+        "synthetic public sample",
+        "`sample_room_alpha`",
+        "`sample_storage_zone`",
+        "simple, declarative, and synthetic",
+    ],
+}
 REQUIRED_TOPICS = [
     "ha/presence/event",
     "ha/presence/event/dlq",
@@ -97,10 +118,13 @@ REQUIRED_BRIDGE_LINES = [
     "canonical_topic: ha/presence/event",
     "dead_letter_topic: ha/presence/event/dlq",
     "mwave: mmwave",
-    "hall: lounge_room",
-    "living_room: lounge_room",
-    "office: bedroom_spare",
-    "master_bedroom: bedroom_master",
+    "room_aliases: {}",
+    "- person_ref",
+    "- tracker_ref",
+    "event_id_policy: opaque_or_rekeyed",
+    "resident_ids: opaque_sha256_ref",
+    "tracker_ids: opaque_sha256_ref",
+    "license_plates: opaque_sha256_ref",
 ]
 REQUIRED_FSM_LINES = [
     "empty",
@@ -156,6 +180,10 @@ REQUIRED_TRACKER_LINES = [
     "not_home",
     "arriving",
     "leaving",
+    "fallback_event_id_mode: opaque_sha256_digest",
+    "supplied_event_id_mode: opaque_or_rekeyed",
+    "person_reference_mode: opaque_sha256_ref",
+    "tracker_reference_mode: opaque_sha256_ref",
 ]
 REQUIRED_PERSON_ROOM_LINES = [
     "occupied_humans",
@@ -175,7 +203,7 @@ REQUIRED_DESK_LIGHT_LINES = [
     "assignment_source",
     "confidence",
     "desk_profiles",
-    "bedroom_spare_only_resolution: true",
+    "room_gamma_only_resolution: true",
     "assignment_required_for_resolution: true",
     "should_apply_marks_planning_only: true",
     "preserve_room_context: true",
@@ -205,6 +233,7 @@ REQUIRED_PET_LINES = [
     "canonical_entity_class: pet",
     "preserve_room_context: true",
     "preserve_confidence: true",
+    "fallback_event_id_mode: opaque_nonce_digest",
     "pet_only_affects_pet_occupancy: true",
     "person_targeted_automations: false",
 ]
@@ -220,21 +249,25 @@ REQUIRED_ANPR_LINES = [
     "no_face_linkage",
     "no_foreign_plate_queue",
     "no_vehicle_person_linking",
-    "canonical_room_id: driveway",
+    "canonical_room_id: zone_alpha",
     "source: anpr",
     "entity_class: vehicle",
     "room_reference_required: true",
     "plate_transform: uppercase_strip_separators",
     "plate_confidence_range: [0.0, 1.0]",
     "vehicle_type_fallback: unknown",
-    "mapping_source: driveway_zone_setup",
+    "mapping_source: zone_alpha_zone_setup",
+    "fallback_event_id_mode: opaque_sha256_digest",
+    "fallback_event_id_exposes_plate: false",
 ]
 REQUIRED_VEHICLE_PERSON_LINKING_LINES = [
     "behavior: deterministic_linking",
-    "canonical_room_id: driveway",
+    "canonical_room_id: zone_alpha",
     "room_reference_required: true",
     "plate_confidence_threshold: 0.8",
     "face_match_confidence_threshold: 0.75",
+    "fallback_event_id_mode: opaque_sha256_digest",
+    "fallback_event_id_exposes_person_or_plate: false",
     "arrival: vehicle_arrival",
     "departure: vehicle_departure",
 ]
@@ -242,13 +275,15 @@ REQUIRED_FOREIGN_IDENTITY_QUEUE_LINES = [
     "behavior: immutable_foreign_identity_queue",
     "no_action_hooks",
     "no_vehicle_person_linking",
-    "no_garage_lock_actuation",
+    "no_room_zeta_lock_actuation",
     "room_reference_required: true",
     "queue_record_type: foreign_identity_alert",
     "record_name: foreign_identity_log",
     "review_status: queued",
     "retention_days: 90",
     "immutable: true",
+    "queue_id_evidence_digest: sha256_canonical_json",
+    "queue_id_raw_sensitive_evidence: false",
 ]
 REQUIRED_MULTI_ROOM_HEATMAP_LINES = [
     "behavior: deterministic_multi_room_heatmap",
@@ -264,8 +299,13 @@ REQUIRED_MULTI_ROOM_HEATMAP_LINES = [
     "report_record_type: room_heatmap",
     "record_name: multi_room_heatmap",
     "report_status: ready",
-    "retention_days: 90",
+    "retention_days: 14",
     "immutable: true",
+    "report_id_digest: sha256_canonical_json",
+    "report_id_raw_telemetry: false",
+    "per_room_provenance_retained: false",
+    "per_room_timestamp_detail: omitted",
+    "report_level_input_timestamp_retained: false",
 ]
 REQUIRED_SCENE_PREFERENCE_UI_LINES = [
     "behavior: deterministic_scene_preference_ui",
@@ -305,11 +345,15 @@ REQUIRED_NON_HOME_ZONE_QUEUE_LINES = [
     "no_indoor_room_automation",
     "no_vehicle_person_linking",
     "room_reference_required: true",
+    "queue_id_evidence_digest: sha256_canonical_json",
     "queue_record_type: non_home_zone_alert",
     "record_name: non_home_zone_queue",
     "review_status: queued",
     "retention_days: 90",
     "immutable: true",
+    "queue_id_raw_sensitive_evidence: false",
+    "evidence_identity_fields_mode: presence_flags_only",
+    "evidence_linkable_refs_retained: false",
 ]
 REQUIRED_PRAM_LINES = [
     "behavior: deterministic_classification",
@@ -398,6 +442,17 @@ def validate_capabilities() -> None:
         for line in missing:
             print(line)
         raise SystemExit(1)
+
+
+def validate_public_sample_docs() -> None:
+    for path, required_lines in REQUIRED_PUBLIC_SAMPLE_DOC_LINES.items():
+        text = path.read_text(encoding="utf-8")
+        missing = [line for line in required_lines if line not in text]
+        if missing:
+            print(f"Missing public sample doc lines in {path.relative_to(ROOT)}:")
+            for line in missing:
+                print(line)
+            raise SystemExit(1)
 
 
 def validate_topics() -> None:
@@ -700,6 +755,43 @@ def validate_schema() -> None:
     if schema.get("additionalProperties") is not False:
         raise SystemExit("presence_event.schema.json must forbid additionalProperties")
 
+    if "person_id" in properties or "track_id" in properties:
+        raise SystemExit("presence_event.schema.json should not expose raw person_id or track_id")
+    if "person_ref" not in properties or "tracker_ref" not in properties:
+        raise SystemExit("presence_event.schema.json missing opaque identity refs")
+    if properties.get("event_id", {}).get("pattern") != "^[a-z_]+::sha256:[0-9a-f]{64}$":
+        raise SystemExit("presence_event.schema.json event_id must enforce opaque digest ids")
+    if properties.get("person_ref", {}).get("pattern") != "^(unknown|resident::sha256:[0-9a-f]{64})$":
+        raise SystemExit("presence_event.schema.json person_ref must enforce opaque resident refs")
+    if properties.get("tracker_ref", {}).get("pattern") != "^tracker::sha256:[0-9a-f]{64}$":
+        raise SystemExit("presence_event.schema.json tracker_ref must enforce opaque tracker refs")
+
+    vehicle_properties = properties.get("vehicle", {}).get("properties", {})
+    if "plate" in vehicle_properties:
+        raise SystemExit("presence_event.schema.json should not expose a raw plate field")
+    if "plate_ref" not in vehicle_properties:
+        raise SystemExit("presence_event.schema.json missing vehicle.plate_ref")
+    if vehicle_properties.get("plate_ref", {}).get("pattern") != "^plate::sha256:[0-9a-f]{64}$":
+        raise SystemExit("presence_event.schema.json plate_ref must enforce opaque plate refs")
+
+
+def validate_pet_classifier_behavior() -> None:
+    sys.path.insert(0, str(ROOT / "src"))
+    from smart_home_presence_intelligence.pet_classifier import normalize_pet_detection  # noqa: WPS433
+
+    normalized = normalize_pet_detection(
+        {
+            "room": "room_delta",
+            "label": "cat",
+            "confidence": 0.87,
+            "ts": "2026-06-07T12:00:00+10:00",
+        }
+    )
+    if re.fullmatch(r"pet_event::sha256:[0-9a-f]{64}", normalized["event_id"]) is None:
+        raise SystemExit("pet classifier should use an opaque fallback event_id")
+    if "cat" in normalized["event_id"] or "room_delta" in normalized["event_id"]:
+        raise SystemExit("pet classifier fallback event_id should not expose raw pet metadata")
+
 
 def validate_retention() -> None:
     text = (ROOT / "config/policies/retention.yaml").read_text(encoding="utf-8")
@@ -731,6 +823,7 @@ def main() -> int:
     validate_files_exist()
     validate_rooms()
     validate_capabilities()
+    validate_public_sample_docs()
     validate_topics()
     validate_bridge_contract()
     validate_room_fsm_contract()
@@ -757,6 +850,7 @@ def main() -> int:
     validate_security_and_retention_contract()
     validate_hacs_package_contract()
     validate_schema()
+    validate_pet_classifier_behavior()
     validate_retention()
 
     print(

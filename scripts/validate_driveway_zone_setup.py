@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the driveway zone setup slice."""
+"""Validate the arrival-zone setup slice."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ FILES = [
 def validate_files_exist() -> None:
     missing = [str(path.relative_to(ROOT)) for path in FILES if not path.exists()]
     if missing:
-        print("Missing driveway zone setup files:")
+        print("Missing arrival-zone setup files:")
         for path in missing:
             print(path)
         raise SystemExit(1)
@@ -26,8 +26,8 @@ def validate_files_exist() -> None:
 def validate_contract_text() -> None:
     text = (ROOT / "config/contracts/driveway_zone_setup.yaml").read_text(encoding="utf-8")
     for needle in (
-        "zone_id: driveway",
-        "canonical_room_id: driveway",
+        "zone_id: zone_alpha",
+        "canonical_room_id: zone_alpha",
         "canonical_source_priority:",
         "- anpr",
         "- frigate",
@@ -55,17 +55,17 @@ def validate_module_behavior() -> None:
     setup = load_driveway_zone_setup()
     zone = setup.get("zone", {})
     if zone.get("room_id") != DRIVEWAY_ZONE_ID:
-        raise SystemExit("setup room_id must be driveway")
+        raise SystemExit("setup room_id must be zone_alpha")
     if zone.get("canonical_room_id") != DRIVEWAY_ZONE_ID:
-        raise SystemExit("setup canonical_room_id must be driveway")
+        raise SystemExit("setup canonical_room_id must be zone_alpha")
 
     resolve_driveway_zone(DRIVEWAY_ZONE_ID)
     try:
-        resolve_driveway_zone("driveway_zone")
+        resolve_driveway_zone("zone_alpha_zone")
     except ValueError:
         pass
     else:  # pragma: no cover - explicit defensive branch
-        raise SystemExit("non-canonical driveway zone should fail resolution")
+        raise SystemExit("non-canonical zone_alpha zone should fail resolution")
 
     if normalize_driveway_direction("enter") != "arrival":
         raise SystemExit("enter direction should normalize to arrival")
@@ -74,10 +74,10 @@ def validate_module_behavior() -> None:
     if normalize_driveway_direction("unknown") != "stationary":
         raise SystemExit("unknown direction should normalize to stationary")
 
-    if not validate_driveway_reference({"room": "driveway"}):
-        raise SystemExit("canonical driveway reference should validate")
-    if validate_driveway_reference({"room_id": "garage"}):
-        raise SystemExit("non-driveway reference should not validate")
+    if not validate_driveway_reference({"room": "zone_alpha"}):
+        raise SystemExit("canonical zone_alpha reference should validate")
+    if validate_driveway_reference({"room_id": "room_zeta"}):
+        raise SystemExit("non-zone_alpha reference should not validate")
 
 
 def main() -> int:
@@ -90,9 +90,9 @@ def main() -> int:
     validate_module_behavior()
 
     print(
-        "Driveway zone setup check passed"
+        "Arrival-zone setup check passed"
         if sys.argv[1] == "check"
-        else "Driveway zone setup quality gates passed"
+        else "Arrival-zone setup quality gates passed"
     )
     return 0
 

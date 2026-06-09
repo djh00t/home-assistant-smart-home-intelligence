@@ -41,18 +41,18 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.room_fsm import RoomSnapshot, advance_room_state, evaluate_room_state  # noqa: E501, WPS433
 
-    if evaluate_room_state(RoomSnapshot("lounge_room", 1, 0)) != "humans_only":
+    if evaluate_room_state(RoomSnapshot("room_delta", 1, 0)) != "humans_only":
         raise SystemExit("humans_only state failed")
-    if evaluate_room_state(RoomSnapshot("kitchen", 0, 1)) != "pets_only":
+    if evaluate_room_state(RoomSnapshot("room_epsilon", 0, 1)) != "pets_only":
         raise SystemExit("pets_only state failed")
-    if evaluate_room_state(RoomSnapshot("lounge_room", 1, 1)) != "mixed":
+    if evaluate_room_state(RoomSnapshot("room_delta", 1, 1)) != "mixed":
         raise SystemExit("mixed state failed")
-    if evaluate_room_state(RoomSnapshot("bedroom_master", 1, 0, sleeping=True)) != "sleeping":
+    if evaluate_room_state(RoomSnapshot("room_alpha", 1, 0, sleeping=True)) != "sleeping":
         raise SystemExit("sleeping state failed")
-    if evaluate_room_state(RoomSnapshot("bedroom_master", 1, 0, sleeping=True, bed_motion_only=True)) != "bed_motion_only":
+    if evaluate_room_state(RoomSnapshot("room_alpha", 1, 0, sleeping=True, bed_motion_only=True)) != "bed_motion_only":
         raise SystemExit("bed_motion_only state failed")
     if advance_room_state(
-        "sleeping", RoomSnapshot("bedroom_master", 1, 0, sleeping=True, bed_motion_only=True)
+        "sleeping", RoomSnapshot("room_alpha", 1, 0, sleeping=True, bed_motion_only=True)
     ) != "bed_motion_only":
         raise SystemExit("bed_motion_only transition failed")
 

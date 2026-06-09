@@ -110,8 +110,7 @@ class RuntimeSensor(SensorEntity):  # type: ignore[misc]
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
         if self._spec.key.startswith("room_"):
-            room_id = self._spec.key.removeprefix("room_").removesuffix("_state")
-            return dict(self._runtime.room_activity.get(room_id, {}))
+            return {}
         return {
             "bridge_health": self._runtime.bridge_health,
             "override_enabled": self._runtime.override_enabled,
@@ -125,4 +124,3 @@ class RuntimeSensor(SensorEntity):  # type: ignore[misc]
         if self._unsubscribe is not None:
             self._runtime.remove_listener(self.async_write_ha_state)
             self._unsubscribe = None
-

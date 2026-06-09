@@ -8,6 +8,8 @@ import json
 
 import yaml
 
+from .anpr_service_and_event import build_opaque_identifier
+
 
 ANOMALY_DASHBOARD_SOURCE = "anomaly_and_false_action_dashboard"
 ANOMALY_DASHBOARD_RECORD_TYPE = "anomaly_false_action_dashboard"
@@ -119,8 +121,7 @@ def _dashboard_id(cards: list[dict[str, Any]], focus_room_id: str | None = None)
         "focus_room_id": focus_room_id,
         "room_cards": cards,
     }
-    fragment = json.dumps(payload, sort_keys=True, separators=(",", ":"))
-    return f"{ANOMALY_DASHBOARD_SOURCE}::{fragment}"
+    return build_opaque_identifier(ANOMALY_DASHBOARD_SOURCE, payload)
 
 
 def _build_room_cards(

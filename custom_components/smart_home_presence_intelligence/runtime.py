@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Callable
@@ -10,6 +10,15 @@ from typing import Any, Callable
 import yaml
 
 from .bridge import DEAD_LETTER_TOPIC, VALID_ROOMS
+
+PUBLIC_SAMPLE_CAPABILITY_ALIASES = {
+    "room_alpha": "sample_room_alpha",
+    "room_beta": "sample_room_beta",
+    "room_gamma": "sample_study_zone",
+    "room_delta": "sample_room_delta",
+    "room_epsilon": "sample_room_epsilon",
+    "room_zeta": "sample_storage_zone",
+}
 
 
 @dataclass(slots=True)
@@ -65,24 +74,13 @@ class IntegrationRuntime:
         """Restore runtime state from a serialized payload."""
 
         payload = payload or {}
-        runtime = cls(
+        return cls(
             settings=settings,
             override_enabled=bool(payload.get("override_enabled", False)),
-            override_reason=str(payload.get("override_reason", "")),
             bridge_health=str(payload.get("bridge_health", "unknown")),
-            bridge_last_topic=payload.get("bridge_last_topic"),
-            bridge_last_error=payload.get("bridge_last_error"),
             retention_audit_status=str(payload.get("retention_audit_status", "not_run")),
             retention_audit_message=str(payload.get("retention_audit_message", "")),
-            room_activity=dict(payload.get("room_activity", {})),
         )
-        runtime.last_routed_event = payload.get("last_routed_event")
-        runtime.last_retention_audit = payload.get("last_retention_audit")
-        refreshed_at = payload.get("refreshed_at")
-        if refreshed_at:
-            runtime.refreshed_at = datetime.fromisoformat(str(refreshed_at))
-        runtime.__post_init__()
-        return runtime
 
     def add_listener(self, callback: Callable[[], None]) -> None:
         """Register a listener that should run after each state update."""
@@ -122,7 +120,7 @@ class IntegrationRuntime:
             "event_id": payload.get("event_id", "test-event"),
             "source": payload.get("source", "tracker"),
             "type": payload.get("type", "state_change"),
-            "room": payload.get("room", "lounge_room"),
+            "room": payload.get("room", "room_delta"),
             "entity_class": payload.get("entity_class", "human"),
             "confidence": payload.get("confidence", 1.0),
             "ts": payload.get("ts", datetime.now(UTC).isoformat()),
@@ -152,7 +150,13 @@ class IntegrationRuntime:
     def room_capability(self, room_id: str) -> dict[str, Any]:
         """Return the capability entry for a room."""
 
-        return self._load_room_capabilities().get(room_id, {})
+        capabilities = self._load_room_capabilities()
+        if room_id in capabilities:
+            return capabilities[room_id]
+        sample_room_id = PUBLIC_SAMPLE_CAPABILITY_ALIASES.get(room_id)
+        if sample_room_id is None:
+            return {}
+        return capabilities.get(sample_room_id, {})
 
     def total_humans_present(self) -> int:
         """Return the total number of tracked humans across all rooms."""
@@ -287,28 +291,31 @@ class IntegrationRuntime:
         self._notify_listeners()
         return result
 
-    def snapshot(self) -> dict[str, Any]:
-        """Return a redacted diagnostic snapshot."""
+    def diagnostics_snapshot(self) -> dict[str, Any]:
+        """Return the opt-in redacted diagnostics payload."""
+
+        if not self.settings.enable_diagnostics:
+            return {"diagnostics_enabled": False}
 
         return {
-            "settings": asdict(self.settings),
+            "diagnostics_enabled": True,
+            "settings": {
+                "mqtt_topic_prefix": self.settings.mqtt_topic_prefix,
+                "retention_days": self.settings.retention_days,
+                "enable_diagnostics": self.settings.enable_diagnostics,
+            },
             "override_enabled": self.override_enabled,
-            "override_reason": self.override_reason,
             "bridge_health": self.bridge_health,
-            "bridge_last_topic": self.bridge_last_topic,
-            "bridge_last_error": self.bridge_last_error,
             "retention_audit_status": self.retention_audit_status,
             "retention_audit_message": self.retention_audit_message,
-            "house_mode": self.house_mode(),
-            "total_humans_present": self.total_humans_present(),
-            "total_pets_present": self.total_pets_present(),
-            "room_activity": self.room_activity,
-            "last_routed_event": self.last_routed_event,
-            "last_retention_audit": self.last_retention_audit,
-            "refreshed_at": self.refreshed_at.isoformat(),
         }
 
     def serialize(self) -> dict[str, Any]:
         """Return a JSON-safe restore payload."""
 
-        return self.snapshot()
+        return {
+            "override_enabled": self.override_enabled,
+            "bridge_health": self.bridge_health,
+            "retention_audit_status": self.retention_audit_status,
+            "retention_audit_message": self.retention_audit_message,
+        }

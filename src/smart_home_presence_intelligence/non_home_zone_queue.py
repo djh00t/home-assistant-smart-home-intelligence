@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from typing import Any, Mapping
 import json
@@ -22,7 +23,14 @@ ROOM_INVENTORY_PATH = (
     / "inventory"
     / "rooms.yaml"
 )
-CURRENT_NON_HOME_ZONE = "driveway"
+CURRENT_NON_HOME_ZONE = "zone_alpha"
+ALLOWED_EVIDENCE_FIELDS = (
+    "source",
+    "identity_status",
+    "face_match_confidence",
+    "direction",
+    "confidence",
+)
 
 
 def _read_room_inventory(path: Path | None = None) -> dict[str, Any]:
@@ -80,16 +88,24 @@ def _normalize_camera(snapshot: Mapping[str, Any]) -> str:
 
 def _build_queue_id(room: str, camera: str, evidence: dict[str, Any]) -> str:
     evidence_text = json.dumps(evidence, sort_keys=True, separators=(",", ":"))
-    return f"{NON_HOME_ZONE_QUEUE_SOURCE}::{room}::{camera}::{evidence_text}"
+    evidence_digest = hashlib.sha256(evidence_text.encode("utf-8")).hexdigest()
+    return f"{NON_HOME_ZONE_QUEUE_SOURCE}::{room}::{camera}::sha256:{evidence_digest}"
 
 
 def _extract_evidence(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     evidence: dict[str, Any] = {}
-    for key, value in snapshot.items():
-        if key in {"room_id", "room", "zone_id", "camera"}:
-            continue
+    for key in ALLOWED_EVIDENCE_FIELDS:
+        value = snapshot.get(key)
         if value is not None:
             evidence[key] = value
+    if snapshot.get("plate") is not None:
+        plate_text = str(snapshot["plate"]).strip()
+        if plate_text:
+            evidence["plate_seen"] = True
+    if snapshot.get("person_id") is not None:
+        person_text = str(snapshot["person_id"]).strip()
+        if person_text:
+            evidence["person_seen"] = True
     return evidence
 
 
@@ -101,7 +117,7 @@ def build_non_home_zone_queue_record(
     room = _normalize_room(snapshot)
     non_home_zones = _load_non_home_zones()
     if CURRENT_NON_HOME_ZONE not in non_home_zones:
-        raise ValueError("inventory is missing expected non-home zone: driveway")
+        raise ValueError("inventory is missing expected non-home zone: zone_alpha")
     if room not in non_home_zones:
         return None
 

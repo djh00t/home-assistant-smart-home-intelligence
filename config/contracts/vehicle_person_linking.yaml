@@ -1,11 +1,11 @@
 version: 0.3.0
-description: Deterministic driveway vehicle-person linking for phase 3 planning.
+description: Deterministic zone_alpha vehicle-person linking for phase 3 planning.
 
 scope:
   behavior: deterministic_linking
   backlog_boundary:
     - no_vehicle_person_actioning
-    - no_garage_door_actuation
+    - no_room_zeta_door_actuation
     - no_lock_or_unlock_behavior
 
 input:
@@ -22,7 +22,7 @@ input:
     - ts
 
 normalization:
-  canonical_room_id: driveway
+  canonical_room_id: zone_alpha
   room_reference_required: true
   plate_transform: uppercase_strip_separators
   direction_map:
@@ -31,6 +31,8 @@ normalization:
   plate_confidence_threshold: 0.8
   face_match_confidence_threshold: 0.75
   linked_confidence_mode: minimum_of_sources
+  fallback_event_id_mode: opaque_sha256_digest
+  fallback_event_id_exposes_person_or_plate: false
 
 output:
   include_fields:

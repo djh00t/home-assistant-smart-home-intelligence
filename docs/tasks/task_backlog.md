@@ -28,7 +28,7 @@ Completed:
 
 Completed:
 
-1. TASK-014 `driveway_zone_setup`
+1. TASK-014 `zone_alpha_zone_setup`
 2. TASK-015 `anpr_service_and_event`
 3. TASK-016 `face_enrollment_and_match`
 4. TASK-017 `vehicle_person_linking`

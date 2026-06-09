@@ -4,17 +4,17 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Iterable, Mapping
-import json
 
 import yaml
+
+from .anpr_service_and_event import build_opaque_identifier
 
 
 MULTI_ROOM_HEATMAP_SOURCE = "multi_room_heatmap"
 MULTI_ROOM_HEATMAP_RECORD_TYPE = "room_heatmap"
 MULTI_ROOM_HEATMAP_RECORD_NAME = "multi_room_heatmap"
 MULTI_ROOM_HEATMAP_REPORT_STATUS = "ready"
-MULTI_ROOM_HEATMAP_RETENTION_DAYS = 90
-DEFAULT_TS = "1970-01-01T00:00:00Z"
+MULTI_ROOM_HEATMAP_RETENTION_DAYS = 14
 
 ROOM_INVENTORY_PATH = (
     Path(__file__).resolve().parents[2] / "config" / "inventory" / "rooms.yaml"
@@ -77,23 +77,6 @@ def _normalize_confidence(observation: Mapping[str, Any]) -> float:
     return confidence_value
 
 
-def _normalize_source(observation: Mapping[str, Any]) -> str | None:
-    source = observation.get("source")
-    if source is None:
-        return None
-    if not isinstance(source, str):
-        raise ValueError("source must be a string when provided")
-    source_text = source.strip()
-    if not source_text:
-        return None
-    return source_text
-
-
-def _normalize_ts(observation: Mapping[str, Any]) -> str:
-    ts = observation.get("ts", DEFAULT_TS)
-    return str(ts)
-
-
 def _bucket_heat(count: int) -> int:
     if count <= 0:
         return 0
@@ -101,8 +84,7 @@ def _bucket_heat(count: int) -> int:
 
 
 def _report_id(cells: list[dict[str, Any]]) -> str:
-    fragment = json.dumps(cells, sort_keys=True, separators=(",", ":"))
-    return f"{MULTI_ROOM_HEATMAP_SOURCE}::{fragment}"
+    return build_opaque_identifier(MULTI_ROOM_HEATMAP_SOURCE, cells)
 
 
 def _build_cells(observations: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -115,8 +97,6 @@ def _build_cells(observations: Iterable[Mapping[str, Any]]) -> list[dict[str, An
             continue
 
         confidence = _normalize_confidence(observation)
-        source = _normalize_source(observation)
-        ts = _normalize_ts(observation)
 
         aggregate = aggregates.setdefault(
             room,
@@ -124,15 +104,10 @@ def _build_cells(observations: Iterable[Mapping[str, Any]]) -> list[dict[str, An
                 "room": room,
                 "observation_count": 0,
                 "_confidence_total": 0.0,
-                "sources": set(),
-                "latest_ts": ts,
             },
         )
         aggregate["observation_count"] += 1
         aggregate["_confidence_total"] += confidence
-        aggregate["latest_ts"] = max(aggregate["latest_ts"], ts)
-        if source is not None:
-            aggregate["sources"].add(source)
 
     cells: list[dict[str, Any]] = []
     for room in sorted(aggregates):
@@ -144,8 +119,6 @@ def _build_cells(observations: Iterable[Mapping[str, Any]]) -> list[dict[str, An
             "observation_count": count,
             "average_confidence": average_confidence,
             "heat_level": _bucket_heat(count),
-            "sources": sorted(aggregate["sources"]),
-            "latest_ts": aggregate["latest_ts"],
         }
         cells.append(cell)
 
@@ -168,8 +141,6 @@ def build_multi_room_heatmap_report(
         "supported_rooms_seen": [cell["room"] for cell in cells],
     }
 
-    ts = min(cell["latest_ts"] for cell in cells)
-
     return {
         "report_id": _report_id(cells),
         "source": MULTI_ROOM_HEATMAP_SOURCE,
@@ -183,5 +154,4 @@ def build_multi_room_heatmap_report(
             "days": MULTI_ROOM_HEATMAP_RETENTION_DAYS,
             "immutable": True,
         },
-        "ts": ts,
     }

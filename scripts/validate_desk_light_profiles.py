@@ -32,7 +32,7 @@ def validate_contract_text() -> None:
         "assignment_source",
         "confidence",
         "desk_profiles",
-        "bedroom_spare_only_resolution: true",
+        "room_gamma_only_resolution: true",
         "assignment_required_for_resolution: true",
         "should_apply_marks_planning_only: true",
         "person_targeted_automations: false",
@@ -49,23 +49,23 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.desk_light_profiles import resolve_desk_light_profile  # noqa: WPS433
 
-    bedroom_spare_plan = resolve_desk_light_profile(
+    room_gamma_plan = resolve_desk_light_profile(
         {
-            "room_id": "bedroom_spare",
+            "room_id": "room_gamma",
             "assigned_person": "Sel",
             "assignment_source": "face+tracker",
             "confidence": 0.93,
             "desk_profiles": {"Sel": "sel_desk"},
         }
     )
-    if bedroom_spare_plan["desk_light_profile"] != "sel_desk":
-        raise SystemExit("bedroom_spare desk-light profile should resolve for the assigned person")
-    if not bedroom_spare_plan["should_apply"]:
-        raise SystemExit("bedroom_spare desk-light profile should be applied when mapped")
+    if room_gamma_plan["desk_light_profile"] != "sel_desk":
+        raise SystemExit("room_gamma desk-light profile should resolve for the assigned person")
+    if not room_gamma_plan["should_apply"]:
+        raise SystemExit("room_gamma desk-light profile should be applied when mapped")
 
     no_op_plan = resolve_desk_light_profile(
         {
-            "room_id": "kitchen",
+            "room_id": "room_epsilon",
             "assigned_person": "Sel",
             "assignment_source": "occupancy_fallback",
             "confidence": 0.7,
@@ -73,13 +73,13 @@ def validate_module_behavior() -> None:
         }
     )
     if no_op_plan["desk_light_profile"] is not None:
-        raise SystemExit("non-bedroom_spare rooms should not resolve a desk-light profile")
+        raise SystemExit("non-room_gamma rooms should not resolve a desk-light profile")
     if no_op_plan["should_apply"]:
-        raise SystemExit("non-bedroom_spare rooms should not apply desk-light profiles")
+        raise SystemExit("non-room_gamma rooms should not apply desk-light profiles")
 
     missing_profile_plan = resolve_desk_light_profile(
         {
-            "room_id": "bedroom_spare",
+            "room_id": "room_gamma",
             "assigned_person": "Sam",
             "assignment_source": "face",
             "confidence": 0.81,

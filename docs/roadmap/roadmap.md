@@ -41,7 +41,7 @@ Delivered:
 
 Delivered:
 
-- Driveway zone setup helpers, contract, and acceptance coverage
+- Arrival Zone zone setup helpers, contract, and acceptance coverage
 - ANPR service and event helpers, contract, and acceptance coverage
 - Face enrollment and match helpers, contract, and acceptance coverage
 - Vehicle-person linking helpers, contract, and acceptance coverage
@@ -85,7 +85,7 @@ Planned next:
 
 - M1: Pilot room stable with no false brightening in bed-state
 - M2: Full room lights and dwell behavior across first floor
-- M3: At least one driveway flow with person-pram-car classification
+- M3: At least one zone_alpha flow with person-pram-car classification
 - M4: Foreign plate/person event queue and retention proof
 
 ## Exit criteria

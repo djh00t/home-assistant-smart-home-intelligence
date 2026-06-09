@@ -2,14 +2,14 @@
 
 ## Scope
 
-- Canonicalize driveway ANPR detections into vehicle presence events.
+- Canonicalize zone_alpha ANPR detections into vehicle presence events.
 - Keep this slice planning-only with no face linkage, no vehicle-person linking, and no foreign plate queue behavior.
 - Normalize plate, room reference, camera context, and direction into a deterministic vehicle event shape.
 
 ## Input contract
 
 - Required:
-  - `room_id` (required canonical value must be `driveway`)
+  - `room_id` (required canonical value must be `zone_alpha`)
   - `plate`
   - `plate_confidence` (`0.0` to `1.0`)
   - `camera`
@@ -19,10 +19,10 @@
 
 ## Canonicalization rules
 
-- Canonical room is fixed to `driveway`.
+- Canonical room is fixed to `zone_alpha`.
 - `plate` is canonicalized to uppercase and separator characters are removed.
-- ANPR raw payloads that do not validate as driveway context are rejected.
-- Direction is normalized through the driveway zone mapping:
+- ANPR raw payloads that do not validate as zone_alpha context are rejected.
+- Direction is normalized through the zone_alpha zone mapping:
   - known inbound values become `arrival`
   - known outbound values become `departure`
   - unknown or missing direction becomes deterministic `stationary`
@@ -30,10 +30,13 @@
   - `arrival` -> `enter`
   - `departure` -> `leave`
   - `stationary` -> `stay`
+- Returned `event_id` values are an opaque SHA-256 digest derived from canonical event evidence unless an already-opaque ANPR digest is supplied upstream.
+- The fallback `event_id` must not embed the raw or canonicalized license plate.
+- Returned `event_id` values must not embed the raw or canonicalized license plate.
 - The canonical event keeps source and room context:
   - `source: anpr`
   - `entity_class: vehicle`
-  - `room: driveway`
+  - `room: zone_alpha`
 
 ## Vehicle payload
 
@@ -41,6 +44,7 @@
   - `plate` (canonicalized)
   - `plate_confidence`
   - `vehicle_type` (`car`, `truck`, `motorcycle`, or `unknown`)
+- event_id stays deterministic without exposing plate-derived content.
 
 ## Backlog boundary
 

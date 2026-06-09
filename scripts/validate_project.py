@@ -66,12 +66,15 @@ def validate_gitignore() -> None:
 
 def validate_version_file() -> None:
     version_file = ROOT / "VERSION"
+    if version_file.is_symlink():
+        print("VERSION must not be a symlink")
+        raise SystemExit(1)
     version = version_file.read_text(encoding="utf-8").strip()
     if not version:
         print("VERSION is empty")
         raise SystemExit(1)
     if version.count(".") != 2 or not all(part.isdigit() for part in version.split(".")):
-        print(f"VERSION is not semver: {version}")
+        print("VERSION is not semver")
         raise SystemExit(1)
 
 
