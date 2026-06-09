@@ -6,6 +6,7 @@ check:
 	@python3 scripts/validate_docs.py check
 	@python3 scripts/validate_project.py check
 	@python3 scripts/validate_hacs_package.py check
+	@python3 scripts/validate_hacs_release.py check
 	@python3 scripts/validate_contracts.py check
 	@python3 scripts/validate_anpr_service_and_event.py check
 	@python3 scripts/validate_features.py check
@@ -37,6 +38,7 @@ quality-gates: check
 	@python3 scripts/validate_docs.py quality-gates
 	@python3 scripts/validate_project.py quality-gates
 	@python3 scripts/validate_hacs_package.py quality-gates
+	@python3 scripts/validate_hacs_release.py quality-gates
 	@python3 scripts/validate_contracts.py quality-gates
 	@python3 scripts/validate_anpr_service_and_event.py quality-gates
 	@python3 scripts/validate_features.py quality-gates

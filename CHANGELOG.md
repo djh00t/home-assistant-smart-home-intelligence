@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.1] - 2026-06-09
+
+### Added
+
+- HACS release verification coverage for changelog, manifest, version, and git-tag alignment.
+
+### Changed
+
+- Rebased the package management contract and validation gates to enforce the release tag and downgrade path for HACS packaging.
+
 ## [0.6.0] - 2026-06-09
 
 ### Added

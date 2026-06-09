@@ -5,6 +5,7 @@ This directory now contains the HACS-first Home Assistant integration scaffold f
 - [Smart home spec](docs/specs/2026-06-07-smart-home-intelligence-spec.md)
 - [HACS package management contract](docs/contracts/hacs-package-management.md)
 - [HACS package management feature scenarios](tests/features/hacs_package_management.feature)
+- [HACS release and validation feature scenarios](tests/features/hacs_release_and_validation.feature)
 - [Roadmap](docs/roadmap/roadmap.md)
 - [Implementation plan](docs/plans/implementation-plan.md)
 - [Task backlog](docs/tasks/task_backlog.md)
@@ -48,6 +49,7 @@ This directory now contains the HACS-first Home Assistant integration scaffold f
 - HACS integration packaging and release scaffolding are now checked in locally.
 - The HACS integration now exposes room activity, bridge health, override, and retention-status entity scaffolding.
 - The HACS integration now also exposes room-policy sensors for house mode and per-room lighting behavior.
+- The HACS release validation now checks version, changelog, manifest, and release tag alignment.
 - Phase 1 core occupancy and lighting artifacts are now checked in locally.
 - Phase 2 people and pet personalization artifacts are now checked in locally.
 - Phase 3 vehicle and contextual recognition artifacts are now checked in locally.

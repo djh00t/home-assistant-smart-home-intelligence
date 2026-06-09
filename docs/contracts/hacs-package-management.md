@@ -37,7 +37,9 @@ The package must remain installable, upgradeable, downgradeable, and removable a
 - The repository `VERSION` file is the canonical release number.
 - The integration `manifest.json` version must match `VERSION`.
 - `CHANGELOG.md` must include a matching entry for every released version.
+- The published commit must carry the matching `v<VERSION>` git tag.
 - HACS packaging must preserve downgradeability by keeping every release self-contained.
+- Release validation must reject drift between `VERSION`, `manifest.json`, `CHANGELOG.md`, and the release tag.
 
 ## Runtime rules
 
@@ -53,3 +55,4 @@ The package must remain installable, upgradeable, downgradeable, and removable a
 - The repository installs through HACS as one integration entry.
 - The integration can be upgraded and removed without breaking repository metadata.
 - Version drift between manifest, changelog, and VERSION is rejected by validation.
+- The published release is tagged and can be downgraded to the prior semver release.

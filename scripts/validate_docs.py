@@ -18,6 +18,7 @@ REQUIRED_FILES = [
     ROOT / "tests/features/hacs_package_management.feature",
     ROOT / "tests/features/hacs_integration_entities.feature",
     ROOT / "tests/features/hacs_room_policy_entities.feature",
+    ROOT / "tests/features/hacs_release_and_validation.feature",
 ]
 
 

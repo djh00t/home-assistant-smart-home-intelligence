@@ -75,10 +75,10 @@ Delivered:
 - Canonical MQTT bridge and runtime helpers
 - Service, diagnostics, and repair scaffolding
 - Release/version packaging alignment
+- HACS release verification and downgrade path
 
 Planned next:
 
-- HACS release verification and downgrade path
 - Later phase-5 entity coverage for dashboards and richer automation surfaces
 
 ## Milestones

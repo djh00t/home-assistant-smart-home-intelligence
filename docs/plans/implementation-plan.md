@@ -93,7 +93,7 @@ Delivered artifacts:
 
 ## Work stream 6: HACS packaging and integration foundation
 
-Status: in progress for the HACS-first packaging slice.
+Status: complete for the HACS-first packaging and release-guard slice.
 
 Planned artifacts:
 
@@ -107,6 +107,7 @@ Planned artifacts:
 - policy snapshots derived from room capabilities and runtime occupancy
 - release metadata and downgrade notes
 - HACS package management BDD scenarios
+- HACS release verification and downgrade path
 
 ## Suggested ticket order
 

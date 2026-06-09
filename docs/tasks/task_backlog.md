@@ -47,9 +47,13 @@ Completed:
 
 ## Planned Phase 5 - HACS Integration Foundation
 
-Planned:
+Completed:
 
 1. TASK-025 `hacs_package_management`
 2. TASK-026 `hacs_integration_scaffold`
 3. TASK-027 `hacs_config_flow_and_services`
 4. TASK-028 `hacs_release_and_validation`
+
+Planned next:
+
+1. Phase 5 dashboard and richer automation surface expansion

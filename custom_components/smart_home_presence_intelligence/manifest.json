@@ -13,5 +13,5 @@
   "issue_tracker": "https://github.com/djh00t/home-assistant-smart-home-intelligence/issues",
   "iot_class": "local_push",
   "quality_scale": "bronze",
-  "version": "0.6.0"
+  "version": "0.6.1"
 }

@@ -353,12 +353,15 @@ REQUIRED_RETENTION_LINES = [
     "foreign_plate_person_alerts: 90",
 ]
 REQUIRED_HACS_LINES = [
-    "version: 0.6.0",
+    "version: 0.6.1",
     "name: smart_home_presence_intelligence",
     "category: integration",
     "package_root: custom_components/smart_home_presence_intelligence",
     "repository_type: custom_repository",
     "version_source: VERSION",
+    "changelog_required: true",
+    "git_tag_required: true",
+    "downgrade_supported: true",
     "mqtt_bridge_topic: ha/presence/event",
     "dead_letter_topic: ha/presence/event/dlq",
     "publish_test_event",
