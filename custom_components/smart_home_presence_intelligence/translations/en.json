@@ -1,0 +1,16 @@
+{
+  "title": "Smart Home Presence Intelligence",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure smart home presence intelligence",
+        "data": {
+          "mqtt_topic_prefix": "MQTT topic prefix",
+          "room_inventory_path": "Room inventory path",
+          "retention_days": "Retention days",
+          "enable_diagnostics": "Enable diagnostics"
+        }
+      }
+    }
+  }
+}

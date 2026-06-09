@@ -1,0 +1,33 @@
+publish_test_event:
+  name: Publish test event
+  description: Publish a synthetic presence event through the canonical MQTT bridge.
+  fields:
+    source:
+      description: Canonical or aliased source token.
+      example: tracker
+    room:
+      description: Canonical room identifier.
+      example: lounge_room
+    type:
+      description: Event type.
+      example: state_change
+
+reload_contracts:
+  name: Reload contracts
+  description: Refresh the integration's contract cache and runtime snapshot.
+
+set_override:
+  name: Set manual override
+  description: Toggle a room-level or global manual override in the runtime model.
+  fields:
+    enabled:
+      description: Whether the override should be enabled.
+      example: true
+    reason:
+      description: Short reason shown in diagnostics.
+      example: family activity
+
+run_retention_audit:
+  name: Run retention audit
+  description: Produce a retention audit summary with redacted metadata.
+
