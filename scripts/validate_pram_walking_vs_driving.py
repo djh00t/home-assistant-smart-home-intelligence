@@ -33,7 +33,7 @@ def validate_contract_text() -> None:
         "deterministic_classification",
         "backlog_boundary:",
         "no_lock_or_unlock_behavior",
-        "no_garage_door_actuation",
+        "no_room_zeta_door_actuation",
         "no_anpr_only_logic",
         "no_vehicle_person_linking",
         "vehicle_context_window_seconds: 90",
@@ -62,20 +62,20 @@ def validate_module_behavior() -> None:
     walk = classify_pram_transport(
         {
             "person_id": "sel",
-            "room_id": "driveway",
+            "room_id": "zone_alpha",
             "with_pram": True,
             "vehicle_context_age_seconds": 120,
         }
     )
     if walk["transport_mode"] != WALKING_CLASSIFICATION:
         raise SystemExit("pram snapshot with stale vehicle context should classify walk")
-    if walk.get("room") != "driveway" or walk.get("person_id") != "sel":
+    if walk.get("room") != "zone_alpha" or walk.get("person_id") != "sel":
         raise SystemExit("pram transport plan should preserve room and person when present")
 
     drive = classify_pram_transport(
         {
             "person_id": "sel",
-            "room": "driveway",
+            "room": "zone_alpha",
             "with_pram": True,
             "vehicle_context_age_seconds": 30,
         }
@@ -83,7 +83,7 @@ def validate_module_behavior() -> None:
     if drive["transport_mode"] != DRIVING_CLASSIFICATION:
         raise SystemExit("pram snapshot with recent matching vehicle context should classify drive")
 
-    not_pram = classify_pram_transport({"room": "kitchen", "with_pram": False})
+    not_pram = classify_pram_transport({"room": "room_epsilon", "with_pram": False})
     if not_pram["transport_mode"] != NOT_PRAM_CLASSIFICATION:
         raise SystemExit("non-pram snapshot should classify as not_pram")
 
@@ -94,7 +94,7 @@ def validate_module_behavior() -> None:
         raise SystemExit("vehicle context window should be exactly 90 seconds")
 
     try:
-        classify_pram_transport({"room_id": "lounge_room", "with_pram": "yes"})
+        classify_pram_transport({"room_id": "room_delta", "with_pram": "yes"})
     except ValueError:
         pass
     else:
@@ -103,7 +103,7 @@ def validate_module_behavior() -> None:
     try:
         classify_pram_transport(
             {
-                "room_id": "lounge_room",
+                "room_id": "room_delta",
                 "with_pram": True,
                 "vehicle_context_age_seconds": "10",
             }

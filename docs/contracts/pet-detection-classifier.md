@@ -16,6 +16,7 @@ This document defines the first pet-normalization slice for phase 2.
 - Canonical pet events use `entity_class: pet`.
 - Canonical pet events use `source: frigate`.
 - Room and confidence values pass through unchanged when present.
+- Fallback `event_id` values use an opaque nonce-backed digest so room context cannot be recovered from the identifier alone.
 - Pet detections never imply a person identity or person action.
 
 ## Backlog Link

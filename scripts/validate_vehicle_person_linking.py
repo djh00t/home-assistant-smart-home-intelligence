@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,9 +32,11 @@ def validate_contract_text() -> None:
     for needle in (
         "behavior: deterministic_linking",
         "no_vehicle_person_actioning",
-        "no_garage_door_actuation",
+        "no_room_zeta_door_actuation",
         "plate_confidence_threshold: 0.8",
         "face_match_confidence_threshold: 0.75",
+        "fallback_event_id_mode: opaque_sha256_digest",
+        "fallback_event_id_exposes_person_or_plate: false",
         "vehicle_arrival",
         "vehicle_departure",
     ):
@@ -56,13 +59,13 @@ def validate_module_behavior() -> None:
 
     arrival_event = build_vehicle_person_linked_event(
         {
-            "room_id": "driveway",
+            "room_id": "zone_alpha",
             "person_id": "sel",
             "plate": "ab c-12",
             "plate_confidence": 0.86,
             "face_match_confidence": 0.84,
             "direction": "enter",
-            "camera": "frigate_driveway",
+            "camera": "frigate_zone_alpha",
             "event_id": "link-1",
             "ts": "2026-06-08T10:00:00+10:00",
         }
@@ -71,8 +74,8 @@ def validate_module_behavior() -> None:
         raise SystemExit("linked event should use vehicle-person linking source")
     if arrival_event["type"] != VEHICLE_ARRIVAL_EVENT:
         raise SystemExit("arrival direction should map to vehicle_arrival")
-    if arrival_event["room"] != "driveway":
-        raise SystemExit("room should be driveway")
+    if arrival_event["room"] != "zone_alpha":
+        raise SystemExit("room should be zone_alpha")
     if arrival_event["person_id"] != "sel":
         raise SystemExit("person_id should be preserved")
     if arrival_event["vehicle"]["plate"] != "ABC12":
@@ -86,17 +89,26 @@ def validate_module_behavior() -> None:
 
     departure_event = build_vehicle_person_linked_event(
         {
-            "room_id": "driveway",
+            "room_id": "zone_alpha",
             "person_id": "sel",
             "plate": "xy z-9",
             "plate_confidence": 1.0,
             "face_match_confidence": 0.9,
             "direction": "exit",
-            "camera": "frigate_driveway",
+            "camera": "frigate_zone_alpha",
         }
     )
     if departure_event["type"] != VEHICLE_DEPARTURE_EVENT:
         raise SystemExit("departure direction should map to vehicle_departure")
+    fallback_event_id = departure_event["event_id"]
+    if re.fullmatch(r"vehicle_link::[0-9a-f]{20}", fallback_event_id) is None:
+        raise SystemExit(
+            "fallback event_id should use the opaque vehicle_link::<20 hex> format"
+        )
+    if "sel" in fallback_event_id.lower():
+        raise SystemExit("fallback event_id should not expose person_id")
+    if "XYZ9" in fallback_event_id:
+        raise SystemExit("fallback event_id should not expose the canonical plate")
 
     if PLATE_CONFIDENCE_THRESHOLD != 0.8:
         raise SystemExit("plate confidence threshold should be explicit")
@@ -106,30 +118,30 @@ def validate_module_behavior() -> None:
     try:
         build_vehicle_person_linked_event(
             {
-                "room_id": "lounge_room",
+                "room_id": "room_delta",
                 "person_id": "sel",
                 "plate": "ABC123",
                 "plate_confidence": 0.9,
                 "face_match_confidence": 0.9,
                 "direction": "enter",
-                "camera": "frigate_driveway",
+                "camera": "frigate_zone_alpha",
             }
         )
     except ValueError:
         pass
     else:
-        raise SystemExit("non-driveway payload should be rejected")
+        raise SystemExit("non-zone_alpha payload should be rejected")
 
     try:
         build_vehicle_person_linked_event(
             {
-                "room_id": "driveway",
+                "room_id": "zone_alpha",
                 "person_id": "sel",
                 "plate": "ABC123",
                 "plate_confidence": 0.79,
                 "face_match_confidence": 0.9,
                 "direction": "enter",
-                "camera": "frigate_driveway",
+                "camera": "frigate_zone_alpha",
             }
         )
     except ValueError:
@@ -140,13 +152,13 @@ def validate_module_behavior() -> None:
     try:
         build_vehicle_person_linked_event(
             {
-                "room_id": "driveway",
+                "room_id": "zone_alpha",
                 "person_id": "sel",
                 "plate": "ABC123",
                 "plate_confidence": 0.9,
                 "face_match_confidence": 0.74,
                 "direction": "enter",
-                "camera": "frigate_driveway",
+                "camera": "frigate_zone_alpha",
             }
         )
     except ValueError:
@@ -157,13 +169,13 @@ def validate_module_behavior() -> None:
     try:
         build_vehicle_person_linked_event(
             {
-                "room_id": "driveway",
+                "room_id": "zone_alpha",
                 "person_id": "sel",
                 "plate": "ABC123",
                 "plate_confidence": 0.9,
                 "face_match_confidence": 0.9,
                 "direction": "stay",
-                "camera": "frigate_driveway",
+                "camera": "frigate_zone_alpha",
             }
         )
     except ValueError:

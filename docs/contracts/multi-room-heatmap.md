@@ -30,18 +30,26 @@
 - Exterior or non-occupancy zones are ignored.
 - Cells are grouped by canonical `room_id` and sorted by `room_id`.
 - Cell intensity is based on observation count, with confidence preserved as an average for review context.
+- Per-room source provenance and per-room timestamps are excluded from retained heatmap cells.
+- Input-derived timestamps are not retained anywhere in the persisted report body.
 - Reports are deterministic for identical input observations.
+- `report_id` is derived from a SHA-256 digest of canonicalized heatmap cells.
+- Raw room telemetry fragments and timestamps must never appear in `report_id`.
 
 ## Output
 
 - `source: multi_room_heatmap`
-- deterministic `report_id`
+- deterministic `report_id` using `multi_room_heatmap::sha256:{report_digest}`
 - `report_record_type: room_heatmap`
 - `record_name: multi_room_heatmap`
 - `report_status: ready`
-- `heatmap_cells` grouped by room
+- `heatmap_cells` grouped by room with only `room`, `observation_count`, `average_confidence`, and `heat_level`
 - `summary` with total and per-room counts
-- immutable 90-day retention metadata
+- immutable retention metadata
+  - `retention.days = 14`
+  - `retention.immutable = true`
+
+Retention is capped at 14 days so the report stays useful for planning without keeping long-lived telemetry detail.
 
 ## Backlog link
 

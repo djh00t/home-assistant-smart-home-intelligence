@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import re
 import sys
 from pathlib import Path
 
@@ -37,10 +39,15 @@ def validate_contract_text() -> None:
         "no_face_match_as_only_unlock_signal",
         "deterministic_threshold: 0.75",
         "retention_days: 90",
+        "returned_face_signature_mode: opaque_sha256_digest",
+        "fallback_enrollment_id_mode: opaque_sha256_digest",
+        "fallback_enrollment_id_exposes_room_or_person: false",
         "source: face",
         "entity_class: human",
         "room_reference_required: true",
         "output_event_type: confidence",
+        "fallback_event_id_mode: opaque_sha256_digest",
+        "fallback_event_id_exposes_room_or_person: false",
     ):
         if needle not in text:
             raise SystemExit(
@@ -60,8 +67,8 @@ def validate_module_behavior() -> None:
     record = build_face_enrollment_record(
         {
             "person_id": "sel",
-            "room": "bedroom_spare",
-            "camera": "cam_lounge_room_front",
+            "room": "room_gamma",
+            "camera": "cam_room_delta_front",
             "face_signature": "sig_abc123",
             "source": "face",
             "recorded_at": "2026-06-08T09:00:00Z",
@@ -69,10 +76,26 @@ def validate_module_behavior() -> None:
     )
     if record["person_id"] != "sel":
         raise SystemExit("enrollment should preserve person_id")
-    if record["room"] != "bedroom_spare":
+    if record["room"] != "room_gamma":
         raise SystemExit("enrollment should preserve room")
-    if record["camera"] != "cam_lounge_room_front":
+    if record["camera"] != "cam_room_delta_front":
         raise SystemExit("enrollment should preserve camera")
+    if record["face_signature"] == "sig_abc123":
+        raise SystemExit("enrollment should not retain the raw face signature")
+    expected_face_signature = (
+        "sha256:" + hashlib.sha256("sig_abc123".encode("utf-8")).hexdigest()
+    )
+    if record["face_signature"] != expected_face_signature:
+        raise SystemExit("enrollment should use a deterministic opaque face signature")
+    enrollment_id = record["enrollment_id"]
+    if re.fullmatch(r"face-enrollment::[0-9a-f]{20}", enrollment_id) is None:
+        raise SystemExit(
+            "fallback enrollment_id should use the opaque face-enrollment::<20 hex> format"
+        )
+    if "sel" in enrollment_id.lower():
+        raise SystemExit("fallback enrollment_id should not expose person_id")
+    if "room_gamma" in enrollment_id:
+        raise SystemExit("fallback enrollment_id should not expose room")
     retention = record.get("retention")
     if not isinstance(retention, dict) or retention.get("days") != 90:
         raise SystemExit("enrollment should include retention metadata with 90 days")
@@ -83,10 +106,9 @@ def validate_module_behavior() -> None:
     event = build_face_match_event(
         {
             "person_id": "sel",
-            "room": "bedroom_spare",
-            "camera": "cam_lounge_room_front",
+            "room": "room_gamma",
+            "camera": "cam_room_delta_front",
             "face_match_confidence": 0.84,
-            "event_id": "match-123",
             "track_id": "track-1",
             "ts": "2026-06-08T09:01:00Z",
         }
@@ -95,12 +117,21 @@ def validate_module_behavior() -> None:
         raise SystemExit("face match event should use face source")
     if event["entity_class"] != "human":
         raise SystemExit("face match event should use human entity class")
-    if event["room"] != "bedroom_spare":
+    if event["room"] != "room_gamma":
         raise SystemExit("face match event should preserve room")
     if event["person_id"] != "sel":
         raise SystemExit("face match event should preserve person_id")
     if event["confidence"] != 0.84:
         raise SystemExit("face match event should preserve confidence")
+    event_id = event["event_id"]
+    if re.fullmatch(r"face-match::[0-9a-f]{20}", event_id) is None:
+        raise SystemExit(
+            "fallback event_id should use the opaque face-match::<20 hex> format"
+        )
+    if "sel" in event_id.lower():
+        raise SystemExit("fallback event_id should not expose person_id")
+    if "room_gamma" in event_id:
+        raise SystemExit("fallback event_id should not expose room")
     if event["context"].get("with_face_match") is not True:
         raise SystemExit("face match event should indicate with_face_match context")
 
@@ -108,8 +139,8 @@ def validate_module_behavior() -> None:
         build_face_match_event(
             {
                 "person_id": "sel",
-                "room": "bedroom_spare",
-                "camera": "cam_lounge_room_front",
+                "room": "room_gamma",
+                "camera": "cam_room_delta_front",
                 "face_match_confidence": FACE_MATCH_THRESHOLD - 0.01,
             }
         )

@@ -1,5 +1,5 @@
 version: 0.2.0
-description: Deterministic desk-light profile resolution for phase 2 bedroom_spare assignments.
+description: Deterministic desk-light profile resolution for phase 2 room_gamma assignments.
 
 required_snapshot_fields:
   - room_id
@@ -9,7 +9,7 @@ required_snapshot_fields:
   - desk_profiles
 
 rules:
-  bedroom_spare_only_resolution: true
+  room_gamma_only_resolution: true
   assignment_required_for_resolution: true
   should_apply_marks_planning_only: true
   person_targeted_automations: false

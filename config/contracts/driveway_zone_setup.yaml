@@ -1,11 +1,11 @@
 version: 0.3.0
-description: Canonical driveway zone setup for phase 3 vehicle-aware presence normalization.
+description: Canonical zone_alpha zone setup for phase 3 vehicle-aware presence normalization.
 
 zone:
-  zone_id: driveway
-  room_id: driveway
+  zone_id: zone_alpha
+  room_id: zone_alpha
   scope: exterior
-  canonical_room_id: driveway
+  canonical_room_id: zone_alpha
   canonical_source_priority:
     - anpr
     - frigate

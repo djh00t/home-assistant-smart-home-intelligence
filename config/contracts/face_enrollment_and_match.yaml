@@ -1,5 +1,5 @@
 version: 0.3.0
-description: Face enrollment metadata and canonical face-match events for phase 3 canonicalization.
+description: Privacy-preserving face enrollment metadata and canonical face-match events for phase 3 canonicalization.
 
 scope:
   behavior: canonicalization_only
@@ -25,6 +25,9 @@ enrollment:
     - enrollment_id
     - recorded_at
   retention_days: 90
+  returned_face_signature_mode: opaque_sha256_digest
+  fallback_enrollment_id_mode: opaque_sha256_digest
+  fallback_enrollment_id_exposes_room_or_person: false
 
 face_match:
   required_fields:
@@ -41,3 +44,5 @@ face_match:
   entity_class: human
   room_reference_required: true
   output_event_type: confidence
+  fallback_event_id_mode: opaque_sha256_digest
+  fallback_event_id_exposes_room_or_person: false

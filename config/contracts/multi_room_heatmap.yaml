@@ -43,9 +43,14 @@ output:
     - heatmap_cells
     - summary
     - retention
-    - ts
   report_record_type: room_heatmap
   record_name: multi_room_heatmap
   report_status: ready
-  retention_days: 90
+  retention_days: 14
   immutable: true
+  report_id_digest: sha256_canonical_json
+  report_id_format: multi_room_heatmap::sha256:{report_digest}
+  report_id_raw_telemetry: false
+  per_room_provenance_retained: false
+  per_room_timestamp_detail: omitted
+  report_level_input_timestamp_retained: false

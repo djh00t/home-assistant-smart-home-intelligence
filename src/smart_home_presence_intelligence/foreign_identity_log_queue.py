@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
-from .anpr_service_and_event import normalize_anpr_plate
+from .anpr_service_and_event import build_opaque_identifier, normalize_anpr_plate
 
 
 FOREIGN_IDENTITY_LOG_QUEUE_SOURCE = "foreign_identity_log_queue"
@@ -120,20 +120,10 @@ def _is_unknown_or_foreign_identity(snapshot: Mapping[str, Any]) -> bool:
 
 
 def _queue_record_id(room: str, camera: str, evidence: dict[str, Any]) -> str:
-    evidence_key = []
-    if evidence.get("person_id"):
-        evidence_key.append(f"person:{evidence['person_id']}")
-    if evidence.get("plate"):
-        evidence_key.append(f"plate:{evidence['plate']}")
-    if evidence.get("face_match_confidence") is not None:
-        evidence_key.append(
-            f"face_match:{evidence['face_match_confidence']:.3f}".rstrip("0").rstrip(".")
-        )
-    if evidence.get("identity_status"):
-        evidence_key.append(f"status:{evidence['identity_status']}")
-    if not evidence_key:
-        evidence_key.append("unknown")
-    return f"{FOREIGN_IDENTITY_LOG_QUEUE_SOURCE}::{room}::{camera}::{'|'.join(sorted(evidence_key))}"
+    return build_opaque_identifier(
+        f"{FOREIGN_IDENTITY_LOG_QUEUE_SOURCE}::{room}::{camera}",
+        evidence,
+    )
 
 
 def build_foreign_identity_queue_record(
@@ -158,9 +148,9 @@ def build_foreign_identity_queue_record(
 
     identity = {}
     if plate is not None:
-        identity["plate"] = plate
+        identity["plate_present"] = True
     if person_id is not None:
-        identity["person_id"] = person_id
+        identity["person_present"] = True
     if face_match_confidence is not None:
         identity["face_match_confidence"] = face_match_confidence
     if identity_status is not None:
@@ -182,4 +172,3 @@ def build_foreign_identity_queue_record(
         },
         "ts": str(snapshot.get("ts", DEFAULT_TS)),
     }
-

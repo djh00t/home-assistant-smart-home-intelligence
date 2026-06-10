@@ -23,9 +23,9 @@ def resolve_bed_state(snapshot: BedStateSnapshot) -> str:
 
     if snapshot.exit_event:
         return "awake"
-    if snapshot.room_id == "bedroom_master" and snapshot.in_bed and snapshot.bed_motion_active:
+    if snapshot.room_id == "room_alpha" and snapshot.in_bed and snapshot.bed_motion_active:
         return "bed_motion_only"
-    if snapshot.room_id == "bedroom_master" and snapshot.in_bed:
+    if snapshot.room_id == "room_alpha" and snapshot.in_bed:
         return "sleeping"
     return "awake"
 

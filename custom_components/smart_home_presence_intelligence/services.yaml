@@ -7,7 +7,7 @@ publish_test_event:
       example: tracker
     room:
       description: Canonical room identifier.
-      example: lounge_room
+      example: room_delta
     type:
       description: Event type.
       example: state_change

@@ -42,10 +42,10 @@ def validate_module_behavior() -> None:
     sys.path.insert(0, str(ROOT / "src"))
     from smart_home_presence_intelligence.bed_state_override import BedStateSnapshot, build_bed_override, resolve_bed_state, should_suppress_wake_scene  # noqa: E501, WPS433
 
-    sleeping = BedStateSnapshot("bedroom_master", in_bed=True, bed_motion_active=False)
-    motion = BedStateSnapshot("bedroom_master", in_bed=True, bed_motion_active=True)
-    awake = BedStateSnapshot("bedroom_master", in_bed=False, bed_motion_active=False)
-    exit_event = BedStateSnapshot("bedroom_master", in_bed=True, bed_motion_active=True, exit_event=True)
+    sleeping = BedStateSnapshot("room_alpha", in_bed=True, bed_motion_active=False)
+    motion = BedStateSnapshot("room_alpha", in_bed=True, bed_motion_active=True)
+    awake = BedStateSnapshot("room_alpha", in_bed=False, bed_motion_active=False)
+    exit_event = BedStateSnapshot("room_alpha", in_bed=True, bed_motion_active=True, exit_event=True)
 
     if resolve_bed_state(sleeping) != "sleeping":
         raise SystemExit("sleeping state failed")

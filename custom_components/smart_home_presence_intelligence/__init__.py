@@ -130,9 +130,10 @@ def runtime_snapshot(hass: HomeAssistant, entry_id: str) -> dict[str, Any]:
     if not isinstance(runtime, IntegrationRuntime):
         raise HomeAssistantError("integration runtime unavailable")
 
-    snapshot = runtime.snapshot()
-    snapshot["canonical_topic"] = CANONICAL_TOPIC
-    snapshot["dead_letter_topic"] = DEAD_LETTER_TOPIC
+    snapshot = runtime.diagnostics_snapshot()
+    if snapshot.get("diagnostics_enabled"):
+        snapshot["canonical_topic"] = CANONICAL_TOPIC
+        snapshot["dead_letter_topic"] = DEAD_LETTER_TOPIC
     return snapshot
 
 

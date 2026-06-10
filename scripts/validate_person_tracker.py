@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -34,6 +35,10 @@ def validate_contract_text() -> None:
         "not_home",
         "arriving",
         "leaving",
+        "opaque_sha256_digest",
+        "supplied_event_id_mode: opaque_or_rekeyed",
+        "person_reference_mode: opaque_sha256_ref",
+        "tracker_reference_mode: opaque_sha256_ref",
     ):
         if needle not in text:
             raise SystemExit(f"person_tracker.yaml missing {needle}")
@@ -55,10 +60,26 @@ def validate_module_behavior() -> None:
         raise SystemExit("tracker normalization failed")
 
     event = build_tracker_presence_event(signal)
-    if event["source"] != "tracker" or event["person_id"] != "sel":
+    if event["source"] != "tracker":
         raise SystemExit("tracker event build failed")
     if event["room"] != "house":
         raise SystemExit("tracker event should default to house room")
+    if re.fullmatch(r"tracker_event::sha256:[0-9a-f]{64}", event["event_id"]) is None:
+        raise SystemExit("tracker event should use an opaque fallback event_id")
+    if re.fullmatch(r"resident::sha256:[0-9a-f]{64}", event.get("person_ref", "")) is None:
+        raise SystemExit("tracker event should expose an opaque person_ref")
+    if re.fullmatch(r"tracker::sha256:[0-9a-f]{64}", event.get("tracker_ref", "")) is None:
+        raise SystemExit("tracker event should expose an opaque tracker_ref")
+    if "sel_phone" in event["event_id"]:
+        raise SystemExit("tracker event_id should not expose tracker_id")
+    if "sel" in str(event) or "sel_phone" in str(event):
+        raise SystemExit("tracker event should not expose raw resident or tracker ids")
+
+    supplied = build_tracker_presence_event({**signal, "event_id": "tracker:sel_phone:sel"})
+    if re.fullmatch(r"tracker_event::sha256:[0-9a-f]{64}", supplied["event_id"]) is None:
+        raise SystemExit("supplied tracker event_id should be re-keyed when it is not opaque")
+    if "sel" in supplied["event_id"] or "sel_phone" in supplied["event_id"]:
+        raise SystemExit("re-keyed tracker event_id should not expose raw identifiers")
 
 
 def main() -> int:

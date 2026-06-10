@@ -46,7 +46,7 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
-- Delivered the Phase 3 vehicle and contextual recognition bundle: driveway zoning, ANPR canonicalization, face enrollment and match, vehicle-person linking, pram transport classification, foreign identity queueing, and retention job helpers.
+- Delivered the Phase 3 vehicle and contextual recognition bundle: zone_alpha zoning, ANPR canonicalization, face enrollment and match, vehicle-person linking, pram transport classification, foreign identity queueing, and retention job helpers.
 
 ### Changed
 
@@ -66,7 +66,7 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
-- Canonical phase 0 room inventory with `bedroom_master`, `bedroom_max`, `bedroom_spare`, `lounge_room`, `garage`, `driveway`, `backyard_shed`, `backyard_deck`, and `kitchen`.
+- Canonical phase 0 room inventory with `room_alpha`, `room_beta`, `room_gamma`, `room_delta`, `room_zeta`, `zone_alpha`, `zone_beta`, `zone_gamma`, and `room_epsilon`.
 - Semver release bookkeeping via a canonical `VERSION` file and normalized `0.1.0` artifact headers.
 - Legacy room alias normalization for `hall`, `living_room`, `office`, and `master_bedroom` inputs.
 - Updated phase 0 contract docs, validators, and BDD coverage to reflect the new room model.

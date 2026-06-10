@@ -34,6 +34,12 @@ runtime_contracts:
   mqtt_bridge_topic: ha/presence/event
   dead_letter_topic: ha/presence/event/dlq
   diagnostics_redacted: true
+  diagnostics_respects_enable_toggle: true
+  restore_state_minimal_fields:
+    - override_enabled
+    - bridge_health
+    - retention_audit_status
+    - retention_audit_message
   repair_surface_enabled: true
   services:
     - publish_test_event
