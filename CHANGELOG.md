@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.2] - 2026-06-10
+
+### Fixed
+
+- Registered room policy entities through Home Assistant's standard sensor platform so dashboard entities such as `sensor.house_mode` are created reliably.
+
 ## [0.7.1] - 2026-06-10
 
 ### Fixed

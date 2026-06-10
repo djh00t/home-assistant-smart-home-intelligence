@@ -24,4 +24,4 @@ SERVICE_RELOAD_CONTRACTS = "reload_contracts"
 SERVICE_SET_OVERRIDE = "set_override"
 SERVICE_RUN_RETENTION_AUDIT = "run_retention_audit"
 
-PLATFORMS: tuple[str, ...] = ("sensor", "binary_sensor", "policy_sensor")
+PLATFORMS: tuple[str, ...] = ("sensor", "binary_sensor")

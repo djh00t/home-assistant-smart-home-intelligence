@@ -99,10 +99,20 @@ def validate_entity_feature_file() -> None:
     for needle in (
         "Room activity sensors reflect routed events",
         "Manual override is surfaced as a binary sensor",
+        "Policy entities register through the sensor platform",
         "Runtime state is serializable for restore",
     ):
         if needle not in text:
             raise SystemExit(f"{feature.relative_to(ROOT)} missing scenario text: {needle}")
+
+
+def validate_home_assistant_platforms() -> None:
+    const_text = (INTEGRATION_ROOT / "const.py").read_text(encoding="utf-8")
+    sensor_text = (INTEGRATION_ROOT / "sensor.py").read_text(encoding="utf-8")
+    if '"policy_sensor"' in const_text:
+        raise SystemExit("room policy entities must register through the sensor platform")
+    if "build_policy_sensor_entities" not in sensor_text:
+        raise SystemExit("sensor.py must register room policy entities")
 
 
 def validate_policy_feature_file() -> None:
@@ -126,6 +136,7 @@ def main() -> int:
     validate_repository_structure()
     validate_hacs_json()
     validate_manifest()
+    validate_home_assistant_platforms()
     validate_feature_file()
     validate_entity_feature_file()
     validate_policy_feature_file()

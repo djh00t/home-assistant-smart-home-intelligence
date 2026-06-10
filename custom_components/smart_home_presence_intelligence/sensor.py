@@ -7,6 +7,7 @@ from typing import Any, Callable
 
 from .bridge import VALID_ROOMS
 from .const import DOMAIN
+from .policy_sensor import build_policy_sensor_entities
 
 try:  # pragma: no cover - HA runtime only
     from homeassistant.components.sensor import SensorEntity
@@ -91,6 +92,7 @@ async def async_setup_entry(hass: Any, entry: Any, async_add_entities: Any) -> N
         RuntimeSensor(runtime=runtime, entry_id=entry.entry_id, spec=spec)
         for spec in [*ROOM_SENSOR_SPECS, *RUNTIME_SENSOR_SPECS]
     ]
+    entities.extend(build_policy_sensor_entities(runtime=runtime, entry_id=entry.entry_id))
     async_add_entities(entities)
 
 

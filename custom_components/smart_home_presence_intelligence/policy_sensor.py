@@ -80,12 +80,16 @@ async def async_setup_entry(hass: Any, entry: Any, async_add_entities: Any) -> N
     """Add room-policy sensors for a config entry."""
 
     runtime = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities(build_policy_sensor_entities(runtime=runtime, entry_id=entry.entry_id))
+
+
+def build_policy_sensor_entities(runtime: Any, entry_id: str) -> list["RoomPolicySensor"]:
+    """Build room-policy entities for registration on Home Assistant's sensor platform."""
+
     specs = [*RUNTIME_POLICY_SPECS]
     for room_id in VALID_ROOMS:
         specs.extend(_room_policy_specs(room_id))
-    async_add_entities(
-        [RoomPolicySensor(runtime=runtime, entry_id=entry.entry_id, spec=spec) for spec in specs]
-    )
+    return [RoomPolicySensor(runtime=runtime, entry_id=entry_id, spec=spec) for spec in specs]
 
 
 class RoomPolicySensor(SensorEntity):  # type: ignore[misc]
