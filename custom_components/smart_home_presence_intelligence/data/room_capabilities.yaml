@@ -1,0 +1,113 @@
+version: 0.1.0
+site: smart_home_presence_intelligence
+description: Packaged room capability catalog for lighting, sensing, and policy routing.
+
+room_capabilities:
+  - room_id: bedroom_master
+    occupancy_sources:
+      - mmwave
+      - motion
+      - face
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - bedroom_master_ceiling
+      color_groups: []
+      default_day_scene: bedroom_master_day
+      default_night_scene: bedroom_master_night
+    policies:
+      manual_override_minutes: 120
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: bedroom_max
+    occupancy_sources:
+      - mmwave
+      - motion
+      - face
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - bedroom_max_ceiling
+      color_groups: []
+      default_day_scene: bedroom_max_day
+      default_night_scene: bedroom_max_night
+    policies:
+      manual_override_minutes: 60
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: bedroom_spare
+    occupancy_sources:
+      - tracker
+      - mmwave
+      - motion
+      - face
+    lighting:
+      supports_lighting: true
+      supports_color: true
+      white_groups:
+        - bedroom_spare_white
+      color_groups:
+        - bedroom_spare_color
+      default_day_scene: bedroom_spare_day
+      default_night_scene: bedroom_spare_night
+    policies:
+      manual_override_minutes: 60
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: lounge_room
+    occupancy_sources:
+      - mmwave
+      - motion
+      - frigate
+    lighting:
+      supports_lighting: true
+      supports_color: true
+      white_groups:
+        - lounge_room_white
+      color_groups:
+        - lounge_room_color
+      default_day_scene: lounge_room_day
+      default_night_scene: lounge_room_night
+    policies:
+      manual_override_minutes: 45
+      person_only_actions: true
+      pet_only_actions: true
+
+  - room_id: kitchen
+    occupancy_sources:
+      - motion
+      - mmwave
+      - frigate
+    lighting:
+      supports_lighting: true
+      supports_color: false
+      white_groups:
+        - kitchen_ceiling
+      color_groups: []
+      default_day_scene: kitchen_day
+      default_night_scene: kitchen_night
+    policies:
+      manual_override_minutes: 30
+      person_only_actions: true
+      pet_only_actions: false
+
+  - room_id: garage
+    occupancy_sources:
+      - motion
+      - frigate
+    lighting:
+      supports_lighting: false
+      supports_color: false
+      white_groups: []
+      color_groups: []
+      default_day_scene: null
+      default_night_scene: null
+    policies:
+      manual_override_minutes: 0
+      person_only_actions: false
+      pet_only_actions: false

@@ -1,0 +1,102 @@
+version: 0.1.0
+site: smart_home_presence_intelligence
+description: Packaged room and zone inventory for presence, lighting, and vehicle-aware automations.
+
+rooms:
+  - room_id: bedroom_master
+    display_name: Master Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - face
+
+  - room_id: bedroom_max
+    display_name: Max Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - face
+
+  - room_id: bedroom_spare
+    display_name: Spare Bedroom
+    room_type: room
+    level: upper_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - tracker
+      - mmwave
+      - motion
+      - face
+
+  - room_id: lounge_room
+    display_name: Lounge Room
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - mmwave
+      - motion
+      - frigate
+
+  - room_id: kitchen
+    display_name: Kitchen
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: true
+    source_priority:
+      - motion
+      - mmwave
+      - frigate
+
+  - room_id: garage
+    display_name: Garage
+    room_type: room
+    level: ground_floor
+    supports_occupancy: true
+    supports_lighting: false
+    source_priority:
+      - motion
+      - frigate
+
+external_zones:
+  - room_id: driveway
+    display_name: Driveway
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - anpr
+      - frigate
+      - face
+
+  - room_id: backyard_shed
+    display_name: Backyard Shed
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - motion
+      - frigate
+
+  - room_id: backyard_deck
+    display_name: Backyard Deck
+    room_type: exterior_zone
+    level: exterior
+    supports_occupancy: false
+    supports_lighting: false
+    source_priority:
+      - motion
+      - frigate

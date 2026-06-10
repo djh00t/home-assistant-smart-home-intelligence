@@ -18,6 +18,8 @@ REQUIRED_FILES = [
     INTEGRATION_ROOT / "bridge.py",
     INTEGRATION_ROOT / "const.py",
     INTEGRATION_ROOT / "config_flow.py",
+    INTEGRATION_ROOT / "data" / "room_capabilities.yaml",
+    INTEGRATION_ROOT / "data" / "rooms.yaml",
     INTEGRATION_ROOT / "diagnostics.py",
     INTEGRATION_ROOT / "manifest.json",
     INTEGRATION_ROOT / "policy_sensor.py",
@@ -100,6 +102,7 @@ def validate_entity_feature_file() -> None:
         "Room activity sensors reflect routed events",
         "Manual override is surfaced as a binary sensor",
         "Policy entities register through the sensor platform",
+        "Packaged defaults support reload contracts after HACS install",
         "Runtime state is serializable for restore",
     ):
         if needle not in text:

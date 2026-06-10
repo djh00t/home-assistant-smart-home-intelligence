@@ -12,6 +12,11 @@ Feature: HACS integration entities
     Given the integration is loaded by Home Assistant
     Then runtime sensors and room policy sensors should be registered on the sensor platform
 
+  Scenario: Packaged defaults support reload contracts after HACS install
+    Given the integration is installed by HACS without repository root config files
+    When reload contracts is called
+    Then packaged room capability defaults should be used
+
   Scenario: Runtime state is serializable for restore
     Given the runtime has a retention audit result and a room activity snapshot
     When the runtime state is serialized

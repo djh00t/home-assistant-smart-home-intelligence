@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.3] - 2026-06-10
+
+### Fixed
+
+- Bundled default room inventory and capability files inside the custom integration so `reload_contracts` works after HACS installation without repo-root config files.
+
 ## [0.7.2] - 2026-06-10
 
 ### Fixed

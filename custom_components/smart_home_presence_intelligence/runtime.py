@@ -11,6 +11,9 @@ import yaml
 
 from .bridge import DEAD_LETTER_TOPIC, VALID_ROOMS
 
+PACKAGE_DATA_DIR = Path(__file__).resolve().parent / "data"
+PACKAGED_ROOM_CAPABILITIES_PATH = PACKAGE_DATA_DIR / "room_capabilities.yaml"
+
 
 @dataclass(slots=True)
 class IntegrationSettings:
@@ -105,6 +108,7 @@ class IntegrationRuntime:
 
         self.refreshed_at = datetime.now(UTC)
         self._room_capabilities_cache = None
+        self._load_room_capabilities()
         self._notify_listeners()
 
     def set_override(self, *, enabled: bool, reason: str) -> None:
@@ -136,7 +140,10 @@ class IntegrationRuntime:
         if self._room_capabilities_cache is not None:
             return self._room_capabilities_cache
 
-        path = Path(self.settings.room_capabilities_path)
+        path = _resolve_configured_path(
+            self.settings.room_capabilities_path,
+            fallback=PACKAGED_ROOM_CAPABILITIES_PATH,
+        )
         with path.open(encoding="utf-8") as handle:
             payload = yaml.safe_load(handle) or {}
         capabilities: dict[str, dict[str, Any]] = {}
@@ -312,3 +319,12 @@ class IntegrationRuntime:
         """Return a JSON-safe restore payload."""
 
         return self.snapshot()
+
+
+def _resolve_configured_path(configured_path: str, *, fallback: Path) -> Path:
+    """Return a configured file path, or the packaged fallback when it is absent."""
+
+    path = Path(configured_path).expanduser()
+    if path.is_file():
+        return path
+    return fallback
