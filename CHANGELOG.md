@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.0] - 2026-06-10
+
+### Added
+
+- Status and configuration dashboard artifacts with deterministic contract coverage, service-action buttons, and Jetson Xavier guidance for Frigate plus MQTT publishing.
+
+### Changed
+
+- Extended the README and docs to point users from the integration entry point to the new dashboard and Jetson setup guide.
+- Added release validation surfaces so `make check` covers the dashboard and HACS release readiness path.
+
 ## [0.6.1] - 2026-06-09
 
 ### Added
