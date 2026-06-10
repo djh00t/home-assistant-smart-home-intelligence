@@ -57,6 +57,18 @@ RUNTIME_SENSOR_SPECS = [
         value_getter=lambda runtime: runtime.settings.mqtt_topic_prefix,
     ),
     RuntimeSensorSpec(
+        key="room_inventory_path",
+        name="Room Inventory Path",
+        icon="mdi:folder-open",
+        value_getter=lambda runtime: runtime.settings.room_inventory_path,
+    ),
+    RuntimeSensorSpec(
+        key="room_capabilities_path",
+        name="Room Capabilities Path",
+        icon="mdi:folder-cog",
+        value_getter=lambda runtime: runtime.settings.room_capabilities_path,
+    ),
+    RuntimeSensorSpec(
         key="retention_days",
         name="Retention Days",
         icon="mdi:archive-clock",
@@ -125,4 +137,3 @@ class RuntimeSensor(SensorEntity):  # type: ignore[misc]
         if self._unsubscribe is not None:
             self._runtime.remove_listener(self.async_write_ha_state)
             self._unsubscribe = None
-

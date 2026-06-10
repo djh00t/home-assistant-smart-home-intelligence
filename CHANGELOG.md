@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.1] - 2026-06-10
+
+### Fixed
+
+- Added the missing room inventory and room capability path sensors so the status dashboard configuration snapshot no longer shows entity-not-found errors.
+
 ## [0.7.0] - 2026-06-10
 
 ### Added
